@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://gfx/person1.png" type="Texture" id=1]
+[ext_resource path="res://game/Town/SmallPerson.gd" type="Script" id=2]
+
+[node name="SmallPerson" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -16 )
+texture = ExtResource( 1 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 32 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.001
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

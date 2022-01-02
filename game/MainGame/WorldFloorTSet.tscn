@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://gfx/tile_sand.png" type="Texture" id=2]
+[ext_resource path="res://gfx/tile_dirt.png" type="Texture" id=3]
+[ext_resource path="res://gfx/tile_grass.png" type="Texture" id=4]
+[ext_resource path="res://gfx/tile_rock.png" type="Texture" id=5]
+[ext_resource path="res://gfx/tile_water.png" type="Texture" id=6]
+
+[node name="WorldFloorTSet" type="Node"]
+
+[node name="0" type="Sprite" parent="."]
+modulate = Color( 0.12549, 1, 0, 1 )
+position = Vector2( 32, 32 )
+texture = ExtResource( 4 )
+
+[node name="1" type="Sprite" parent="."]
+position = Vector2( 96, 32 )
+texture = ExtResource( 2 )
+
+[node name="2" type="Sprite" parent="."]
+position = Vector2( 160, 32 )
+texture = ExtResource( 6 )
+
+[node name="3" type="Sprite" parent="."]
+position = Vector2( 224, 32 )
+texture = ExtResource( 3 )
+
+[node name="4" type="Sprite" parent="."]
+position = Vector2( 288, 32 )
+texture = ExtResource( 5 )
