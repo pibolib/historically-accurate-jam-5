@@ -8,6 +8,7 @@ var xp = 0 # out of 100
 export(int,1,5) var influence = 3
 export(int,1,5) var construction = 1
 export(int,1,5) var command = 2
+export var sprite = preload("res://icon.png")
 var army = 0
 var footmen = 300
 var archers = 100
@@ -15,6 +16,8 @@ var cavalry = 100
 var elephants = 0
 var max_army = 0
 var tile_pos = Vector2(0,0)
+var selected = true
+var animtime = 0
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
@@ -25,6 +28,8 @@ enum {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$Sprite.texture = sprite
+	$SpritePreview.texture = sprite
 	var floor_map = get_parent().get_node("FloorMap")
 	ap = max_ap
 	max_army = 3000*command
@@ -32,11 +37,23 @@ func _ready():
 	tile_pos = floor_map.world_to_map(position)
 
 func _process(delta):
+	animtime += delta
+	if animtime >= 4:
+		animtime -= 4
+	$Sprite.region_rect.position.x = 64 * int(animtime)
+	var floor_map = get_parent().get_node("FloorMap")
+	var mouse_pos = get_viewport().get_mouse_position()
 	$Name.text = char_name + " ("+String(ap)+"/"+String(max_ap)+" AP)"+"\n"+String(army)+"/"+String(max_army)
 	if Input.is_action_just_pressed("action_lc"):
-		var floor_map = get_parent().get_node("FloorMap")
-		var mouse_pos = get_viewport().get_mouse_position()
 		test_movement(floor_map.world_to_map(mouse_pos))
+	$SpritePreview.position = floor_map.map_to_world(floor_map.world_to_map(mouse_pos))-position+$Sprite.position
+	if $SpritePreview.position != Vector2(32,32):
+		$SpritePreview.visible = true
+	else:
+		$SpritePreview.visible = false
+	if xp >= 100 and rank < 5:
+		level_up()
+		
 
 func level_up():
 	var skill_pts = 2
@@ -55,7 +72,11 @@ func level_up():
 				if command < 5:
 					command += 1
 					skill_pts -= 1
+		if influence == 5 and construction == 5 and command == 5:
+			skill_pts = 0
 	xp -= 100
+	max_army = 3000*command
+	print("Level up!")
 
 func test_movement(pos):
 	var floor_map = get_parent().get_node("FloorMap")
@@ -107,5 +128,10 @@ func test_movement(pos):
 		else:
 			cost += 2
 	print("AP Cost: "+String(cost)+", Distance: "+String(distance))
-	if cost <= ap:
+	if cost <= ap and floor_map.get_cell(goal_pos.x,goal_pos.y) != T_WATER:
 		print("Can Move")
+		tile_pos = goal_pos
+		position = floor_map.map_to_world(tile_pos)
+		xp += distance
+	else:
+		print("Can't Move")
