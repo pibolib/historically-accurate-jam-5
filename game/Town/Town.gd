@@ -8,8 +8,11 @@ export(int,0,100) var base_support := 20
 export var tile_pos := Vector2(0,0)
 var pop_limit = 0
 var population = 0
+var food_limit = 0
+var food = 0
+var support_limit = 0
 var support = 0
-var ownership = true #(t: player, f: enemy)
+export(int,"Player","Enemy") var ownership = 0 
 export var fortified = false
 var buildings = []
 
@@ -97,7 +100,7 @@ var school = {
 	"Name": "School",
 	"Description": "A school. Increases the maximum local influence by 75, increases influence per turn by 5.",
 }
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	if fortified:
 		$Sprite.texture = load("res://gfx/building_town_center_1.png")
@@ -112,11 +115,7 @@ func _ready():
 	calculate_pop_limit()
 	display_info()
 	create_boundaries()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	Global.connect("end_turn",self,"_on_end_turn")
 
 func create_boundaries():
 	var floor_map = get_parent().get_node("FloorMap")
@@ -153,15 +152,45 @@ func create_boundaries():
 		bound_hex_inst.sides = bounds
 		get_parent().call_deferred("add_child",bound_hex_inst)
 
-func end_turn():
-	tick_tiles()
+func _on_end_turn(player):
+	if player == ownership:
+		print("turn end, town response!")
+		tick_tiles()
 	calculate_pop_limit()
+	calculate_food_limit()
+	calculate_support_limit()
+	display_info()
 
 func tick_tiles():
-	# go through each owned tile, and perform an action based on what building is on that tile.
-	# if a building is unfinished, then transition the building to the next phase.
-	#var floor_map = get_parent().get_node("FloorMap")
-	#var building_map = get_parent().get_node("BuildingMap")
+	for building in buildings:
+		# go through every building, and process based on its building.Type
+		match building.Type:
+			B_RICE_PADDY_L1: 
+				building.Progress += 1
+				if building.Progress == 4:
+					building.Progress = 0
+					food += 5
+			B_FISHING_BOAT:
+				food += 1
+			B_HOUSING: 
+				building.Progress += 1
+				if building.Progress == 2:
+					building.Progress = 0
+					population += 1
+			B_BARRACKS:
+				if building.InProduction != []:
+					building.InProduction[0][1] += 1
+					if building.InProduction[0][1] >= building.InProduction[0][2]:
+						building.Holding.append(building.InProduction[0][0])
+						building.InProduction.remove(0)
+			B_ELEPHANT_PEN:
+				if building.InProduction != []:
+					building.InProduction[0][1] += 1
+					if building.InProduction[0][1] >= building.InProduction[0][2]:
+						building.Holding.append(building.InProduction[0][0])
+						building.InProduction.remove(0)
+			B_TEMPLE, B_MONUMENT, B_SCHOOL:
+				support += 5
 	pass
 
 func init_building(pos):
@@ -193,8 +222,7 @@ func init_building(pos):
 	if building_data.hash() != {}.hash():
 		buildings.append(building_data)
 func calculate_pop_limit():
-	# go through each owned tile and determine its benefits to the bandwidth.
-	# sand tile: +25, grass tile: +150, rice paddy: x15, rice paddy L.2: x30
+	# go through each owned tile and determine its benefits to the population limit.
 	pop_limit = 0
 	var floor_map = get_parent().get_node("FloorMap")
 	var building_map = get_parent().get_node("BuildingMap")
@@ -210,8 +238,41 @@ func calculate_pop_limit():
 				this_tile_pop += 4
 				
 		pop_limit += this_tile_pop
+	population = clamp(population,0,pop_limit)
+
+func calculate_food_limit():
+	# go through each owned tile and determine its benefits to the food limit.
+	food_limit = 60
+	var building_map = get_parent().get_node("BuildingMap")
+	for tile in owned_tiles:
+		var this_tile_food = 0
+		var current_building = building_map.get_cell(tile.x,tile.y)
+		match current_building:
+			B_STOREHOUSE:
+				this_tile_food += 30
+				
+		food_limit += this_tile_food
+	food = clamp(food,0,food_limit)
+	
+func calculate_support_limit():
+	# go through each owned tile and determine its benefits to the support limit.
+	support_limit = 25
+	var building_map = get_parent().get_node("BuildingMap")
+	for tile in owned_tiles:
+		var this_tile_support = 0
+		var current_building = building_map.get_cell(tile.x,tile.y)
+		match current_building:
+			B_TEMPLE:
+				this_tile_support += 20
+			B_MONUMENT:
+				this_tile_support += 40
+			B_SCHOOL:
+				this_tile_support += 75
+		support_limit += this_tile_support
+	support = clamp(support,0,support_limit)
 
 func display_info():
 	print("Town Name: "+town_name)
-	print("Support: "+String(support))
-	print("Population Limit: "+String(pop_limit))
+	print("Support: "+String(support)+"/"+String(support_limit))
+	print("Population: "+String(population)+"/"+String(pop_limit))
+	print("Food: "+String(food)+"/"+String(food_limit))
