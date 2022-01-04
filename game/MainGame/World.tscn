@@ -19,17 +19,15 @@ tile_set = ExtResource( 3 )
 cell_size = Vector2( 64, 48 )
 cell_half_offset = 0
 format = 1
-tile_data = PoolIntArray( 1, 0, 0, 2, 0, 0, 3, 0, 0, 131071, 0, 0, 131072, 0, 0, 131073, 0, 0, 131076, 0, 0, 131078, 0, 0 )
+tile_data = PoolIntArray( 1, 0, 0, 2, 0, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 131071, 0, 0, 65536, 2, 0, 65537, 2, 0, 65539, 5, 0, 65541, 4, 0, 131072, 0, 0, 131073, 0, 0, 131076, 0, 0, 131078, 0, 0 )
 
 [node name="Town" parent="." instance=ExtResource( 1 )]
 owned_tiles = PoolVector2Array( 0, 0, 1, 0, 2, 0, 0, 1, 1, 1, 2, 1 )
-base_support = 0.25
 
 [node name="Town2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 320, 96 )
 town_name = "Other Town"
 owned_tiles = PoolVector2Array( 4, 1, 5, 1, 4, 2, 6, 2, 4, 3, 5, 3, 3, 1 )
-base_support = 0.4
 fortified = true
 
 [node name="Character" parent="." instance=ExtResource( 4 )]

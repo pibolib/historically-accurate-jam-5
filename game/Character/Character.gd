@@ -23,7 +23,7 @@ enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
 } # tile types, building types, special tiles
 enum {
-	B_RICE_PADDY_L1, B_OCCUPIED_X
+	B_RICE_PADDY_L1, B_OCCUPIED_X, 
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -44,8 +44,8 @@ func _process(delta):
 	var floor_map = get_parent().get_node("FloorMap")
 	var mouse_pos = get_viewport().get_mouse_position()
 	$Name.text = char_name + " ("+String(ap)+"/"+String(max_ap)+" AP)"+"\n"+String(army)+"/"+String(max_army)
-	if Input.is_action_just_pressed("action_lc"):
-		test_movement(floor_map.world_to_map(mouse_pos))
+	#if Input.is_action_just_pressed("action_lc"):
+		#test_movement(floor_map.world_to_map(mouse_pos))
 	$SpritePreview.position = floor_map.map_to_world(floor_map.world_to_map(mouse_pos))-position+$Sprite.position
 	if $SpritePreview.position != Vector2(32,32):
 		$SpritePreview.visible = true

@@ -4,29 +4,99 @@ var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
 
 export var town_name := "Town"
 export var owned_tiles = PoolVector2Array([Vector2(0,0)])
-export(float,0,1,0.01) var base_support := 0.20
-export(float,0,1,0.01) var footman_rate := 0.50
-export(float,0,1,0.01) var archer_rate := 0.40
-export(float,0,1,0.01) var cavalry_rate := 0.10
-var pop_rate = 0
+export(int,0,100) var base_support := 20
 export var tile_pos := Vector2(0,0)
 var pop_limit = 0
-var army_bandwidth = 0
-var garrison_footman = 0
-var garrison_archer = 0
-var garrison_cavalry = 0
 var population = 0
 var support = 0
+var ownership = true #(t: player, f: enemy)
 export var fortified = false
+var buildings = []
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
 } # tile types, building types, special tiles
 enum {
-	B_RICE_PADDY_L1, B_OCCUPIED_X
+	B_RICE_PADDY_L1, B_OCCUPIED_X, B_FISHING_BOAT, B_HOUSING, B_BARRACKS, B_GUARD_TOWER,
+	B_ELEPHANT_PEN, B_STOREHOUSE, B_TEMPLE, B_MONUMENT, B_SCHOOL
 }
 
+var rice_paddy_l1 = {
+	"Type": B_RICE_PADDY_L1,
+	"Position": Vector2(0,0),
+	"Name": "Rice Paddy (Tier 1)",
+	"Description": "A place where rice is cultivated. Produces 5 food every 4 turns.",
+	"Progress": 0 # out of 4
+}
 
+var fishing_boat = {
+	"Type": B_FISHING_BOAT,
+	"Position": Vector2(0,0),
+	"Name": "Fishing Boat",
+	"Description": "A setup for fishing in the nearby waters. Produces 1 food per turn.",
+}
+
+var housing = {
+	"Type": B_HOUSING,
+	"Position": Vector2(0,0),
+	"Name": "Housing",
+	"Description": "General Housing. Increases maximum population by 4, produces 1 population every 2 turns.",
+	"Progress": 0 #out of 2
+}
+
+var barracks = {
+	"Type": B_BARRACKS,
+	"Position": Vector2(0,0),
+	"Name": "Barracks (Tier 1)",
+	"Description": "Training facilities for military troops. Allows for the production of footmen, archers, and cavalry.",
+	"InProduction": [],
+	"Holding": []
+}
+
+var guard_tower = {
+	"Type": B_GUARD_TOWER,
+	"Position": Vector2(0,0),
+	"Name": "Guard Tower",
+	"Description": "Tower from which a large stretch of land can be seen. Houses military forces not in active use.",
+	"Holding": []
+}
+
+var elephant_pen = {
+	"Type": B_ELEPHANT_PEN,
+	"Position": Vector2(0,0),
+	"Name": "Elephant Pen",
+	"Description": "Facilities used to raise elephants for use in war. Allows for production of War Elephants.",
+	"InProduction": [],
+	"Holding": []
+}
+
+var storehouse = {
+	"Type": B_STOREHOUSE,
+	"Position": Vector2(0,0),
+	"Name": "Storehouse",
+	"Description": "Stores food for long periods of time. Increases maximum food by 30.",
+}
+
+var temple = {
+	"Type": B_TEMPLE,
+	"Position": Vector2(0,0),
+	"Name": "Temple",
+	"Description": "A small temple. Increases the maximum local influence by 20, increases influence per turn by 5.",
+}
+
+var monument = {
+	"Type": B_MONUMENT,
+	"Position": Vector2(0,0),
+	"Name": "Monument",
+	"Description": "A small monument. Increases the maximum local influence by 40, increases influence per turn by 5.",
+}
+
+var school = {
+	"Type": B_SCHOOL,
+	"Position": Vector2(0,0),
+	"Name": "School",
+	"Description": "A school. Increases the maximum local influence by 75, increases influence per turn by 5.",
+}
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if fortified:
@@ -37,8 +107,9 @@ func _ready():
 		owned_tiles.append(building_map.world_to_map(position))
 	building_map.set_cell(tile_pos.x,tile_pos.y,B_OCCUPIED_X)
 	support = base_support
+	for tile in owned_tiles:
+		init_building(tile)
 	calculate_pop_limit()
-	calculate_bandwidth()
 	display_info()
 	create_boundaries()
 
@@ -84,55 +155,43 @@ func create_boundaries():
 
 func end_turn():
 	tick_tiles()
-	calculate_bandwidth()
 	calculate_pop_limit()
 
 func tick_tiles():
 	# go through each owned tile, and perform an action based on what building is on that tile.
 	# if a building is unfinished, then transition the building to the next phase.
-	var floor_map = get_parent().get_node("FloorMap")
-	var building_map = get_parent().get_node("BuildingMap")
+	#var floor_map = get_parent().get_node("FloorMap")
+	#var building_map = get_parent().get_node("BuildingMap")
+	pass
 
 func init_building(pos):
-	pass
-
-func calculate_military_growth():
-	pass
-	
-func calculate_civilian_growth():
-	pass
-
-func calculate_bandwidth():
-	# go through each owned tile and determine its benefits to the bandwidth.
-	# sand tile: +100, grass tile: +200, rice paddy: x10, rice paddy L.2: x20, barracks: x15, barracks L.2: x30
-	# bonus/detriment to bandwidth due to support: 2*support*bandwidth (50% -> 100% of available bandwidth, 100% -> 200%)
-	army_bandwidth = 0
-	var floor_map = get_parent().get_node("FloorMap")
 	var building_map = get_parent().get_node("BuildingMap")
-	for tile in owned_tiles:
-		var this_tile_bandwidth = 0
-		
-		var current_tile = floor_map.get_cell(tile.x,tile.y)
-		match current_tile:
-			T_GRASS:
-				this_tile_bandwidth = 200
-			T_SAND:
-				this_tile_bandwidth = 100
-			T_WATER:
-				this_tile_bandwidth = 5
-			T_ROCK:
-				this_tile_bandwidth = 0
-			T_DIRT:
-				this_tile_bandwidth = 50
-				
-		var current_building = building_map.get_cell(tile.x,tile.y)
-		match current_building:
-			B_RICE_PADDY_L1:
-				this_tile_bandwidth *= 10
-				
-		army_bandwidth += this_tile_bandwidth
-	army_bandwidth = floor(army_bandwidth * support * 2)
-
+	var building_data = {}
+	match building_map.get_cell(pos.x,pos.y):
+		B_RICE_PADDY_L1:
+			building_data = rice_paddy_l1.duplicate()
+		B_FISHING_BOAT:
+			building_data = fishing_boat.duplicate()
+		B_HOUSING:
+			building_data = housing.duplicate()
+		B_BARRACKS:
+			building_data = barracks.duplicate()
+		B_GUARD_TOWER:
+			building_data = guard_tower.duplicate()
+		B_ELEPHANT_PEN:
+			building_data = elephant_pen.duplicate()
+		B_STOREHOUSE: 
+			building_data = storehouse.duplicate()
+		B_TEMPLE:
+			building_data = temple.duplicate()
+		B_MONUMENT:
+			building_data = monument.duplicate()
+		B_SCHOOL:
+			building_data = school.duplicate()
+	if building_data.has("Position"):
+		building_data.Position = pos
+	if building_data.hash() != {}.hash():
+		buildings.append(building_data)
 func calculate_pop_limit():
 	# go through each owned tile and determine its benefits to the bandwidth.
 	# sand tile: +25, grass tile: +150, rice paddy: x15, rice paddy L.2: x30
@@ -141,29 +200,18 @@ func calculate_pop_limit():
 	var building_map = get_parent().get_node("BuildingMap")
 	for tile in owned_tiles:
 		var this_tile_pop = 0
-		
 		var current_tile = floor_map.get_cell(tile.x,tile.y)
 		match current_tile:
 			T_GRASS:
-				this_tile_pop = 150
-			T_SAND:
-				this_tile_pop = 50
-			T_WATER:
-				this_tile_pop = 5
-			T_ROCK:
-				this_tile_pop = 10
-			T_DIRT:
-				this_tile_pop = 75
-				
+				this_tile_pop += 1
 		var current_building = building_map.get_cell(tile.x,tile.y)
 		match current_building:
-			B_RICE_PADDY_L1:
-				this_tile_pop *= 15
+			B_HOUSING:
+				this_tile_pop += 4
 				
 		pop_limit += this_tile_pop
 
 func display_info():
 	print("Town Name: "+town_name)
-	print("Support: "+String(support*100)+"%")
+	print("Support: "+String(support))
 	print("Population Limit: "+String(pop_limit))
-	print("Army Bandwidth: "+String(army_bandwidth))
