@@ -1,5 +1,6 @@
 extends Node2D
 
+#a change
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
 
 export var town_name := "Town"
