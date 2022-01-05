@@ -2,3 +2,6 @@
 *.translation
 export_presents.cfg
 .mono/
+*.md5
+*.import
+*.import
