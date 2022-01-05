@@ -42,7 +42,7 @@ func _process(delta):
 		animtime -= 4
 	$Sprite.region_rect.position.x = 64 * int(animtime)
 	var floor_map = get_parent().get_node("FloorMap")
-	var mouse_pos = get_viewport().get_mouse_position()
+	var mouse_pos = Global.get_mouse_pos()
 	$Name.text = char_name + " ("+String(ap)+"/"+String(max_ap)+" AP)"+"\n"+String(army)+"/"+String(max_army)
 	#if Input.is_action_just_pressed("action_lc"):
 		#test_movement(floor_map.world_to_map(mouse_pos))

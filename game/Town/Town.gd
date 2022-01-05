@@ -2,6 +2,7 @@ extends Node2D
 
 #a change
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
+var collide_hex = preload("res://game/MainGame/HexagonCollider.tscn")
 
 export var town_name := "Town"
 export var owned_tiles = PoolVector2Array([Vector2(0,0)])
@@ -16,6 +17,7 @@ var support = 0
 export(int,"Player","Enemy") var ownership = 0 
 export var fortified = false
 var buildings = []
+var current_mouse_tile = -1
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
@@ -116,6 +118,7 @@ func _ready():
 	calculate_pop_limit()
 	display_info()
 	create_boundaries()
+	create_collide_hex()
 	Global.connect("end_turn",self,"_on_end_turn")
 
 func create_boundaries():
@@ -153,9 +156,16 @@ func create_boundaries():
 		bound_hex_inst.sides = bounds
 		get_parent().call_deferred("add_child",bound_hex_inst)
 
+func create_collide_hex():
+	var floor_map = get_parent().get_node("FloorMap")
+	var owned_tiles_array = Array(owned_tiles)
+	for tile in owned_tiles_array:
+		var hex = collide_hex.instance()
+		hex.position = floor_map.map_to_world(tile) - position
+		$TownOwnershipCollision.add_child(hex)
+
 func _on_end_turn(player):
 	if player == ownership:
-		print("turn end, town response!")
 		tick_tiles()
 	calculate_pop_limit()
 	calculate_food_limit()
@@ -277,3 +287,12 @@ func display_info():
 	print("Support: "+String(support)+"/"+String(support_limit))
 	print("Population: "+String(population)+"/"+String(pop_limit))
 	print("Food: "+String(food)+"/"+String(food_limit))
+
+
+func _on_TownOwnershipCollision_area_entered(area):
+	var floor_map = get_parent().get_node("FloorMap")
+	current_mouse_tile = floor_map.world_to_map(Global.get_mouse_pos())
+
+
+func _on_TownOwnershipCollision_area_exited(area):
+	current_mouse_tile = -1

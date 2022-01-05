@@ -12,8 +12,12 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("action_endturn") and turn == 0:
 		emit_signal("end_turn",0)
+	$Mouse.position = get_viewport().get_mouse_position()
 		
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))
 	pass
+
+func get_mouse_pos():
+	return $Mouse.position
