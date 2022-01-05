@@ -21,3 +21,9 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TownOwnershipCollision" type="Area2D" parent="."]
+z_index = 400
+
+[connection signal="area_entered" from="TownOwnershipCollision" to="." method="_on_TownOwnershipCollision_area_entered"]
+[connection signal="area_exited" from="TownOwnershipCollision" to="." method="_on_TownOwnershipCollision_area_exited"]
