@@ -19,7 +19,7 @@ tile_set = ExtResource( 3 )
 cell_size = Vector2( 64, 48 )
 cell_half_offset = 0
 format = 1
-tile_data = PoolIntArray( 1, 0, 0, 2, 0, 0, 65536, 2, 0, 65537, 2, 0, 65540, 0, 0, 65541, 3, 0, 131076, 3, 0, 131078, 4, 0 )
+tile_data = PoolIntArray( -196600, 2, 0, 1, 0, 0, 2, 0, 0, 65536, 2, 0, 65537, 2, 0, 65540, 0, 0, 65541, 3, 0, 131076, 3, 0, 131078, 4, 0 )
 
 [node name="Town" parent="." instance=ExtResource( 1 )]
 owned_tiles = PoolVector2Array( 0, 0, 1, 0, 2, 0, 0, 1, 1, 1, 2, 1 )
