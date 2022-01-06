@@ -1,16 +1,20 @@
-[gd_resource type="TileSet" load_steps=6 format=2]
+[gd_resource type="TileSet" load_steps=12 format=2]
 
 [ext_resource path="res://gfx/tile_sand.png" type="Texture" id=1]
+[ext_resource path="res://gfx/tile_grass.png" type="Texture" id=2]
 [ext_resource path="res://gfx/tile_dirt.png" type="Texture" id=3]
+[ext_resource path="res://gfx/tile_grass_dark.png" type="Texture" id=4]
 [ext_resource path="res://gfx/tile_rock.png" type="Texture" id=5]
 [ext_resource path="res://gfx/tile_water.png" type="Texture" id=6]
-
-[sub_resource type="StreamTexture" id=1]
-load_path = "res://.import/tile_grass.png-0af4a2573877dae475a0824ba49ddc0a.stex"
+[ext_resource path="res://gfx/tile_gravel.png" type="Texture" id=7]
+[ext_resource path="res://gfx/forest 2.png" type="Texture" id=8]
+[ext_resource path="res://gfx/mountain1.png" type="Texture" id=9]
+[ext_resource path="res://gfx/forest1.png" type="Texture" id=10]
+[ext_resource path="res://water_anim_texture.tres" type="Texture" id=11]
 
 [resource]
 0/name = "0"
-0/texture = SubResource( 1 )
+0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 64, 64 )
@@ -79,3 +83,87 @@ load_path = "res://.import/tile_grass.png-0af4a2573877dae475a0824ba49ddc0a.stex"
 4/shape_one_way_margin = 0.0
 4/shapes = [  ]
 4/z_index = 0
+5/name = "5"
+5/texture = ExtResource( 7 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 0, 0, 64, 64 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 32, 32 )
+5/navigation_offset = Vector2( 32, 32 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+6/name = "6"
+6/texture = ExtResource( 4 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 0, 0, 64, 64 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 32, 32 )
+6/navigation_offset = Vector2( 32, 32 )
+6/shape_offset = Vector2( 0, 0 )
+6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+6/shape_one_way = false
+6/shape_one_way_margin = 0.0
+6/shapes = [  ]
+6/z_index = 0
+7/name = "Forest2"
+7/texture = ExtResource( 8 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 0, 0, 64, 64 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 32, 32 )
+7/navigation_offset = Vector2( 32, 32 )
+7/shape_offset = Vector2( 0, 0 )
+7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+7/shape_one_way = false
+7/shape_one_way_margin = 0.0
+7/shapes = [  ]
+7/z_index = 0
+8/name = "Forest1"
+8/texture = ExtResource( 10 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 0, 0, 64, 64 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 32, 32 )
+8/navigation_offset = Vector2( 32, 32 )
+8/shape_offset = Vector2( 0, 0 )
+8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+8/shape_one_way = false
+8/shape_one_way_margin = 0.0
+8/shapes = [  ]
+8/z_index = 0
+9/name = "Mountain1"
+9/texture = ExtResource( 9 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 0, 0, 64, 64 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 32, 32 )
+9/navigation_offset = Vector2( 32, 32 )
+9/shape_offset = Vector2( 0, 0 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape_one_way = false
+9/shape_one_way_margin = 0.0
+9/shapes = [  ]
+9/z_index = 0
+10/name = "water_anim_texture.tres 10"
+10/texture = ExtResource( 11 )
+10/tex_offset = Vector2( 0, 0 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 0, 0, 64, 64 )
+10/tile_mode = 0
+10/occluder_offset = Vector2( 0, 0 )
+10/navigation_offset = Vector2( 0, 0 )
+10/shape_offset = Vector2( 0, 0 )
+10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+10/shape_one_way = false
+10/shape_one_way_margin = 0.0
+10/shapes = [  ]
+10/z_index = 0

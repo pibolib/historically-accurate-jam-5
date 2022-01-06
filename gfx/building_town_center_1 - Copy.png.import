@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile_rock.png-ea44a63e110755c96d842c773d7b2485.stex"
+path="res://.import/building_town_center_1 - Copy.png-26027d09baf10d149793c3e1d6e7e0cb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/tile_rock.png"
-dest_files=[ "res://.import/tile_rock.png-ea44a63e110755c96d842c773d7b2485.stex" ]
+source_file="res://gfx/building_town_center_1 - Copy.png"
+dest_files=[ "res://.import/building_town_center_1 - Copy.png-26027d09baf10d149793c3e1d6e7e0cb.stex" ]
 
 [params]
 
