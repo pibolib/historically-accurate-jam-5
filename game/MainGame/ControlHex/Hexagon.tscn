@@ -15,7 +15,9 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Side2" type="Line2D" parent="."]
-points = PoolVector2Array( 64, 48, 64, 16 )
+position = Vector2( 0, 4.76316 )
+scale = Vector2( 1, 0.710526 )
+points = PoolVector2Array( 64, 49.5926, 64, 16 )
 width = 3.0
 default_color = Color( 1, 1, 1, 1 )
 joint_mode = 2
@@ -23,7 +25,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Side3" type="Line2D" parent="."]
-points = PoolVector2Array( 64, 48, 32, 64 )
+points = PoolVector2Array( 64, 40, 32, 56 )
 width = 3.0
 default_color = Color( 1, 1, 1, 1 )
 joint_mode = 2
@@ -31,6 +33,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Side4" type="Line2D" parent="."]
+position = Vector2( 0, -8 )
 points = PoolVector2Array( 0, 48, 32, 64 )
 width = 3.0
 default_color = Color( 1, 1, 1, 1 )
@@ -39,7 +42,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Side5" type="Line2D" parent="."]
-points = PoolVector2Array( 0, 48, 0, 16 )
+points = PoolVector2Array( 0, 40, 0, 16 )
 width = 3.0
 default_color = Color( 1, 1, 1, 1 )
 joint_mode = 2

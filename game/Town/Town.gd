@@ -1,12 +1,12 @@
-extends Node2D
+extends TileMap
 
 #a change
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
 
 export var town_name := "Town"
-export var owned_tiles = PoolVector2Array([Vector2(0,0)])
+var owned_tiles = []
 export(int,0,100) var base_support := 20
-export var tile_pos := Vector2(0,0)
+var tile_pos = Vector2(0,0)
 var pop_limit = 0
 var population = 0
 var food_limit = 0
@@ -105,10 +105,13 @@ var school = {
 }
 
 func _ready():
+	var floor_map = get_parent().get_node("FloorMap")
+	var building_map = get_parent().get_node("BuildingMap")
+	tile_pos = floor_map.world_to_map(position)
+	generate_owned_tiles()
 	if fortified:
 		$Sprite.texture = load("res://gfx/building_town_center_1.png")
 	$Name.text = town_name
-	var building_map = get_parent().get_node("BuildingMap")
 	if !Array(owned_tiles).has(building_map.world_to_map(position)):
 		owned_tiles.append(building_map.world_to_map(position))
 	building_map.set_cell(tile_pos.x,tile_pos.y,B_OCCUPIED_X)
@@ -121,12 +124,24 @@ func _ready():
 	Global.connect("end_turn",self,"_on_end_turn")
 	Global.connect("mouse_click_world",self,"_on_mouse_click")
 
+func generate_owned_tiles():
+	for cell in get_used_cells():
+		owned_tiles.append(cell+tile_pos)
+		set_cell(cell.x,cell.y,-1)
+#	if !owned_tiles.has(tile_pos):
+#		owned_tiles.append(tile_pos)
+
 func create_boundaries():
 	var floor_map = get_parent().get_node("FloorMap")
 	var owned_tiles_array = Array(owned_tiles)
+#	var arr = []
+#	for i in 13:
+#		var vec = Vector2(int(rand_range(-4,4)),int(rand_range(-4,4)))
+#		arr.append(vec)
+#	var owned_tiles_array = Array(owned_tiles)
 	for tile in owned_tiles_array:
 		var bounds = [true,true,true,true,true,true]
-		match int(tile.y) % 2:
+		match int(abs(tile.y)) % 2:
 			0: #even case
 				if owned_tiles_array.has(Vector2(tile.x,tile.y-1)):
 					bounds[0] = false
