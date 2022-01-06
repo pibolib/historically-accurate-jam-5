@@ -2,7 +2,6 @@ extends Node2D
 
 #a change
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
-var collide_hex = preload("res://game/MainGame/HexagonCollider.tscn")
 
 export var town_name := "Town"
 export var owned_tiles = PoolVector2Array([Vector2(0,0)])
@@ -18,6 +17,7 @@ export(int,"Player","Enemy") var ownership = 0
 export var fortified = false
 var buildings = []
 var current_mouse_tile = -1
+var selected_tile = -1
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
@@ -118,8 +118,8 @@ func _ready():
 	calculate_pop_limit()
 	display_info()
 	create_boundaries()
-	create_collide_hex()
 	Global.connect("end_turn",self,"_on_end_turn")
+	Global.connect("mouse_click_world",self,"_on_mouse_click")
 
 func create_boundaries():
 	var floor_map = get_parent().get_node("FloorMap")
@@ -155,14 +155,6 @@ func create_boundaries():
 		bound_hex_inst.position = floor_map.map_to_world(tile)
 		bound_hex_inst.sides = bounds
 		get_parent().call_deferred("add_child",bound_hex_inst)
-
-func create_collide_hex():
-	var floor_map = get_parent().get_node("FloorMap")
-	var owned_tiles_array = Array(owned_tiles)
-	for tile in owned_tiles_array:
-		var hex = collide_hex.instance()
-		hex.position = floor_map.map_to_world(tile) - position
-		$TownOwnershipCollision.add_child(hex)
 
 func _on_end_turn(player):
 	if player == ownership:
@@ -288,11 +280,18 @@ func display_info():
 	print("Population: "+String(population)+"/"+String(pop_limit))
 	print("Food: "+String(food)+"/"+String(food_limit))
 
-
-func _on_TownOwnershipCollision_area_entered(area):
-	var floor_map = get_parent().get_node("FloorMap")
-	current_mouse_tile = floor_map.world_to_map(Global.get_mouse_pos())
-
-
-func _on_TownOwnershipCollision_area_exited(area):
-	current_mouse_tile = -1
+func _on_mouse_click(pos):
+	var selected_building = {}
+	if Array(owned_tiles).has(pos):
+		for building in buildings:
+			if building.Position == pos:
+				Global.selected_tile = pos
+				selected_building = building
+				print(Global.selected_tile)
+				break
+	if selected_building.has("Type"):
+		match selected_building.Type:
+			B_BARRACKS:
+				selected_building.InProduction.append([0,0,4])
+				print(selected_building.InProduction)
+		
