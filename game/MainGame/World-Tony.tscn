@@ -29,13 +29,12 @@ tile_data = PoolIntArray( -196600, 2, 0, 1, 0, 0, 2, 0, 0, 65537, 2, 0, 65540, 0
 tile_data = PoolIntArray( -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -2, 0, 0, -1, 0, 0, -65536, 0, 0, -65535, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 131070, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 196607, 0, 0, 131072, 0, 0, 131073, 0, 0 )
 
 [node name="Town2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 320, 96 )
+position = Vector2( 320, 80 )
 tile_data = PoolIntArray( -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -2, 0, 0, -1, 0, 0, -65536, 0, 0, -65535, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 131070, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 196607, 0, 0, 131072, 0, 0, 131073, 0, 0 )
 town_name = "Other Town"
 fortified = true
 
 [node name="Character" parent="." instance=ExtResource( 4 )]
-position = Vector2( 288, 48 )
+position = Vector2( 224, 40 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true

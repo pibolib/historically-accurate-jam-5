@@ -19,7 +19,7 @@ sprite = ExtResource( 4 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 32, 32 )
 texture = ExtResource( 2 )
-offset = Vector2( 0, -8 )
+offset = Vector2( 0, -16 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 64 )
 
@@ -28,7 +28,7 @@ modulate = Color( 1, 1, 1, 0.466667 )
 material = SubResource( 1 )
 position = Vector2( 32, 32 )
 texture = ExtResource( 2 )
-offset = Vector2( 0, -8 )
+offset = Vector2( 0, -16 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 64 )
 
@@ -50,3 +50,126 @@ position = Vector2( 32, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterCollision"]
 shape = SubResource( 2 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="UI"]
+visible = false
+margin_top = 280.0
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveButton" type="Button" parent="UI/Panel"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 120.0
+margin_bottom = 72.0
+text = "Move"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BuildButton" type="Button" parent="UI/Panel"]
+margin_left = 136.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 72.0
+text = "Build"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReinforceButton" type="Button" parent="UI/Panel"]
+margin_left = 264.0
+margin_top = 8.0
+margin_right = 376.0
+margin_bottom = 72.0
+text = "Reinforce"
+
+[node name="RemoveButton" type="Button" parent="UI/Panel"]
+margin_left = 392.0
+margin_top = 8.0
+margin_right = 504.0
+margin_bottom = 72.0
+text = "Remove"
+
+[node name="BuildMenu" type="Panel" parent="UI"]
+visible = false
+margin_top = 280.0
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RicePaddy" type="Button" parent="UI/BuildMenu"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 72.0
+margin_bottom = 72.0
+text = "Rice"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FishingBoat" type="Button" parent="UI/BuildMenu"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 152.0
+margin_bottom = 72.0
+text = "Fishing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Barracks" type="Button" parent="UI/BuildMenu"]
+margin_left = 168.0
+margin_top = 8.0
+margin_right = 232.0
+margin_bottom = 72.0
+text = "Army"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Housing" type="Button" parent="UI/BuildMenu"]
+margin_left = 248.0
+margin_top = 8.0
+margin_right = 312.0
+margin_bottom = 72.0
+text = "Housing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DestroyButton" type="Button" parent="UI/BuildMenu"]
+margin_left = 488.0
+margin_top = 8.0
+margin_right = 552.0
+margin_bottom = 72.0
+text = "Destroy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeButton" type="Button" parent="UI/BuildMenu"]
+margin_left = 568.0
+margin_top = 8.0
+margin_right = 632.0
+margin_bottom = 72.0
+text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="UI/Panel/MoveButton" to="." method="_on_MoveButton_pressed"]
+[connection signal="pressed" from="UI/Panel/BuildButton" to="." method="_on_BuildButton_pressed"]
+[connection signal="pressed" from="UI/Panel/ReinforceButton" to="." method="_on_ReinforceButton_pressed"]
+[connection signal="pressed" from="UI/Panel/RemoveButton" to="." method="_on_RemoveButton_pressed"]
+[connection signal="pressed" from="UI/BuildMenu/RicePaddy" to="." method="_on_BuildMenuAction_pressed" binds= [ 0 ]]
+[connection signal="pressed" from="UI/BuildMenu/FishingBoat" to="." method="_on_BuildMenuAction_pressed" binds= [ 2 ]]
+[connection signal="pressed" from="UI/BuildMenu/Barracks" to="." method="_on_BuildMenuAction_pressed" binds= [ 4 ]]
+[connection signal="pressed" from="UI/BuildMenu/Housing" to="." method="_on_BuildMenuAction_pressed" binds= [ 3 ]]

@@ -18,6 +18,8 @@ export var fortified = false
 var buildings = []
 var current_mouse_tile = -1
 var selected_tile = -1
+export var color = Color(1,1,1,1)
+var border_color = Color(1,1,1,1)
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
@@ -109,6 +111,11 @@ func _ready():
 	var building_map = get_parent().get_node("BuildingMap")
 	tile_pos = floor_map.world_to_map(position)
 	generate_owned_tiles()
+	match ownership:
+		0:
+			border_color = Color.lightblue
+		1:
+			border_color = Color(0.8,0,0)
 	if fortified:
 		$Sprite.texture = load("res://gfx/building_town_center_1.png")
 	$Name.text = town_name
@@ -169,6 +176,7 @@ func create_boundaries():
 		var bound_hex_inst = bound_hex.instance()
 		bound_hex_inst.position = floor_map.map_to_world(tile)
 		bound_hex_inst.sides = bounds
+		bound_hex_inst.modulate = border_color
 		get_parent().call_deferred("add_child",bound_hex_inst)
 
 func _on_end_turn(player):

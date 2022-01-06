@@ -16,8 +16,13 @@ var cavalry = 100
 var elephants = 0
 var max_army = 0
 var tile_pos = Vector2(0,0)
-var selected = true
+var selected = false
 var animtime = 0
+var mode = PLAYER_ACTION.IDLE
+
+enum PLAYER_ACTION {
+	IDLE, MOVE, BUILD, REMOVE, REINFORCE
+}
 
 enum {
 	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
@@ -35,8 +40,14 @@ func _ready():
 	max_army = 3000*command
 	army = footmen + archers + cavalry + elephants
 	tile_pos = floor_map.world_to_map(position)
+	Global.connect("mouse_click_world",self,"_on_mouse_click")
 
 func _process(delta):
+	$UI/Panel.visible = selected
+	if mode == PLAYER_ACTION.BUILD:
+		$UI/BuildMenu.visible = true
+	else:
+		$UI/BuildMenu.visible = false
 	animtime += delta
 	if animtime >= 4:
 		animtime -= 4
@@ -79,59 +90,87 @@ func level_up():
 	print("Level up!")
 
 func test_movement(pos):
-	var floor_map = get_parent().get_node("FloorMap")
-	var distance = 0
-	var cost = 0
-	var current_pos = tile_pos
-	var goal_pos = pos
-	while current_pos != goal_pos:
-		if current_pos.x == goal_pos.x:
-			if current_pos.y < goal_pos.y:
-				current_pos.y += 1
-			elif current_pos.y > goal_pos.y:
-				current_pos.y -= 1
-		elif current_pos.y == goal_pos.y:
-			if current_pos.x < goal_pos.x:
-				current_pos.x += 1
-			elif current_pos.x > goal_pos.x:
-				current_pos.x -= 1
-		else:
-			if int(current_pos.y) % 2 == 0:
-				if current_pos.x < goal_pos.x: # right
-					if current_pos.y < goal_pos.y: # down, right
-						current_pos.y += 1
-					elif current_pos.y > goal_pos.y: # up, right
-						current_pos.y -= 1
-				elif current_pos.x > goal_pos.x: # left
-					if current_pos.y < goal_pos.y: # down, left
-						current_pos.y += 1
-						current_pos.x -= 1
-					elif current_pos.y > goal_pos.y: # up, left
-						current_pos.y -= 1
-						current_pos.x -= 1
+	if mode == PLAYER_ACTION.MOVE:
+		var floor_map = get_parent().get_node("FloorMap")
+		var distance = 0
+		var cost = 0
+		var current_pos = tile_pos
+		var goal_pos = pos
+		while current_pos != goal_pos:
+			if current_pos.x == goal_pos.x:
+				if current_pos.y < goal_pos.y:
+					current_pos.y += 1
+				elif current_pos.y > goal_pos.y:
+					current_pos.y -= 1
+			elif current_pos.y == goal_pos.y:
+				if current_pos.x < goal_pos.x:
+					current_pos.x += 1
+				elif current_pos.x > goal_pos.x:
+					current_pos.x -= 1
 			else:
-				if current_pos.x < goal_pos.x: # right
-					if current_pos.y < goal_pos.y: # down, right
-						current_pos.y += 1
-						current_pos.x += 1
-					elif current_pos.y > goal_pos.y: # up, right
-						current_pos.y -= 1
-						current_pos.x += 1
-				elif current_pos.x > goal_pos.x: # left
-					if current_pos.y < goal_pos.y: # down, left
-						current_pos.y += 1
-					elif current_pos.y > goal_pos.y: # up, left
-						current_pos.y -= 1
-		distance += 1
-		if floor_map.get_cell(current_pos.x,current_pos.y) != T_WATER:
-			cost += 1
+				if int(current_pos.y) % 2 == 0:
+					if current_pos.x < goal_pos.x: # right
+						if current_pos.y < goal_pos.y: # down, right
+							current_pos.y += 1
+						elif current_pos.y > goal_pos.y: # up, right
+							current_pos.y -= 1
+					elif current_pos.x > goal_pos.x: # left
+						if current_pos.y < goal_pos.y: # down, left
+							current_pos.y += 1
+							current_pos.x -= 1
+						elif current_pos.y > goal_pos.y: # up, left
+							current_pos.y -= 1
+							current_pos.x -= 1
+				else:
+					if current_pos.x < goal_pos.x: # right
+						if current_pos.y < goal_pos.y: # down, right
+							current_pos.y += 1
+							current_pos.x += 1
+						elif current_pos.y > goal_pos.y: # up, right
+							current_pos.y -= 1
+							current_pos.x += 1
+					elif current_pos.x > goal_pos.x: # left
+						if current_pos.y < goal_pos.y: # down, left
+							current_pos.y += 1
+						elif current_pos.y > goal_pos.y: # up, left
+							current_pos.y -= 1
+			distance += 1
+			if floor_map.get_cell(current_pos.x,current_pos.y) != T_WATER:
+				cost += 1
+			else:
+				cost += 2
+		print("AP Cost: "+String(cost)+", Distance: "+String(distance))
+		if cost <= ap and floor_map.get_cell(goal_pos.x,goal_pos.y) != T_WATER:
+			print("Can Move")
+			tile_pos = goal_pos
+			position = floor_map.map_to_world(tile_pos)
+			xp += distance
 		else:
-			cost += 2
-	print("AP Cost: "+String(cost)+", Distance: "+String(distance))
-	if cost <= ap and floor_map.get_cell(goal_pos.x,goal_pos.y) != T_WATER:
-		print("Can Move")
-		tile_pos = goal_pos
-		position = floor_map.map_to_world(tile_pos)
-		xp += distance
-	else:
-		print("Can't Move")
+			print("Can't Move")
+		
+func _on_mouse_click(pos):
+	if pos == tile_pos: #if not selected, select
+		selected = true
+	elif mode == PLAYER_ACTION.IDLE:
+		selected = false
+
+
+func _on_ReinforceButton_pressed():
+	mode = PLAYER_ACTION.REINFORCE
+
+
+func _on_RemoveButton_pressed():
+	mode = PLAYER_ACTION.REMOVE
+
+
+func _on_BuildButton_pressed():
+	mode = PLAYER_ACTION.BUILD
+
+
+func _on_MoveButton_pressed():
+	mode = PLAYER_ACTION.MOVE
+
+func _on_BuildMenuAction_pressed(type):
+	var building_map = get_parent().get_node("BuildingMap")
+	if building_map.get_cell(tile_pos.x,tile_pos.y) == -1:
+		building_map.set_cell(tile_pos.x,tile_pos.y,type)
