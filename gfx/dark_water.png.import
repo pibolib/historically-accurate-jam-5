@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile_ownership.png-7096bdadb1eca9cd4e8259277695ad08.stex"
+path="res://.import/dark_water.png-4779ed295062cc43a15b9034dd1386fa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/tile_ownership.png"
-dest_files=[ "res://.import/tile_ownership.png-7096bdadb1eca9cd4e8259277695ad08.stex" ]
+source_file="res://gfx/dark_water.png"
+dest_files=[ "res://.import/dark_water.png-4779ed295062cc43a15b9034dd1386fa.stex" ]
 
 [params]
 
