@@ -19,3 +19,14 @@ cell_half_offset = 0
 format = 1
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="TurnButton" type="Button" parent="UI"]
+margin_right = 78.0
+margin_bottom = 48.0
+text = "END TURN"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="UI/TurnButton" to="." method="_on_TurnButton_pressed"]
