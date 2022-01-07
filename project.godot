@@ -8,10 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "TileMap",
+"class": "Town",
+"language": "GDScript",
+"path": "res://game/Town/Town.gd"
+} ]
+_global_script_class_icons={
+"Town": ""
+}
+
 [application]
 
 config/name="Historically-accurate-jam- 5"
-run/main_scene="res://game/MainGame/World.tscn"
+run/main_scene="res://game/MainGame/World-Tony.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -50,6 +60,11 @@ texture={
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 action_lc={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)

@@ -1,5 +1,7 @@
 extends TileMap
 
+class_name Town
+
 #a change
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
 
@@ -22,93 +24,23 @@ export var color = Color(1,1,1,1)
 var border_color = Color(1,1,1,1)
 
 enum {
-	T_GRASS, T_SAND, T_WATER, T_DIRT, T_ROCK
+	T_GRASS = 0, 
+	T_SAND = 1, 
+	T_WATER = 10, 
+	T_DIRT = 2, 
+	T_ROCK = 4,
+	T_GRAVEL = 5,
+	T_DARK_GRASS = 7
 } # tile types, building types, special tiles
 enum {
 	B_RICE_PADDY_L1, B_OCCUPIED_X, B_FISHING_BOAT, B_HOUSING, B_BARRACKS, B_GUARD_TOWER,
 	B_ELEPHANT_PEN, B_STOREHOUSE, B_TEMPLE, B_MONUMENT, B_SCHOOL
 }
 
-var rice_paddy_l1 = {
-	"Type": B_RICE_PADDY_L1,
-	"Position": Vector2(0,0),
-	"Name": "Rice Paddy (Tier 1)",
-	"Description": "A place where rice is cultivated. Produces 5 food every 4 turns.",
-	"Progress": 0 # out of 4
-}
-
-var fishing_boat = {
-	"Type": B_FISHING_BOAT,
-	"Position": Vector2(0,0),
-	"Name": "Fishing Boat",
-	"Description": "A setup for fishing in the nearby waters. Produces 1 food per turn.",
-}
-
-var housing = {
-	"Type": B_HOUSING,
-	"Position": Vector2(0,0),
-	"Name": "Housing",
-	"Description": "General Housing. Increases maximum population by 4, produces 1 population every 2 turns.",
-	"Progress": 0 #out of 2
-}
-
-var barracks = {
-	"Type": B_BARRACKS,
-	"Position": Vector2(0,0),
-	"Name": "Barracks (Tier 1)",
-	"Description": "Training facilities for military troops. Allows for the production of footmen, archers, and cavalry.",
-	"InProduction": [],
-	"Holding": []
-}
-
-var guard_tower = {
-	"Type": B_GUARD_TOWER,
-	"Position": Vector2(0,0),
-	"Name": "Guard Tower",
-	"Description": "Tower from which a large stretch of land can be seen. Houses military forces not in active use.",
-	"Holding": []
-}
-
-var elephant_pen = {
-	"Type": B_ELEPHANT_PEN,
-	"Position": Vector2(0,0),
-	"Name": "Elephant Pen",
-	"Description": "Facilities used to raise elephants for use in war. Allows for production of War Elephants.",
-	"InProduction": [],
-	"Holding": []
-}
-
-var storehouse = {
-	"Type": B_STOREHOUSE,
-	"Position": Vector2(0,0),
-	"Name": "Storehouse",
-	"Description": "Stores food for long periods of time. Increases maximum food by 30.",
-}
-
-var temple = {
-	"Type": B_TEMPLE,
-	"Position": Vector2(0,0),
-	"Name": "Temple",
-	"Description": "A small temple. Increases the maximum local influence by 20, increases influence per turn by 5.",
-}
-
-var monument = {
-	"Type": B_MONUMENT,
-	"Position": Vector2(0,0),
-	"Name": "Monument",
-	"Description": "A small monument. Increases the maximum local influence by 40, increases influence per turn by 5.",
-}
-
-var school = {
-	"Type": B_SCHOOL,
-	"Position": Vector2(0,0),
-	"Name": "School",
-	"Description": "A school. Increases the maximum local influence by 75, increases influence per turn by 5.",
-}
+onready var floor_map = get_parent().get_parent().get_node("FloorMap")
+onready var building_map = get_parent().get_parent().get_node("BuildingMap")
 
 func _ready():
-	var floor_map = get_parent().get_node("FloorMap")
-	var building_map = get_parent().get_node("BuildingMap")
 	tile_pos = floor_map.world_to_map(position)
 	generate_owned_tiles()
 	match ownership:
@@ -126,6 +58,8 @@ func _ready():
 	for tile in owned_tiles:
 		init_building(tile)
 	calculate_pop_limit()
+	calculate_food_limit()
+	calculate_support_limit()
 	display_info()
 	create_boundaries()
 	Global.connect("end_turn",self,"_on_end_turn")
@@ -139,7 +73,6 @@ func generate_owned_tiles():
 #		owned_tiles.append(tile_pos)
 
 func create_boundaries():
-	var floor_map = get_parent().get_node("FloorMap")
 	var owned_tiles_array = Array(owned_tiles)
 #	var arr = []
 #	for i in 13:
@@ -207,7 +140,7 @@ func tick_tiles():
 				if building.InProduction != []:
 					building.InProduction[0][1] += 1
 					if building.InProduction[0][1] >= building.InProduction[0][2]:
-						building.Holding.append(building.InProduction[0][0])
+						building.Holding[building.InProduction[0][0]] += 1
 						building.InProduction.remove(0)
 			B_ELEPHANT_PEN:
 				if building.InProduction != []:
@@ -220,29 +153,28 @@ func tick_tiles():
 	pass
 
 func init_building(pos):
-	var building_map = get_parent().get_node("BuildingMap")
 	var building_data = {}
 	match building_map.get_cell(pos.x,pos.y):
 		B_RICE_PADDY_L1:
-			building_data = rice_paddy_l1.duplicate()
+			building_data = Global.rice_paddy_l1.duplicate(true)
 		B_FISHING_BOAT:
-			building_data = fishing_boat.duplicate()
+			building_data = Global.fishing_boat.duplicate(true)
 		B_HOUSING:
-			building_data = housing.duplicate()
+			building_data = Global.housing.duplicate(true)
 		B_BARRACKS:
-			building_data = barracks.duplicate()
+			building_data = Global.barracks.duplicate(true)
 		B_GUARD_TOWER:
-			building_data = guard_tower.duplicate()
+			building_data = Global.guard_tower.duplicate(true)
 		B_ELEPHANT_PEN:
-			building_data = elephant_pen.duplicate()
+			building_data = Global.elephant_pen.duplicate(true)
 		B_STOREHOUSE: 
-			building_data = storehouse.duplicate()
+			building_data = Global.storehouse.duplicate(true)
 		B_TEMPLE:
-			building_data = temple.duplicate()
+			building_data = Global.temple.duplicate(true)
 		B_MONUMENT:
-			building_data = monument.duplicate()
+			building_data = Global.monument.duplicate(true)
 		B_SCHOOL:
-			building_data = school.duplicate()
+			building_data = Global.school.duplicate(true)
 	if building_data.has("Position"):
 		building_data.Position = pos
 	if building_data.hash() != {}.hash():
@@ -250,8 +182,6 @@ func init_building(pos):
 func calculate_pop_limit():
 	# go through each owned tile and determine its benefits to the population limit.
 	pop_limit = 0
-	var floor_map = get_parent().get_node("FloorMap")
-	var building_map = get_parent().get_node("BuildingMap")
 	for tile in owned_tiles:
 		var this_tile_pop = 0
 		var current_tile = floor_map.get_cell(tile.x,tile.y)
@@ -269,7 +199,6 @@ func calculate_pop_limit():
 func calculate_food_limit():
 	# go through each owned tile and determine its benefits to the food limit.
 	food_limit = 60
-	var building_map = get_parent().get_node("BuildingMap")
 	for tile in owned_tiles:
 		var this_tile_food = 0
 		var current_building = building_map.get_cell(tile.x,tile.y)
@@ -283,7 +212,6 @@ func calculate_food_limit():
 func calculate_support_limit():
 	# go through each owned tile and determine its benefits to the support limit.
 	support_limit = 25
-	var building_map = get_parent().get_node("BuildingMap")
 	for tile in owned_tiles:
 		var this_tile_support = 0
 		var current_building = building_map.get_cell(tile.x,tile.y)
@@ -302,6 +230,9 @@ func display_info():
 	print("Support: "+String(support)+"/"+String(support_limit))
 	print("Population: "+String(population)+"/"+String(pop_limit))
 	print("Food: "+String(food)+"/"+String(food_limit))
+	$PopulationNumber.text = String(population)+"/"+String(pop_limit)
+	$FoodNumber.text = String(food)+"/"+String(food_limit)
+	$SupportNumber.text = String(support)+"/"+String(support_limit)
 
 func _on_mouse_click(pos):
 	var selected_building = {}

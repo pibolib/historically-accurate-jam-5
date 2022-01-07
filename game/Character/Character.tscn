@@ -26,7 +26,7 @@ region_rect = Rect2( 0, 0, 64, 64 )
 [node name="SpritePreview" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.466667 )
 material = SubResource( 1 )
-position = Vector2( 32, 32 )
+position = Vector2( 32, 40 )
 texture = ExtResource( 2 )
 offset = Vector2( 0, -16 )
 region_enabled = true
@@ -67,6 +67,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 120.0
 margin_bottom = 72.0
+hint_tooltip = "Click on a valid location (green preview) to move."
 text = "Move"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -77,6 +78,7 @@ margin_left = 136.0
 margin_top = 8.0
 margin_right = 248.0
 margin_bottom = 72.0
+hint_tooltip = "Choose a building, then choose a location to build."
 text = "Build"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -87,6 +89,7 @@ margin_left = 264.0
 margin_top = 8.0
 margin_right = 376.0
 margin_bottom = 72.0
+hint_tooltip = "Choose a Barracks or Elephant Pen to reinforce from."
 text = "Reinforce"
 
 [node name="RemoveButton" type="Button" parent="UI/Panel"]
@@ -94,10 +97,180 @@ margin_left = 392.0
 margin_top = 8.0
 margin_right = 504.0
 margin_bottom = 72.0
+hint_tooltip = "Choose a building to remove."
 text = "Remove"
 
-[node name="BuildMenu" type="Panel" parent="UI"]
+[node name="ReinforceMenu" type="Panel" parent="UI"]
 visible = false
+margin_top = 280.0
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="Button" parent="UI/ReinforceMenu"]
+margin_left = 8.0
+margin_top = -24.0
+margin_right = 50.0
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Footman" type="Control" parent="UI/ReinforceMenu"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Deposit" type="Button" parent="UI/ReinforceMenu/Footman"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 160.0
+margin_bottom = 32.0
+text = "Deposit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Withdraw" type="Button" parent="UI/ReinforceMenu/Footman"]
+margin_left = 88.0
+margin_top = 48.0
+margin_right = 160.0
+margin_bottom = 72.0
+text = "Withdraw"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/ReinforceMenu/Footman"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = 24.0
+text = "Footman"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="UI/ReinforceMenu/Footman"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 3 )
+text = "00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Archer" type="Control" parent="UI/ReinforceMenu"]
+margin_left = 160.0
+margin_right = 200.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Deposit" type="Button" parent="UI/ReinforceMenu/Archer"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 160.0
+margin_bottom = 32.0
+text = "Deposit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Withdraw" type="Button" parent="UI/ReinforceMenu/Archer"]
+margin_left = 88.0
+margin_top = 48.0
+margin_right = 160.0
+margin_bottom = 72.0
+text = "Withdraw"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/ReinforceMenu/Archer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = 24.0
+text = "Archer"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="UI/ReinforceMenu/Archer"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 3 )
+text = "00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cavalry" type="Control" parent="UI/ReinforceMenu"]
+margin_left = 320.0
+margin_right = 360.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Deposit" type="Button" parent="UI/ReinforceMenu/Cavalry"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 160.0
+margin_bottom = 32.0
+text = "Deposit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Withdraw" type="Button" parent="UI/ReinforceMenu/Cavalry"]
+margin_left = 88.0
+margin_top = 48.0
+margin_right = 160.0
+margin_bottom = 72.0
+text = "Withdraw"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/ReinforceMenu/Cavalry"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = 24.0
+text = "Cavalry"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="UI/ReinforceMenu/Cavalry"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 3 )
+text = "00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BuildMenu" type="Panel" parent="UI"]
 margin_top = 280.0
 margin_right = 640.0
 margin_bottom = 360.0
@@ -110,6 +283,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 72.0
 margin_bottom = 72.0
+hint_tooltip = "A place where rice is cultivated. Produces 5 food every 4 turns."
 text = "Rice"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -120,6 +294,7 @@ margin_left = 88.0
 margin_top = 8.0
 margin_right = 152.0
 margin_bottom = 72.0
+hint_tooltip = "A setup for fishing in the nearby waters. Produces 1 food per turn."
 text = "Fishing"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -130,6 +305,7 @@ margin_left = 168.0
 margin_top = 8.0
 margin_right = 232.0
 margin_bottom = 72.0
+hint_tooltip = "Training facilities for military troops. Allows for the production of footmen, archers, and cavalry."
 text = "Army"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -140,36 +316,63 @@ margin_left = 248.0
 margin_top = 8.0
 margin_right = 312.0
 margin_bottom = 72.0
+hint_tooltip = "General Housing. Increases maximum population by 4, produces 1 population every 2 turns."
 text = "Housing"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="DestroyButton" type="Button" parent="UI/BuildMenu"]
-margin_left = 488.0
+margin_left = 568.0
 margin_top = 8.0
-margin_right = 552.0
+margin_right = 632.0
 margin_bottom = 72.0
 text = "Destroy"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpgradeButton" type="Button" parent="UI/BuildMenu"]
-margin_left = 568.0
-margin_top = 8.0
-margin_right = 632.0
-margin_bottom = 72.0
-text = "Upgrade"
+[node name="BackButton" type="Button" parent="UI/BuildMenu"]
+margin_left = 8.0
+margin_top = -24.0
+margin_right = 50.0
+text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Mode" type="Label" parent="UI"]
+margin_right = 40.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectedArrow" type="Line2D" parent="."]
+position = Vector2( 0, -7 )
+points = PoolVector2Array( 16, -24, 48, -24, 32, -16, 16, -24 )
+width = 3.0
+default_color = Color( 1, 1, 1, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[connection signal="mouse_entered" from="UI/Panel" to="." method="_on_Panel_mouse_entered"]
+[connection signal="mouse_exited" from="UI/Panel" to="." method="_on_Panel_mouse_exited"]
 [connection signal="pressed" from="UI/Panel/MoveButton" to="." method="_on_MoveButton_pressed"]
 [connection signal="pressed" from="UI/Panel/BuildButton" to="." method="_on_BuildButton_pressed"]
 [connection signal="pressed" from="UI/Panel/ReinforceButton" to="." method="_on_ReinforceButton_pressed"]
 [connection signal="pressed" from="UI/Panel/RemoveButton" to="." method="_on_RemoveButton_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/BackButton" to="." method="_on_ReinforceBackButton_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Footman/Deposit" to="." method="_on_FootmanDeposit_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Footman/Withdraw" to="." method="_on_FootmanWithdraw_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Archer/Deposit" to="." method="_on_ArcherDeposit_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Archer/Withdraw" to="." method="_on_ArcherWithdraw_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Cavalry/Deposit" to="." method="_on_CavalryDeposit_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Cavalry/Withdraw" to="." method="_on_CavalryWithdraw_pressed"]
 [connection signal="pressed" from="UI/BuildMenu/RicePaddy" to="." method="_on_BuildMenuAction_pressed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/BuildMenu/FishingBoat" to="." method="_on_BuildMenuAction_pressed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/BuildMenu/Barracks" to="." method="_on_BuildMenuAction_pressed" binds= [ 4 ]]
 [connection signal="pressed" from="UI/BuildMenu/Housing" to="." method="_on_BuildMenuAction_pressed" binds= [ 3 ]]
+[connection signal="pressed" from="UI/BuildMenu/DestroyButton" to="." method="_on_DestroyButton_pressed"]
+[connection signal="pressed" from="UI/BuildMenu/BackButton" to="." method="_on_BuildBackButton_pressed"]
