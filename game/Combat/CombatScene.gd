@@ -185,6 +185,11 @@ func _on_RoundButton_pressed():
 				if participant.type == "Town":
 					participant.ownership = 0
 					Global.emit_signal("update_borders")
+				if participant.type == "Player":
+					participant.footmen = playerside[0]
+					participant.archers = playerside[1]
+					participant.cavalry = playerside[2]
+					participant.elephants = playerside[3]
 		if battle_state == 2:
 			for participant in Global.combattants:
 				if participant.type == "Player":

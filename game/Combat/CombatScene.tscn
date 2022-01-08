@@ -2,12 +2,12 @@
 
 [ext_resource path="res://game/Combat/CombatScene.gd" type="Script" id=1]
 [ext_resource path="res://gfx/footmen.png" type="Texture" id=2]
-[ext_resource path="res://gfx/elephant_destroy.png" type="Texture" id=3]
+[ext_resource path="res://gfx/elephant.png" type="Texture" id=3]
 [ext_resource path="res://gfx/archer.png" type="Texture" id=4]
 [ext_resource path="res://gfx/cavalry.png" type="Texture" id=5]
 [ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=6]
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.270588, 0.239216, 0.239216, 1 )
 
 [node name="CombatScene" type="Node2D"]
@@ -23,7 +23,7 @@ margin_top = 40.0
 margin_right = 512.0
 margin_bottom = 328.0
 theme = ExtResource( 6 )
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
