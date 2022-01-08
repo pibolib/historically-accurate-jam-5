@@ -23,7 +23,7 @@
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=8]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.682353, 0.635294, 0.584314, 0.67451 )
@@ -124,7 +124,7 @@ visible = false
 position = Vector2( 32, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource( 2 )
+shape = SubResource( 8 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -286,8 +286,8 @@ margin_left = -568.0
 margin_top = -8.0
 margin_right = -440.0
 margin_bottom = 32.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Name"
 align = 1
 valign = 1
@@ -317,8 +317,8 @@ margin_top = 29.0
 margin_right = 56.0
 margin_bottom = 45.0
 theme = ExtResource( 17 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "0"
 align = 1
 __meta__ = {
@@ -330,8 +330,8 @@ margin_left = 8.0
 margin_top = 72.0
 margin_right = 56.0
 margin_bottom = 88.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "0"
 align = 1
 __meta__ = {
@@ -343,8 +343,8 @@ margin_left = 8.0
 margin_top = 116.0
 margin_right = 56.0
 margin_bottom = 132.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "0"
 align = 1
 __meta__ = {
@@ -356,8 +356,8 @@ margin_left = 8.0
 margin_top = 172.0
 margin_right = 56.0
 margin_bottom = 188.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "0"
 align = 1
 __meta__ = {
@@ -368,8 +368,8 @@ __meta__ = {
 margin_top = 208.0
 margin_right = 64.0
 margin_bottom = 247.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "TOTAL
 0/30"
 align = 1
