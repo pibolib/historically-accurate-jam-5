@@ -47,13 +47,13 @@ bg_color = Color( 0.682353, 0.635294, 0.584314, 1 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.356863, 0.584314, 0.729412, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.2, 0.2, 0.2, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.270588, 0.239216, 0.239216, 1 )
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -194,9 +194,9 @@ anchor_bottom = 0.125
 margin_top = 48.0
 margin_right = -320.0
 margin_bottom = 54.0
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
 custom_colors/font_color = Color( 0.976471, 0.976471, 0.976471, 1 )
-custom_styles/fg = SubResource( 5 )
-custom_styles/bg = SubResource( 6 )
 max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -442,7 +442,7 @@ __meta__ = {
 margin_top = 216.0
 margin_right = 384.0
 margin_bottom = 272.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -565,9 +565,9 @@ anchor_bottom = 0.125
 margin_top = 48.0
 margin_right = -320.0
 margin_bottom = 54.0
-custom_colors/font_color = Color( 0.976471, 0.976471, 0.976471, 1 )
 custom_styles/fg = SubResource( 9 )
 custom_styles/bg = SubResource( 10 )
+custom_colors/font_color = Color( 0.976471, 0.976471, 0.976471, 1 )
 max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -690,7 +690,7 @@ __meta__ = {
 margin_top = 208.0
 margin_right = 384.0
 margin_bottom = 264.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

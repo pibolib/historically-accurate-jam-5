@@ -296,7 +296,7 @@ func display_gui(building: Dictionary):
 				$UI/ElephantPenPanel/ElephantPenPanel/ProgressBar.value = float(currentunit[1])/float(currentunit[2])
 			else:
 				$UI/ElephantPenPanel/ElephantPenPanel/ProgressBar.value = 0
-			$UI/ElephantPenPanel/Reserves.text = "Reserves:\nWar Elephants: "+String(building.Holding[0])
+			#$UI/ElephantPenPanel/Reserves.text = "Reserves:\nWar Elephants: "+String(building.Holding[0])
 			$UI/ElephantPenPanel/Population.text = "Local Population: "+String(population)+"/"+String(pop_limit)+"\nLocal Food: "+String(food)+"/"+String(food_limit)
 		Global.B_HOUSING, Global.B_HOUSING_T2:
 			$UI/HousingPanel.visible = true

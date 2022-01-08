@@ -1,8 +1,8 @@
 extends Node2D
 
 
-var playerside = [15,5,7,2]
-var enemyside = [20,0,0,1]
+var playerside = [50,0,0,0]
+var enemyside = [0,0,0,5]
 var player = -1
 var enemy = -1
 var turn = 0 # player = 0, enemy = 1
