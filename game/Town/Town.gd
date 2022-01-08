@@ -123,7 +123,6 @@ func create_boundaries():
 func _on_end_turn(player):
 	if player == ownership:
 		tick_tiles()
-	if ownership == 0:
 		support += 5
 	calculate_pop_limit()
 	calculate_food_limit()

@@ -78,7 +78,6 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 64, 40 )
 cell_half_offset = 0
 format = 1
-tile_data = PoolIntArray( 327684, 0, 0 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -507,8 +506,8 @@ margin_left = 72.0
 margin_top = 8.0
 margin_right = 126.0
 margin_bottom = 22.0
-custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 custom_fonts/font = ExtResource( 25 )
+custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 text = "Barracks"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -531,8 +530,8 @@ margin_left = 120.0
 margin_top = 48.0
 margin_right = 264.0
 margin_bottom = 64.0
-custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 custom_fonts/font = ExtResource( 25 )
+custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 text = "Production In Progress"
 align = 1
 __meta__ = {
@@ -551,6 +550,7 @@ __meta__ = {
 }
 
 [node name="ElephantPenPanel" type="Panel" parent="UI"]
+visible = false
 margin_left = 128.0
 margin_top = 40.0
 margin_right = 512.0

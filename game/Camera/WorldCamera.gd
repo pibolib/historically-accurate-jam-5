@@ -36,7 +36,9 @@ func _process(delta):
 func _on_focus_trac():
 	var targettile = Global.player_positions[0]
 	position = get_parent().get_node("FloorMap").map_to_world(targettile)+Vector2(32,20)
+	Global.zoom_value = 1
 
 func _on_focus_nhi():
 	var targettile = Global.player_positions[1]
 	position = get_parent().get_node("FloorMap").map_to_world(targettile)+Vector2(32,20)
+	Global.zoom_value = 1
