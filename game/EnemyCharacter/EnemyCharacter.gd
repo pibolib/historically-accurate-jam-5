@@ -18,6 +18,28 @@ onready var building_map = get_parent().get_node("BuildingMap")
 onready var movement_map = get_parent().get_node("MovementMap")
 
 func _ready():
+	match difficulty_level:
+		1:
+			footmen = int(rand_range(5,10))
+			archers = int(rand_range(0,5))
+		2:
+			footmen = int(rand_range(5,15))
+			archers = int(rand_range(0,7))
+			cavalry = int(rand_range(0,2))
+		3:
+			footmen = int(rand_range(5,20))
+			archers = int(rand_range(0,10))
+			cavalry = int(rand_range(0,3))
+		4:
+			footmen = int(rand_range(10,25))
+			archers = int(rand_range(2,10))
+			cavalry = int(rand_range(0,4))
+		5:
+			footmen = int(rand_range(10,30))
+			archers = int(rand_range(2,12))
+			cavalry = int(rand_range(0,5))
+			elephants = int(rand_range(0,2))
+	$Label.text = "Lv. "+String(difficulty_level)+"/5"
 	$Sprite.texture = sprites[randi()%2]
 	tile_pos = floor_map.world_to_map(position)
 	Global.connect("end_turn",self,"_on_end_turn")

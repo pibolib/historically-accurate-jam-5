@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://gfx/enemy1.png" type="Texture" id=1]
 [ext_resource path="res://game/EnemyCharacter/EnemyCharacter.gd" type="Script" id=2]
+[ext_resource path="res://font/UIFont.tres" type="DynamicFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -21,3 +22,14 @@ position = Vector2( 32, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 48.0
+margin_right = 64.0
+margin_bottom = 62.0
+custom_fonts/font = ExtResource( 3 )
+text = "Lv. 3/5"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

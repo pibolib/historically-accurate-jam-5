@@ -1,5 +1,10 @@
 extends Node2D
 
+var bgm = [
+	preload("res://bgm/themeb.ogg"),
+	preload("res://bgm/maintheme.ogg")
+]
+var currenttrack = 0
 var ingame = false
 var turn = 0 #0: player, 1: enemy
 var zoom_value = 1
@@ -135,6 +140,11 @@ func _ready():
 	connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
+	if $BGM.stream != bgm[currenttrack]:
+		$BGM.stream = bgm[currenttrack]
+		$BGM.playing = true
+	if !$BGM.playing:
+		$BGM.playing = true
 	if ingame:
 		$UI/TurnButton.visible = !(display_type == display.POPUP)
 		$UI/EndTurn.visible = !(display_type == display.POPUP)

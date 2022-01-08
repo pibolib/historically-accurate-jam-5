@@ -44,6 +44,7 @@ var animtime = 0
 var mode = PLAYER_ACTION.IDLE
 var build_selected = -1
 var selected_military_source = -1
+var resources = [0,0,0]
 
 enum PLAYER_ACTION {
 	IDLE, MOVE, BUILD, REMOVE, REINFORCE, REINFORCE_CHOOSE
@@ -77,6 +78,20 @@ func _process(delta):
 		$UI/ReinforceMenu.visible = true
 	else:
 		$UI/ReinforceMenu.visible = false
+	var towns = get_parent().get_node("Towns")
+	resources = [0,0,0]
+	for town in towns.get_children():
+		if town is TileMap:
+			if town.ownership == 0:
+				if town.owned_tiles.has(tile_pos):
+					resources = [town.food,town.population,town.support]
+	$UI/Panel/RicePaddy.disabled = !(resources[0] >= 2 and resources[1] >= 2 and resources[2] >= 20)
+	$UI/Panel/FishingBoat.disabled = !(resources[0] >= 1 and resources[1] >= 1 and resources[2] >= 20)
+	$UI/Panel/Barracks.disabled = !(resources[0] >= 5 and resources[1] >= 5 and resources[2] >= 50)
+	$UI/Panel/Housing.disabled = !(resources[0] >= 1 and resources[1] >= 1 and resources[2] >= 30)
+	$UI/Panel/Storehouse.disabled = !(resources[0] >= 5 and resources[1] >= 2 and resources[2] >= 40)
+	$UI/Panel/Elephant.disabled = !(resources[0] >= 10 and resources[1] >= 5 and resources[2] >= 100)
+	$UI/Panel/Monument.disabled = !(resources[0] >= 0 and resources[1] >= 1 and resources[2] >= 10)
 	animtime += delta*4
 	if animtime >= 4:
 		animtime -= 4
@@ -108,7 +123,6 @@ func _process(delta):
 						$SpritePreview.modulate = Color(0,1,0,0.7)
 						if Input.is_action_just_pressed("action_rc"):
 							building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,build_selected)
-							var towns = get_parent().get_node("Towns")
 							for town in towns.get_children():
 								if town is TileMap:
 									if town.ownership == 0: #player ownership
@@ -146,7 +160,6 @@ func _process(delta):
 						$SpritePreview.modulate = Color(1,0,0,0.7)
 				else:
 					$SpritePreview.texture = deletesprite
-					var towns = get_parent().get_node("Towns")
 					for town in towns.get_children():
 						if town is TileMap:
 							if town.ownership == 0: #player ownership
@@ -371,6 +384,8 @@ func test_movement(pos):
 				cost += 2
 			movement_map.set_cell(current_pos.x,current_pos.y,0)
 		if floor_map.get_cell(goal_pos.x,goal_pos.y) == Global.T_WATER:
+			movement_data.CanMove = false
+		if floor_map.get_cell(goal_pos.x,goal_pos.y) == Global.T_ROCK:
 			movement_data.CanMove = false
 		if Global.player_positions.has(goal_pos):
 			movement_data.CanMove = false
