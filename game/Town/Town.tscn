@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://gfx/building_town_center.png" type="Texture" id=1]
 [ext_resource path="res://game/Town/Town.gd" type="Script" id=2]
@@ -18,6 +18,12 @@
 [ext_resource path="res://gfx/influence.png" type="Texture" id=16]
 [ext_resource path="res://gfx/population.png" type="Texture" id=17]
 [ext_resource path="res://gfx/food.png" type="Texture" id=18]
+[ext_resource path="res://gfx/close.png" type="Texture" id=19]
+[ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=20]
+[ext_resource path="res://gfx/archer.png" type="Texture" id=21]
+[ext_resource path="res://gfx/footmen.png" type="Texture" id=22]
+[ext_resource path="res://gfx/cavalry.png" type="Texture" id=23]
+[ext_resource path="res://gfx/elephant.png" type="Texture" id=24]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tile_ownership.png 0"
@@ -34,6 +40,35 @@
 0/shape_one_way_margin = 0.0
 0/shapes = [  ]
 0/z_index = 0
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.682353, 0.635294, 0.584314, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.356863, 0.584314, 0.729412, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.2, 0.2, 0.2, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.270588, 0.239216, 0.239216, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.682353, 0.635294, 0.584314, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.356863, 0.584314, 0.729412, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.878431, 0.854902, 0.811765, 1 )
 
 [node name="Town" type="TileMap"]
 tile_set = SubResource( 1 )
@@ -126,9 +161,10 @@ texture = ExtResource( 16 )
 [node name="BarracksPanel" type="Panel" parent="UI"]
 visible = false
 margin_left = 128.0
-margin_top = 64.0
+margin_top = 42.0
 margin_right = 512.0
-margin_bottom = 296.0
+margin_bottom = 258.0
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -138,17 +174,7 @@ modulate = Color( 0.643137, 0.643137, 0.643137, 1 )
 margin_top = 64.0
 margin_right = 384.0
 margin_bottom = 128.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ProgressBar" type="ProgressBar" parent="UI/BarracksPanel/BarracksPanel2"]
-anchor_right = 1.0
-anchor_bottom = 0.125
-margin_top = 48.0
-margin_right = -320.0
-margin_bottom = 54.0
-max_value = 1.0
+custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -162,8 +188,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ProgressBar" type="ProgressBar" parent="UI/BarracksPanel/BarracksPanel2"]
+anchor_right = 1.0
+anchor_bottom = 0.125
+margin_top = 48.0
+margin_right = -320.0
+margin_bottom = 54.0
+custom_colors/font_color = Color( 0.976471, 0.976471, 0.976471, 1 )
+custom_styles/fg = SubResource( 5 )
+custom_styles/bg = SubResource( 6 )
+max_value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Sprite" type="Sprite" parent="UI/BarracksPanel"]
-position = Vector2( 32, 32 )
+position = Vector2( 32, 24 )
 texture = ExtResource( 6 )
 
 [node name="SpriteT2" type="Sprite" parent="UI/BarracksPanel"]
@@ -177,6 +217,7 @@ margin_top = 8.0
 margin_right = 379.0
 margin_bottom = 28.0
 hint_tooltip = "Exit this menu."
+theme = ExtResource( 20 )
 text = "Exit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -190,93 +231,308 @@ margin_bottom = 28.0
 hint_tooltip = "Upgrade this building to Tier 2.
  Tier 2 Barracks produce units twice as fast.
 Upgrading this will cost 10 population and 75 influence."
+theme = ExtResource( 20 )
 text = "Upgrade"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RemoveButton" type="Button" parent="UI/BarracksPanel"]
-margin_left = 8.0
-margin_top = 136.0
-margin_right = 123.0
-margin_bottom = 156.0
+margin_left = 48.0
+margin_top = 64.0
+margin_right = 68.0
+margin_bottom = 84.0
 hint_tooltip = "Removes currently in progress unit. Refunds population cost."
-text = "Remove Current"
+theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Close" type="Sprite" parent="UI/BarracksPanel/RemoveButton"]
+position = Vector2( 10, 10 )
+texture = ExtResource( 19 )
+
 [node name="FootmenButton" type="Button" parent="UI/BarracksPanel"]
-margin_left = 128.0
-margin_top = 136.0
-margin_right = 226.0
-margin_bottom = 156.0
+margin_left = 16.0
+margin_top = 140.0
+margin_right = 114.0
+margin_bottom = 204.0
 hint_tooltip = "Add footmen to the production queue. Costs 1 population."
-text = "Add Footmen"
+theme = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Population2" type="Sprite" parent="UI/BarracksPanel/FootmenButton"]
+position = Vector2( 86, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 17 )
+
+[node name="Food" type="Sprite" parent="UI/BarracksPanel/FootmenButton"]
+position = Vector2( 10, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="Footmen" type="Sprite" parent="UI/BarracksPanel/FootmenButton"]
+position = Vector2( 48, 29 )
+texture = ExtResource( 22 )
+
+[node name="Label" type="Label" parent="UI/BarracksPanel/FootmenButton"]
+margin_top = 3.0
+margin_right = 96.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( -8, 5 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "Footman"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/BarracksPanel/FootmenButton"]
+margin_left = 20.0
+margin_top = 48.0
+margin_right = 36.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI/BarracksPanel/FootmenButton"]
+margin_left = 60.0
+margin_top = 48.0
+margin_right = 76.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "1"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ArchersButton" type="Button" parent="UI/BarracksPanel"]
-margin_left = 232.0
-margin_top = 136.0
-margin_right = 330.0
-margin_bottom = 156.0
+margin_left = 144.0
+margin_top = 140.0
+margin_right = 240.0
+margin_bottom = 204.0
 hint_tooltip = "Add archers to the production queue. Costs 1 population."
-text = "Add Archers"
+theme = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Archer" type="Sprite" parent="UI/BarracksPanel/ArchersButton"]
+position = Vector2( 48, 29 )
+texture = ExtResource( 21 )
+
+[node name="Population2" type="Sprite" parent="UI/BarracksPanel/ArchersButton"]
+position = Vector2( 86, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 17 )
+
+[node name="Food" type="Sprite" parent="UI/BarracksPanel/ArchersButton"]
+position = Vector2( 10, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="Label" type="Label" parent="UI/BarracksPanel/ArchersButton"]
+margin_top = 3.0
+margin_right = 96.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( -8, 5 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "Archer"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/BarracksPanel/ArchersButton"]
+margin_left = 20.0
+margin_top = 48.0
+margin_right = 36.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI/BarracksPanel/ArchersButton"]
+margin_left = 60.0
+margin_top = 48.0
+margin_right = 76.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "1"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CavalryButton" type="Button" parent="UI/BarracksPanel"]
-margin_left = 8.0
-margin_top = 160.0
-margin_right = 106.0
-margin_bottom = 180.0
+margin_left = 272.0
+margin_top = 140.0
+margin_right = 368.0
+margin_bottom = 204.0
 hint_tooltip = "Add cavalry to the production queue. Costs 2 population."
-text = "Add Cavalry"
+theme = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cavalry" type="Sprite" parent="UI/BarracksPanel/CavalryButton"]
+position = Vector2( 48, 32 )
+texture = ExtResource( 23 )
+
+[node name="Population2" type="Sprite" parent="UI/BarracksPanel/CavalryButton"]
+position = Vector2( 86, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 17 )
+
+[node name="Food" type="Sprite" parent="UI/BarracksPanel/CavalryButton"]
+position = Vector2( 10, 54 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="Label" type="Label" parent="UI/BarracksPanel/CavalryButton"]
+margin_top = 3.0
+margin_right = 96.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( -8, 5 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "Calvary"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/BarracksPanel/CavalryButton"]
+margin_left = 20.0
+margin_top = 48.0
+margin_right = 36.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI/BarracksPanel/CavalryButton"]
+margin_left = 60.0
+margin_top = 48.0
+margin_right = 76.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "2"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReservesPanel" type="Panel" parent="UI/BarracksPanel"]
+margin_top = 216.0
+margin_right = 384.0
+margin_bottom = 272.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Archer2" type="Sprite" parent="UI/BarracksPanel/ReservesPanel"]
+position = Vector2( 168, 32 )
+texture = ExtResource( 21 )
+
+[node name="Footmen2" type="Sprite" parent="UI/BarracksPanel/ReservesPanel"]
+position = Vector2( 72, 32 )
+texture = ExtResource( 22 )
+
+[node name="Cavalry2" type="Sprite" parent="UI/BarracksPanel/ReservesPanel"]
+position = Vector2( 264, 32 )
+texture = ExtResource( 23 )
+
+[node name="Label" type="Label" parent="UI/BarracksPanel/ReservesPanel"]
+margin_left = 88.0
+margin_top = 24.0
+margin_right = 136.0
+margin_bottom = 46.0
+rect_pivot_offset = Vector2( 16, 11 )
+text = "x 12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/BarracksPanel/ReservesPanel"]
+margin_left = 184.0
+margin_top = 24.0
+margin_right = 232.0
+margin_bottom = 46.0
+rect_pivot_offset = Vector2( 16, 11 )
+text = "x 3"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI/BarracksPanel/ReservesPanel"]
+margin_left = 280.0
+margin_top = 24.0
+margin_right = 328.0
+margin_bottom = 46.0
+rect_pivot_offset = Vector2( 16, 11 )
+text = "x 14"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Name" type="Label" parent="UI/BarracksPanel"]
 margin_left = 72.0
-margin_top = 28.0
+margin_top = 8.0
 margin_right = 126.0
-margin_bottom = 42.0
+margin_bottom = 22.0
+custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 text = "Barracks"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Reserves" type="Label" parent="UI/BarracksPanel"]
-margin_left = 128.0
-margin_top = 160.0
-margin_right = 376.0
-margin_bottom = 225.0
-text = "Reserves:
-Footmen: 0
-Archers: 0
-Cavalry: 0"
+margin_left = 8.0
+margin_top = 216.0
+margin_right = 184.0
+margin_bottom = 232.0
+text = "Reserves"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InProgress" type="Label" parent="UI/BarracksPanel"]
-margin_left = 8.0
-margin_top = 56.0
-margin_right = 153.0
-margin_bottom = 70.0
+margin_left = 120.0
+margin_top = 48.0
+margin_right = 265.0
+margin_bottom = 62.0
+custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
 text = "Production In Progress"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Population" type="Label" parent="UI/BarracksPanel"]
-margin_left = 216.0
-margin_top = 160.0
-margin_right = 361.0
-margin_bottom = 174.0
+margin_left = 232.0
+margin_top = 278.0
+margin_right = 377.0
+margin_bottom = 292.0
 text = "Local Population:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -285,9 +541,10 @@ __meta__ = {
 [node name="ElephantPenPanel" type="Panel" parent="UI"]
 visible = false
 margin_left = 128.0
-margin_top = 64.0
+margin_top = 40.0
 margin_right = 512.0
-margin_bottom = 296.0
+margin_bottom = 248.0
+custom_styles/panel = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -297,6 +554,7 @@ modulate = Color( 0.643137, 0.643137, 0.643137, 1 )
 margin_top = 64.0
 margin_right = 384.0
 margin_bottom = 128.0
+custom_styles/panel = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -307,6 +565,9 @@ anchor_bottom = 0.125
 margin_top = 48.0
 margin_right = -320.0
 margin_bottom = 54.0
+custom_colors/font_color = Color( 0.976471, 0.976471, 0.976471, 1 )
+custom_styles/fg = SubResource( 9 )
+custom_styles/bg = SubResource( 10 )
 max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -331,69 +592,146 @@ margin_top = 8.0
 margin_right = 372.0
 margin_bottom = 28.0
 hint_tooltip = "Exit this menu."
+theme = ExtResource( 20 )
 text = "Exit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RemoveButton" type="Button" parent="UI/ElephantPenPanel"]
-margin_left = 8.0
-margin_top = 136.0
-margin_right = 123.0
-margin_bottom = 156.0
+margin_left = 40.0
+margin_top = 64.0
+margin_right = 60.0
+margin_bottom = 84.0
 hint_tooltip = "Removes currently in progress unit. Refunds population cost."
-text = "Remove Current"
+theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Close" type="Sprite" parent="UI/ElephantPenPanel/RemoveButton"]
+position = Vector2( 10, 10 )
+texture = ExtResource( 19 )
 
 [node name="ElephantButton" type="Button" parent="UI/ElephantPenPanel"]
 margin_left = 128.0
-margin_top = 136.0
-margin_right = 226.0
-margin_bottom = 156.0
+margin_top = 132.0
+margin_right = 256.0
+margin_bottom = 204.0
 hint_tooltip = "Add a War Elephant to the production queue. Costs 10 population and 20 food to produce."
-text = "Add War Elephant"
+theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Population2" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
+position = Vector2( 117, 61 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 17 )
+
+[node name="Food" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
+position = Vector2( 11, 61 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="Label" type="Label" parent="UI/ElephantPenPanel/ElephantButton"]
+margin_left = 16.0
+margin_top = 3.0
+margin_right = 112.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( -8, 5 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "War Elephant"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/ElephantPenPanel/ElephantButton"]
+margin_left = 21.0
+margin_top = 55.0
+margin_right = 37.0
+margin_bottom = 69.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="UI/ElephantPenPanel/ElephantButton"]
+margin_left = 93.0
+margin_top = 53.0
+margin_right = 109.0
+margin_bottom = 67.0
+rect_pivot_offset = Vector2( 8, 7 )
+custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
+text = "1"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Elephant" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
+position = Vector2( 64, 36 )
+texture = ExtResource( 24 )
+
 [node name="Name" type="Label" parent="UI/ElephantPenPanel"]
 margin_left = 80.0
-margin_top = 24.0
+margin_top = 8.0
 margin_right = 163.0
-margin_bottom = 38.0
+margin_bottom = 22.0
 text = "Elephant Pen"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Reserves" type="Label" parent="UI/ElephantPenPanel"]
-margin_left = 8.0
-margin_top = 160.0
-margin_right = 256.0
-margin_bottom = 225.0
-text = "Reserves:
-War Elephants: 0"
+[node name="ReservesPanel" type="Panel" parent="UI/ElephantPenPanel"]
+margin_top = 208.0
+margin_right = 384.0
+margin_bottom = 264.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Elephant2" type="Sprite" parent="UI/ElephantPenPanel/ReservesPanel"]
+position = Vector2( 96, 28 )
+texture = ExtResource( 24 )
+
+[node name="Reserves" type="Label" parent="UI/ElephantPenPanel/ReservesPanel"]
+margin_right = 64.0
+margin_bottom = 24.0
+text = "Reserves"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/ElephantPenPanel/ReservesPanel"]
+margin_left = 128.0
+margin_top = 28.0
+margin_right = 176.0
+margin_bottom = 44.0
+text = "x 4"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InProgress" type="Label" parent="UI/ElephantPenPanel"]
-margin_left = 8.0
-margin_top = 56.0
-margin_right = 153.0
-margin_bottom = 70.0
+margin_left = 120.0
+margin_top = 48.0
+margin_right = 265.0
+margin_bottom = 62.0
 text = "Production In Progress"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Population" type="Label" parent="UI/ElephantPenPanel"]
-margin_left = 226.0
-margin_top = 160.0
-margin_right = 371.0
-margin_bottom = 174.0
+margin_left = 208.0
+margin_top = 264.0
+margin_right = 353.0
+margin_bottom = 278.0
 text = "Local Population:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -405,6 +743,8 @@ margin_left = 128.0
 margin_top = 64.0
 margin_right = 512.0
 margin_bottom = 296.0
+theme = ExtResource( 20 )
+custom_styles/panel = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -447,6 +787,7 @@ margin_left = 64.0
 margin_top = 24.0
 margin_right = 147.0
 margin_bottom = 38.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Housing"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -458,6 +799,8 @@ margin_left = 128.0
 margin_top = 64.0
 margin_right = 512.0
 margin_bottom = 296.0
+theme = ExtResource( 20 )
+custom_styles/panel = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -500,6 +843,7 @@ margin_left = 64.0
 margin_top = 24.0
 margin_right = 147.0
 margin_bottom = 38.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Storehouse"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -511,6 +855,8 @@ margin_left = 128.0
 margin_top = 64.0
 margin_right = 512.0
 margin_bottom = 296.0
+theme = ExtResource( 20 )
+custom_styles/panel = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -558,6 +904,7 @@ margin_left = 64.0
 margin_top = 24.0
 margin_right = 147.0
 margin_bottom = 38.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Monument"
 __meta__ = {
 "_edit_use_anchors_": false
