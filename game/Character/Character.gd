@@ -3,6 +3,7 @@ extends Node2D
 var combat_scene = preload("res://game/Combat/CombatScene.tscn")
 
 export var char_name = "Name"
+var type = "Player"
 export(int,1,7) var max_ap = 5
 var ap = 0
 export(int,1,5) var rank = 1
@@ -64,7 +65,7 @@ func _ready():
 func _process(delta):
 	Global.player_positions.append(tile_pos)
 	$Name.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
-	$ArmyStats.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
+	#$ArmyStats.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	army = footmen + archers + cavalry + elephants
 	$UI/Panel.visible = selected
 	$UI/Mode.text = String($SpritePreview.visible)
@@ -453,10 +454,21 @@ func _on_ReinforceWait_timeout():
 
 
 func _on_Player_area_entered(area):
-	if area.name == "Enemy":
+	if area.name == "Enemy" and !Global.in_combat:
 		Global.in_combat = true
+		Global.combattants = [self, area.get_parent()]
 		var new_combat = combat_scene.instance()
 		new_combat.playerside = [footmen,archers,cavalry,elephants]
 		new_combat.enemyside = [area.get_parent().footmen,area.get_parent().archers,area.get_parent().cavalry,area.get_parent().elephants]
 		selected = false
+		mode = PLAYER_ACTION.MOVE
+		get_parent().add_child(new_combat)
+	if area.name == "Town" and area.get_parent().ownership != 0 and !Global.in_combat:
+		Global.in_combat = true
+		Global.combattants = [self, area.get_parent()]
+		var new_combat = combat_scene.instance()
+		new_combat.playerside = [footmen,archers,cavalry,elephants]
+		new_combat.enemyside = [floor(area.get_parent().pop_limit/2),0,0,0]
+		selected = false
+		mode = PLAYER_ACTION.MOVE
 		get_parent().add_child(new_combat)

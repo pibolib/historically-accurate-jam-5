@@ -7,6 +7,7 @@ var player = -1
 var enemy = -1
 var turn = 0 # player = 0, enemy = 1
 var player_tactic = 0 # offensive = 0, defensive = 1
+var battle_state = 0 # normal = 0, player win = 1, player lose = 2
 var recent_turn = {
 	"PlayerLosses": 0,
 	"PlayerSuccess": 0,
@@ -53,10 +54,9 @@ var recent_results_player = "None"
 var recent_results_enemy = "None"
 
 func _ready():
-	pass
+	Global.display_type = Global.display.POPUP
 
 func _process(delta):
-	Global.display_type = Global.display.POPUP
 	$UI/Panel/Title.text = "Combat! Round "+String(battle_round)
 	match player_tactic:
 		0:
@@ -160,22 +160,40 @@ func run_turn(team):
 						enemyside[unittype] -= 1
 
 func _on_RoundButton_pressed():
-	$UI/Panel/RoundButton.disabled = true
-	$UI/Panel/Defense.disabled = true
-	recent_turn = {
-		"PlayerLosses": 0,
-		"PlayerSuccess": 0,
-		"PlayerNothing": 0,
-		"PlayerFail": 0,
-		"EnemyLosses": 0,
-	}
-	run_turn(0)
-	run_turn(1)
-	$UI/Panel/StatusInfo.text = "..."
-	battle_round += 1
-	$RoundTimer.start(1)
-	$UI/Panel/RoundButton.text = "Running Round..."
-
+	if battle_state == 0:
+		$UI/Panel/RoundButton.disabled = true
+		$UI/Panel/Defense.disabled = true
+		recent_turn = {
+			"PlayerLosses": 0,
+			"PlayerSuccess": 0,
+			"PlayerNothing": 0,
+			"PlayerFail": 0,
+			"EnemyLosses": 0,
+		}
+		run_turn(0)
+		run_turn(1)
+		$UI/Panel/StatusInfo.text = "..."
+		battle_round += 1
+		$RoundTimer.start(1)
+		$UI/Panel/RoundButton.text = "Running Round..."
+	else:
+		if battle_state == 1:
+			for participant in Global.combattants:
+				if participant.type == "Enemy":
+					participant.queue_free()
+					break
+				if participant.type == "Town":
+					participant.ownership = 0
+					Global.emit_signal("update_borders")
+		if battle_state == 2:
+			for participant in Global.combattants:
+				if participant.type == "Player":
+					participant.queue_free()
+					break
+		Global.in_combat = false
+		Global.display_type = Global.display.NONE
+		queue_free()
+			
 func _on_RoundTimer_timeout():
 	$RoundTimer.stop()
 	$UI/Panel/RoundButton.text = "Start Round"
@@ -190,10 +208,12 @@ func _on_RoundTimer_timeout():
 	if playerside[0] <= 0 and playerside[1] <= 0 and playerside[2] <= 0 and playerside[3] <= 0:
 		$UI/Panel/StatusInfo.text += "\nYou Lose..."
 		$UI/Panel/RoundButton.text = "Conclude Battle"
+		battle_state = 2
 		$UI/Panel/Defense.disabled = true
 	elif enemyside[0] <= 0 and enemyside[1] <= 0 and enemyside[2] <= 0 and enemyside[3] <= 0:
 		$UI/Panel/StatusInfo.text += "\nYou Win!"
 		$UI/Panel/RoundButton.text = "Conclude Battle"
+		battle_state = 1
 		$UI/Panel/Defense.disabled = true
 
 func _on_Defense_pressed():

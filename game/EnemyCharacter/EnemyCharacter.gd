@@ -1,6 +1,7 @@
 extends Node2D
 
 var tile_pos = Vector2(0,0)
+var type = "Enemy"
 var current_town = -1
 var footmen = 5
 var archers = 0
