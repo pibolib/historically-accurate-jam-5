@@ -9,8 +9,9 @@ export(int,1,5) var influence = 3
 export(int,1,5) var construction = 1
 export(int,1,5) var command = 2
 export var sprite = preload("res://icon.png")
+var defaultpreview = preload("res://gfx/tile_ownership.png")
 var previewsprites = [
-	preload("res://gfx/tile_rice_3.png"),
+	preload("res://gfx/tile_rice_0.png"),
 	-1,
 	preload("res://gfx/building_fishingboat.png"),
 	preload("res://gfx/building_housing.png"),
@@ -44,11 +45,13 @@ enum PLAYER_ACTION {
 
 onready var floor_map = get_parent().get_node("FloorMap")
 onready var building_map = get_parent().get_node("BuildingMap")
+onready var movement_map = get_parent().get_node("MovementMap")
+onready var camera = get_parent().get_node("WorldCamera")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Sprite.texture = sprite
-	$SpritePreview.texture = sprite
+	$SpritePreview.texture = defaultpreview
 	ap = max_ap
 	max_army = 10*command
 	army = footmen + archers + cavalry + elephants
@@ -57,19 +60,16 @@ func _ready():
 	Global.connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
+	$Name.visible = (Global.zoom_value <= 1)
 	army = footmen + archers + cavalry + elephants
 	$UI/Panel.visible = selected
 	$UI/Mode.text = String($SpritePreview.visible)
 	$SelectedArrow.visible = selected
-	if mode == PLAYER_ACTION.BUILD:
-		$UI/BuildMenu.visible = true
-	else:
-		$UI/BuildMenu.visible = false
 	if mode == PLAYER_ACTION.REINFORCE:
 		$UI/ReinforceMenu.visible = true
 	else:
 		$UI/ReinforceMenu.visible = false
-	animtime += delta
+	animtime += delta*4
 	if animtime >= 4:
 		animtime -= 4
 	$Sprite.region_rect.position.x = 64 * int(animtime)
@@ -82,95 +82,113 @@ func _process(delta):
 	if !selected:
 		$SpritePreview.visible = false
 	else:
+		camera.position = position + Vector2(32,20)
 		$SpritePreview.visible = true
-	if mode == PLAYER_ACTION.BUILD:
-		if build_selected != -1 or build_selected == -99:
-			if build_selected != -99:
-				$SpritePreview.texture = previewsprites[build_selected]
-				if check_valid_build(Global.get_mouse_tile(), build_selected):
-					$SpritePreview.modulate = Color(0,1,0,0.7)
-					if Input.is_action_just_pressed("action_rc"):
-						building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,build_selected)
-						var towns = get_parent().get_node("Towns")
-						for town in towns.get_children():
-							if town is TileMap:
-								if town.ownership == 0: #player ownership
-									if town.owned_tiles.has(Global.get_mouse_tile()):
-										town.init_building(Global.get_mouse_tile())
+		$UI/Panel/InfoPanel/Name.text = char_name
+		$UI/Panel/InfoPanel/FootmanCount.text = String(footmen)
+		$UI/Panel/InfoPanel/ArcherCount.text = String(archers)
+		$UI/Panel/InfoPanel/CavalryCount.text = String(cavalry)
+		$UI/Panel/InfoPanel/ElephantCount.text = String(elephants)
+		$UI/Panel/InfoPanel/TotalCount.text = "TOTAL\n"+String(army)+"/"+String(max_army)
+		if mode == PLAYER_ACTION.BUILD:
+			if build_selected != -1 or build_selected == -99:
+				if build_selected != -99:
+					$SpritePreview.texture = previewsprites[build_selected]
+					if check_valid_build(Global.get_mouse_tile(), build_selected):
+						$SpritePreview.modulate = Color(0,1,0,0.7)
+						if Input.is_action_just_pressed("action_rc"):
+							building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,build_selected)
+							var towns = get_parent().get_node("Towns")
+							for town in towns.get_children():
+								if town is TileMap:
+									if town.ownership == 0: #player ownership
+										if town.owned_tiles.has(Global.get_mouse_tile()):
+											town.init_building(Global.get_mouse_tile())
+					else:
+						$SpritePreview.modulate = Color(1,0,0,0.7)
 				else:
-					$SpritePreview.modulate = Color(1,0,0,0.7)
+					$SpritePreview.texture = deletesprite
+					var towns = get_parent().get_node("Towns")
+					for town in towns.get_children():
+						if town is TileMap:
+							if town.ownership == 0: #player ownership
+								if town.owned_tiles.has(Global.get_mouse_tile()) and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != -1 and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != 1:
+									$SpritePreview.modulate = Color(0,1,0,0.7)
+									if Input.is_action_just_pressed("action_rc"):
+										building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,-1)
+										for building in town.buildings:
+											if building.Position == Global.get_mouse_tile():
+												town.buildings.erase(building)
+												build_selected = -1
+												break
+								else:
+									$SpritePreview.modulate = Color(1,0,0,0.7)
 			else:
-				$SpritePreview.texture = deletesprite
-				var towns = get_parent().get_node("Towns")
-				for town in towns.get_children():
-					if town is TileMap:
-						if town.ownership == 0: #player ownership
-							if town.owned_tiles.has(Global.get_mouse_tile()) and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != -1 and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != 1:
-								$SpritePreview.modulate = Color(0,1,0,0.7)
-								if Input.is_action_just_pressed("action_rc"):
-									building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,-1)
-									for building in town.buildings:
-										if building.Position == Global.get_mouse_tile():
-											town.buildings.erase(building)
-											build_selected = -1
-											break
-							else:
-								$SpritePreview.modulate = Color(1,0,0,0.7)
-		else:
-			$SpritePreview.visible = false
-	elif mode == PLAYER_ACTION.MOVE:
-		$SpritePreview.texture = sprite
-		var movement_data = test_movement(Global.get_mouse_tile())
-		if movement_data.Cost <= ap and movement_data.CanMove:
-			if Input.is_action_just_pressed("action_rc"):
-				tile_pos = Global.get_mouse_tile()
-				ap -= movement_data.Cost
-				position = floor_map.map_to_world(tile_pos)
-			$SpritePreview.modulate = Color(0,1,0,0.7)
-		else:
-			$SpritePreview.modulate = Color(1,0,0,0.7)
-	elif mode == PLAYER_ACTION.REINFORCE_CHOOSE:
-		$UI/Panel/ReinforceButton.text = "Cancel"
-		if check_valid_barracks(Global.get_mouse_tile()):
-			$SpritePreview.modulate = Color(0,1,0,0.7)
-			if Input.is_action_just_pressed("action_rc"):
-				selected_military_source = Global.get_mouse_tile()
-				mode = PLAYER_ACTION.REINFORCE
-				$UI/Panel/ReinforceButton.text = "Army"
-		else:
-			$SpritePreview.modulate = Color(1,0,0,0.7)
-	elif mode == PLAYER_ACTION.REINFORCE:
-		var barracksinfo = get_building_data(selected_military_source)
-		match barracksinfo.Type:
-			Global.B_BARRACKS, Global.B_BARRACKS_T2:
-				$UI/ReinforceMenu/Footman/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
-				$UI/ReinforceMenu/Archer/Quantity.text = String(barracksinfo.Holding[1]).pad_zeros(2)
-				$UI/ReinforceMenu/Cavalry/Quantity.text = String(barracksinfo.Holding[2]).pad_zeros(2)
-				$UI/ReinforceMenu/Elephants/Quantity.text = "00"
-				$UI/ReinforceMenu/Footman/Deposit.disabled = !(footmen > 0)
-				$UI/ReinforceMenu/Footman/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
-				$UI/ReinforceMenu/Archer/Deposit.disabled = !(archers > 0)
-				$UI/ReinforceMenu/Archer/Withdraw.disabled = !(barracksinfo.Holding[1] > 0 and army < max_army)
-				$UI/ReinforceMenu/Cavalry/Deposit.disabled = !(cavalry > 0)
-				$UI/ReinforceMenu/Cavalry/Withdraw.disabled = !(barracksinfo.Holding[2] > 0 and army < max_army)
-				$UI/ReinforceMenu/Elephants/Deposit.disabled = true
-				$UI/ReinforceMenu/Elephants/Withdraw.disabled = true
-			Global.B_ELEPHANT_PEN:
-				$UI/ReinforceMenu/Footman/Quantity.text = "00"
-				$UI/ReinforceMenu/Archer/Quantity.text = "00"
-				$UI/ReinforceMenu/Cavalry/Quantity.text = "00"
-				$UI/ReinforceMenu/Elephants/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
-				$UI/ReinforceMenu/Footman/Deposit.disabled = true
-				$UI/ReinforceMenu/Footman/Withdraw.disabled = true
-				$UI/ReinforceMenu/Archer/Deposit.disabled = true
-				$UI/ReinforceMenu/Archer/Withdraw.disabled = true
-				$UI/ReinforceMenu/Cavalry/Deposit.disabled = true
-				$UI/ReinforceMenu/Cavalry/Withdraw.disabled = true
-				$UI/ReinforceMenu/Elephants/Deposit.disabled = !(elephants > 0)
-				$UI/ReinforceMenu/Elephants/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
-	else:
-		$UI/Panel/ReinforceButton.text = "Army"
-	#print(floor_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y))
+				$SpritePreview.visible = false
+		elif mode == PLAYER_ACTION.MOVE:
+			$SpritePreview.texture = defaultpreview
+			var current_building = building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y)
+			var is_barracks = false
+			match current_building:
+				Global.B_BARRACKS,Global.B_BARRACKS_T2,Global.B_ELEPHANT_PEN:
+					$SpritePreview/Label.visible = true
+					is_barracks = true
+				_:
+					$SpritePreview/Label.visible = false
+			var movement_data = test_movement(Global.get_mouse_tile())
+			if movement_data.Cost <= ap and movement_data.CanMove:
+				if Input.is_action_just_pressed("action_rc"):
+					tile_pos = Global.get_mouse_tile()
+					ap -= movement_data.Cost
+					position = floor_map.map_to_world(tile_pos)
+					if is_barracks:
+						$ReinforceWait.start(0.3)
+				$SpritePreview.modulate = Color(0,1,0,0.7)
+			else:
+				$SpritePreview.modulate = Color(1,0,0,0.7)
+		elif mode == PLAYER_ACTION.REINFORCE_CHOOSE:
+			$UI/Panel/ReinforceButton.text = "Cancel"
+			if check_valid_barracks(Global.get_mouse_tile()):
+				$SpritePreview.modulate = Color(0,1,0,0.7)
+				if Input.is_action_just_pressed("action_rc"):
+					selected_military_source = Global.get_mouse_tile()
+					mode = PLAYER_ACTION.REINFORCE
+					$UI/Panel/ReinforceButton.text = "Army"
+			else:
+				$SpritePreview.modulate = Color(1,0,0,0.7)
+		elif mode == PLAYER_ACTION.REINFORCE:
+			Global.display_type = Global.display.PLAYER
+			selected = true
+			$SpritePreview/Label.visible = false
+			var barracksinfo = get_building_data(selected_military_source)
+			match barracksinfo.Type:
+				Global.B_BARRACKS, Global.B_BARRACKS_T2:
+					$UI/ReinforceMenu/Footman/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
+					$UI/ReinforceMenu/Archer/Quantity.text = String(barracksinfo.Holding[1]).pad_zeros(2)
+					$UI/ReinforceMenu/Cavalry/Quantity.text = String(barracksinfo.Holding[2]).pad_zeros(2)
+					$UI/ReinforceMenu/Elephants/Quantity.text = "00"
+					$UI/ReinforceMenu/Footman/Deposit.disabled = !(footmen > 0)
+					$UI/ReinforceMenu/Footman/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
+					$UI/ReinforceMenu/Archer/Deposit.disabled = !(archers > 0)
+					$UI/ReinforceMenu/Archer/Withdraw.disabled = !(barracksinfo.Holding[1] > 0 and army < max_army)
+					$UI/ReinforceMenu/Cavalry/Deposit.disabled = !(cavalry > 0)
+					$UI/ReinforceMenu/Cavalry/Withdraw.disabled = !(barracksinfo.Holding[2] > 0 and army < max_army)
+					$UI/ReinforceMenu/Elephants/Deposit.disabled = true
+					$UI/ReinforceMenu/Elephants/Withdraw.disabled = true
+				Global.B_ELEPHANT_PEN:
+					$UI/ReinforceMenu/Footman/Quantity.text = "00"
+					$UI/ReinforceMenu/Archer/Quantity.text = "00"
+					$UI/ReinforceMenu/Cavalry/Quantity.text = "00"
+					$UI/ReinforceMenu/Elephants/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
+					$UI/ReinforceMenu/Footman/Deposit.disabled = true
+					$UI/ReinforceMenu/Footman/Withdraw.disabled = true
+					$UI/ReinforceMenu/Archer/Deposit.disabled = true
+					$UI/ReinforceMenu/Archer/Withdraw.disabled = true
+					$UI/ReinforceMenu/Cavalry/Deposit.disabled = true
+					$UI/ReinforceMenu/Cavalry/Withdraw.disabled = true
+					$UI/ReinforceMenu/Elephants/Deposit.disabled = !(elephants > 0)
+					$UI/ReinforceMenu/Elephants/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
+		#print(floor_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y))
 
 func level_up():
 	var skill_pts = 2
@@ -300,6 +318,7 @@ func test_movement(pos):
 				cost += 1
 			else:
 				cost += 2
+			movement_map.set_cell(current_pos.x,current_pos.y,0)
 		if floor_map.get_cell(goal_pos.x,goal_pos.y) == Global.T_WATER:
 			movement_data.CanMove = false
 		movement_data.Cost = cost
@@ -313,12 +332,14 @@ func _on_mouse_click(pos):
 		Global.display_type = Global.display.PLAYER
 		mode = PLAYER_ACTION.MOVE
 		$SpritePreview.visible = true
-	if Global.get_mouse_pos().y < 256 and Global.display_type == Global.display.PLAYER:
-		match mode:
-			PLAYER_ACTION.MOVE:
-				if !pos_match:
-					selected = false
-					Global.display_type = Global.display.NONE
+	if Global.mouse_pos_viewport.y < 256 and Global.display_type == Global.display.PLAYER:
+		if !pos_match:
+			if mode == PLAYER_ACTION.BUILD:
+				build_selected = -1
+				mode = PLAYER_ACTION.MOVE
+			else:
+				selected = false
+				Global.display_type = Global.display.NONE
 
 func _on_ReinforceButton_pressed():
 	if mode == PLAYER_ACTION.MOVE:
@@ -335,9 +356,12 @@ func _on_BuildButton_pressed():
 	mode = PLAYER_ACTION.BUILD
 
 func _on_BuildMenuAction_pressed(type):
-#	if building_map.get_cell(tile_pos.x,tile_pos.y) == -1:
-#		building_map.set_cell(tile_pos.x,tile_pos.y,type)
-	build_selected = type
+	mode = PLAYER_ACTION.BUILD
+	if build_selected == type:
+		build_selected = -1
+		mode = PLAYER_ACTION.MOVE
+	else:
+		build_selected = type
 
 
 func _on_BuildBackButton_pressed():
@@ -354,6 +378,7 @@ func _on_ReinforceBackButton_pressed():
 	mode = PLAYER_ACTION.MOVE
 	selected_military_source = -1
 	selected = true
+	Global.display_type = Global.display.PLAYER
 	$UI/Panel.visible = selected
 
 func _on_FootmanDeposit_pressed():
@@ -412,3 +437,10 @@ func _on_ElephantWithdraw_pressed():
 	if footmen + archers + cavalry + elephants < max_army and barracksinfo.Holding[0] > 0:
 		elephants += 1
 		barracksinfo.Holding[0] -= 1
+
+
+func _on_ReinforceWait_timeout():
+	if check_valid_barracks(tile_pos):
+		selected_military_source = tile_pos
+		mode = PLAYER_ACTION.REINFORCE
+		$ReinforceWait.stop()

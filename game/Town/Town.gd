@@ -23,6 +23,7 @@ var selected_building_data = {}
 export var color = Color(1,1,1,1)
 var border_color = Color(1,1,1,1)
 
+onready var camera = get_parent().get_parent().get_node("WorldCamera")
 onready var floor_map = get_parent().get_parent().get_node("FloorMap")
 onready var building_map = get_parent().get_parent().get_node("BuildingMap")
 
@@ -52,6 +53,10 @@ func _ready():
 	Global.connect("mouse_click_world",self,"_on_mouse_click")
 
 func _process(delta):
+	$Name.visible = (Global.zoom_value <= 1)
+	$PopulationNumber.visible = (Global.zoom_value <= 1)
+	$FoodNumber.visible = (Global.zoom_value <= 1)
+	$SupportNumber.visible = (Global.zoom_value <= 1)
 	if selected_tile is Vector2:
 		var building_at_tile
 		for building in buildings:
@@ -242,6 +247,7 @@ func display_info():
 	$SupportNumber.text = String(support)+"/"+String(support_limit)
 	
 func display_gui(building: Dictionary):
+	camera.position = building_map.map_to_world(building.Position) + Vector2(32,20)
 	match building.Type:
 		Global.B_BARRACKS, Global.B_BARRACKS_T2:
 			$UI/BarracksPanel.visible = true
