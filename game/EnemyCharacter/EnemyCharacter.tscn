@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://gfx/enemy1.png" type="Texture" id=1]
 [ext_resource path="res://game/EnemyCharacter/EnemyCharacter.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -11,6 +11,9 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 32, 32 )
 texture = ExtResource( 1 )
+offset = Vector2( 0, -16 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
 
 [node name="Enemy" type="Area2D" parent="."]
 visible = false
