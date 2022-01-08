@@ -17,8 +17,8 @@
 [ext_resource path="res://gfx/archer.png" type="Texture" id=15]
 [ext_resource path="res://gfx/cavalry.png" type="Texture" id=16]
 [ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=17]
-[ext_resource path="res://gfx/playerSelect.png" type="Texture" id=18]
 [ext_resource path="res://font/UIFontNoOutline.tres" type="DynamicFont" id=18]
+[ext_resource path="res://gfx/playerSelect.png" type="Texture" id=19]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -49,14 +49,14 @@ position = Vector2( 0, -13 )
 points = PoolVector2Array( 16, -24, 48, -24, 32, -16, 16, -24 )
 width = 3.0
 default_color = Color( 1, 1, 1, 1 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="PlayerSelect" type="Sprite" parent="SelectedArrow"]
 position = Vector2( 32, 5 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 32, 32 )
