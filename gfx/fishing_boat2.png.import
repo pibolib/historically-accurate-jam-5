@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/building_school.png-5a99415e08009d68cd903462c2a9e946.stex"
+path="res://.import/fishing_boat2.png-561455b43492ae8bdb3f3f5e0bec251c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/building_school.png"
-dest_files=[ "res://.import/building_school.png-5a99415e08009d68cd903462c2a9e946.stex" ]
+source_file="res://gfx/fishing_boat2.png"
+dest_files=[ "res://.import/fishing_boat2.png-561455b43492ae8bdb3f3f5e0bec251c.stex" ]
 
 [params]
 
