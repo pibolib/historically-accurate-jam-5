@@ -139,8 +139,6 @@ func _process(delta):
 		$UI/TurnButton.visible = !(display_type == display.POPUP)
 		$UI/EndTurn.visible = !(display_type == display.POPUP)
 		$UI/NhiButton.visible = (display_type == display.NONE)
-		$UI/sister1.visible = (display_type == display.NONE)
-		$UI/sister2.visible = (display_type == display.NONE)
 		$UI/TracButton.visible = (display_type == display.NONE)
 		player_positions = []
 		mouse_pos_viewport = get_viewport().get_mouse_position()
