@@ -1,5 +1,7 @@
 extends Node2D
 
+var combat_scene = preload("res://game/Combat/CombatScene.tscn")
+
 export var char_name = "Name"
 export(int,1,7) var max_ap = 5
 var ap = 0
@@ -27,7 +29,7 @@ var previewsprites = [
 	]
 var deletesprite = preload("res://gfx/occupied_tile.png")
 var army = 0
-var footmen = 0
+var footmen = 5
 var archers = 0
 var cavalry = 0
 var elephants = 0
@@ -448,3 +450,13 @@ func _on_ReinforceWait_timeout():
 		selected_military_source = tile_pos
 		mode = PLAYER_ACTION.REINFORCE
 		$ReinforceWait.stop()
+
+
+func _on_Player_area_entered(area):
+	if area.name == "Enemy":
+		Global.in_combat = true
+		var new_combat = combat_scene.instance()
+		new_combat.playerside = [footmen,archers,cavalry,elephants]
+		new_combat.enemyside = [area.get_parent().footmen,area.get_parent().archers,area.get_parent().cavalry,area.get_parent().elephants]
+		selected = false
+		get_parent().add_child(new_combat)

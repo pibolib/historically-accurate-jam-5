@@ -4,9 +4,11 @@ var turn = 0 #0: player, 1: enemy
 var zoom_value = 1
 var zoom_text_invis_threshold = 2
 var mouse_pos_viewport = Vector2(0,0)
+var combattants = []
 signal end_turn(player)
 signal mouse_click_world(tilepos)
 var selected_tile = -1
+var in_combat = false
 enum display {
 	NONE, 
 	PLAYER, 
@@ -129,6 +131,7 @@ func _ready():
 	connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
+	$UI/TurnButton.visible = !(display_type == display.POPUP)
 	player_positions = []
 	mouse_pos_viewport = get_viewport().get_mouse_position()
 	$Mouse.position = get_global_mouse_position()

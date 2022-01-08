@@ -2,7 +2,7 @@ extends Node2D
 
 var tile_pos = Vector2(0,0)
 var current_town = -1
-var footmen = 0
+var footmen = 5
 var archers = 0
 var cavalry = 0
 var elephants = 0
@@ -104,3 +104,4 @@ func target_move(pos):
 func _on_end_turn(player):
 	if player == 1:
 		ap = 3
+
