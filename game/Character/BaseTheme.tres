@@ -1,40 +1,40 @@
 [gd_resource type="Theme" load_steps=11 format=2]
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.658824, 0.8, 0.901961, 1 )
 
-[sub_resource type="StyleBoxFlat" id=10]
-
-[sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 0.537255, 0.741176, 0.839216, 1 )
+[sub_resource type="StyleBoxFlat" id=2]
 
 [sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.537255, 0.741176, 0.839216, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.886275, 0.858824, 0.827451, 1 )
 
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.803922, 0.788235, 0.694118, 1 )
-
 [sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.803922, 0.788235, 0.694118, 1 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.447059, 0.454902, 0.462745, 1 )
-
-[sub_resource type="StyleBoxFlat" id=4]
 
 [sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.447059, 0.454902, 0.462745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.894118, 0.854902, 0.796078, 1 )
 
 [resource]
-Button/styles/disabled = SubResource( 9 )
-Button/styles/focus = SubResource( 10 )
-Button/styles/hover = SubResource( 11 )
-Button/styles/normal = SubResource( 3 )
-Button/styles/pressed = SubResource( 12 )
-MenuButton/styles/disabled = SubResource( 5 )
-MenuButton/styles/focus = SubResource( 6 )
-MenuButton/styles/hover = SubResource( 7 )
-MenuButton/styles/normal = SubResource( 4 )
-MenuButton/styles/pressed = SubResource( 8 )
+Button/styles/disabled = SubResource( 1 )
+Button/styles/focus = SubResource( 2 )
+Button/styles/hover = SubResource( 3 )
+Button/styles/normal = SubResource( 4 )
+Button/styles/pressed = SubResource( 5 )
+MenuButton/styles/disabled = SubResource( 6 )
+MenuButton/styles/focus = SubResource( 7 )
+MenuButton/styles/hover = SubResource( 8 )
+MenuButton/styles/normal = SubResource( 9 )
+MenuButton/styles/pressed = SubResource( 10 )
 TextEdit/colors/completion_background_color = Color( 0.690196, 0.67451, 0.733333, 1 )

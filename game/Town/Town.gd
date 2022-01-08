@@ -53,10 +53,10 @@ func _ready():
 	Global.connect("mouse_click_world",self,"_on_mouse_click")
 
 func _process(delta):
-	$Name.visible = (Global.zoom_value <= 1)
-	$PopulationNumber.visible = (Global.zoom_value <= 1)
-	$FoodNumber.visible = (Global.zoom_value <= 1)
-	$SupportNumber.visible = (Global.zoom_value <= 1)
+	$Name.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
+	$PopulationNumber.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
+	$FoodNumber.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
+	$SupportNumber.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	if selected_tile is Vector2:
 		var building_at_tile
 		for building in buildings:

@@ -8,6 +8,10 @@ var enemymorale = 1
 var player = -1
 var enemy = -1
 
+enum {
+	U_FOOTMAN, U_ARCHER, U_CAVALRY, U_ELEPHANT
+}
+
 var footman = {
 	"VersusFootman": [0.3,0.4,0.3],
 	"VersusArcher":  [0.6,0.2,0.2],
@@ -41,3 +45,7 @@ func _ready():
 
 func _process(delta):
 	Global.display_type = Global.display.POPUP
+
+
+func _on_RoundButton_pressed():
+	pass # Replace with function body.

@@ -2,6 +2,7 @@ extends Node2D
 
 var turn = 0 #0: player, 1: enemy
 var zoom_value = 1
+var zoom_text_invis_threshold = 2
 var mouse_pos_viewport = Vector2(0,0)
 signal end_turn(player)
 signal mouse_click_world(tilepos)

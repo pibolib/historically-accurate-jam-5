@@ -61,7 +61,8 @@ func _ready():
 
 func _process(delta):
 	Global.player_positions.append(tile_pos)
-	$Name.visible = (Global.zoom_value <= 1)
+	$Name.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
+	$ArmyStats.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	army = footmen + archers + cavalry + elephants
 	$UI/Panel.visible = selected
 	$UI/Mode.text = String($SpritePreview.visible)
@@ -74,7 +75,8 @@ func _process(delta):
 	if animtime >= 4:
 		animtime -= 4
 	$Sprite.region_rect.position.x = 64 * int(animtime)
-	$Name.text = char_name + " ("+String(ap)+"/"+String(max_ap)+" AP)"+"\n"+String(army)+"/"+String(max_army)
+	$Name.text = char_name
+	$ArmyStats.text = String(army)+"/"+String(max_army)
 	#if Input.is_action_just_pressed("action_lc"):
 		#test_movement(floor_map.world_to_map(mouse_pos))
 	$SpritePreview.position = building_map.map_to_world(Global.get_mouse_tile())-position+$Sprite.position+Vector2(0,8)

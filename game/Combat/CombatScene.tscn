@@ -30,6 +30,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Status" type="Label" parent="Panel"]
+margin_left = 128.0
+margin_top = 56.0
+margin_right = 256.0
+margin_bottom = 88.0
+text = "Status"
+align = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Status2" type="Label" parent="Panel"]
+margin_left = 128.0
+margin_top = 80.0
+margin_right = 256.0
+margin_bottom = 112.0
+grow_horizontal = 2
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Ally" type="Control" parent="Panel"]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -214,9 +238,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Panel"]
+[node name="RoundButton" type="Button" parent="Panel"]
 margin_left = 144.0
 margin_top = 240.0
 margin_right = 240.0
 margin_bottom = 276.0
 text = "Start Round"
+
+[node name="Defense" type="Button" parent="Panel"]
+margin_left = 144.0
+margin_top = 216.0
+margin_right = 240.0
+margin_bottom = 236.0
+text = "Switch Tactic"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Panel/RoundButton" to="." method="_on_RoundButton_pressed"]
+[connection signal="pressed" from="Panel/Defense" to="." method="_on_RoundButton_pressed"]
