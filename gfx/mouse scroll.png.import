@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/archer.png-bbb9bc76bb131e54112fbdb95881c5df.stex"
+path="res://.import/mouse scroll.png-380d19ac401cae223ebacfb1af7c7897.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/archer.png"
-dest_files=[ "res://.import/archer.png-bbb9bc76bb131e54112fbdb95881c5df.stex" ]
+source_file="res://gfx/mouse scroll.png"
+dest_files=[ "res://.import/mouse scroll.png-380d19ac401cae223ebacfb1af7c7897.stex" ]
 
 [params]
 

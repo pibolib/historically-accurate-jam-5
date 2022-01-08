@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/archer.png-bbb9bc76bb131e54112fbdb95881c5df.stex"
+path="res://.import/reinforce.png-b5a3194781213523bb10eff806dc9b34.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/archer.png"
-dest_files=[ "res://.import/archer.png-bbb9bc76bb131e54112fbdb95881c5df.stex" ]
+source_file="res://gfx/reinforce.png"
+dest_files=[ "res://.import/reinforce.png-b5a3194781213523bb10eff806dc9b34.stex" ]
 
 [params]
 

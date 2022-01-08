@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/Global/Global.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Theme" id=2]
 
 [node name="Global" type="Node2D"]
 script = ExtResource( 1 )
@@ -22,8 +24,11 @@ format = 1
 layer = 2
 
 [node name="TurnButton" type="Button" parent="UI"]
-margin_right = 78.0
-margin_bottom = 48.0
+margin_left = 472.0
+margin_top = 256.0
+margin_right = 568.0
+margin_bottom = 288.0
+theme = SubResource( 2 )
 text = "END TURN"
 __meta__ = {
 "_edit_use_anchors_": false
