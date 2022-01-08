@@ -6,6 +6,7 @@ class_name Town
 var bound_hex = preload("res://game/MainGame/ControlHex/Hexagon.tscn")
 
 export var town_name := "Town"
+var type = "Town"
 var owned_tiles = []
 export(int,0,100) var base_support := 20
 var tile_pos = Vector2(0,0)
@@ -51,8 +52,14 @@ func _ready():
 	create_boundaries()
 	Global.connect("end_turn",self,"_on_end_turn")
 	Global.connect("mouse_click_world",self,"_on_mouse_click")
+	Global.connect("update_borders",self,"_on_border_update")
 
 func _process(delta):
+	match ownership:
+		0:
+			border_color = Color.lightblue
+		1:
+			border_color = Color(0.8,0,0)
 	$Name.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	$PopulationNumber.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	$FoodNumber.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
@@ -111,7 +118,7 @@ func create_boundaries():
 		bound_hex_inst.position = floor_map.map_to_world(tile)
 		bound_hex_inst.sides = bounds
 		bound_hex_inst.modulate = border_color
-		get_parent().call_deferred("add_child",bound_hex_inst)
+		get_parent().get_parent().call_deferred("add_child",bound_hex_inst)
 
 func _on_end_turn(player):
 	if player == ownership:
@@ -248,6 +255,10 @@ func display_info():
 	
 func display_gui(building: Dictionary):
 	camera.position = building_map.map_to_world(building.Position) + Vector2(32,20)
+	$UI/UIUniversal.visible = true
+	$UI/UIUniversal/Label/foodcount.text = String(food)+"/"+String(food_limit)
+	$UI/UIUniversal/Label/peoplecount.text = String(population)+"/"+String(pop_limit)
+	$UI/UIUniversal/Label/influencecount.text = String(support)+"/"+String(support_limit)
 	match building.Type:
 		Global.B_BARRACKS, Global.B_BARRACKS_T2:
 			$UI/BarracksPanel.visible = true
@@ -258,6 +269,9 @@ func display_gui(building: Dictionary):
 			$UI/BarracksPanel/RemoveButton.disabled = !(building.InProduction.size() > 0)
 			$UI/BarracksPanel/UpgradeButton.disabled = !(building.Type == Global.B_BARRACKS and population >= 10 and support >= 75)
 			$UI/BarracksPanel/BarracksPanel2/InProgress.text = ""
+			$UI/BarracksPanel/ReservesPanel/FootmanCount.text = "x "+String(building.Holding[0])
+			$UI/BarracksPanel/ReservesPanel/ArcherCount.text = "x "+String(building.Holding[1])
+			$UI/BarracksPanel/ReservesPanel/CavalryCount.text = "x "+String(building.Holding[2])
 			match building.Type:
 				Global.B_BARRACKS:
 					$UI/BarracksPanel/Name.text = "Barracks"
@@ -289,6 +303,7 @@ func display_gui(building: Dictionary):
 			$UI/ElephantPenPanel/ElephantButton.disabled = !(population >= 10 and food >= 20 and building.InProduction.size() < 3)
 			$UI/ElephantPenPanel/RemoveButton.disabled = !(building.InProduction.size() > 0)
 			$UI/ElephantPenPanel/ElephantPenPanel/InProgress.text = ""
+			$UI/ElephantPenPanel/ReservesPanel/ElephantCount.text = "x "+String(building.Holding[0])
 			for unit in building.InProduction:
 				$UI/ElephantPenPanel/ElephantPenPanel/InProgress.text += "War Elephant "
 			if building.InProduction.size() > 0:
@@ -369,6 +384,7 @@ func _on_BarracksExitButton_pressed():
 	selected_building_data = {}
 	$UI/BarracksPanel.visible = false
 	Global.display_type = Global.display.NONE
+	$UI/UIUniversal.visible = false
 
 func _on_BarracksRemoveButton_pressed():
 	if selected_building_data.InProduction.size() > 0:
@@ -405,6 +421,7 @@ func _on_ElephantPenExitButton_pressed():
 	selected_building_data = {}
 	$UI/ElephantPenPanel.visible = false
 	Global.display_type = Global.display.NONE
+	$UI/UIUniversal.visible = false
 
 
 func _on_HousingExitButton_pressed():
@@ -412,6 +429,7 @@ func _on_HousingExitButton_pressed():
 	selected_building_data = {}
 	$UI/HousingPanel.visible = false
 	Global.display_type = Global.display.NONE
+	$UI/UIUniversal.visible = false
 
 func _on_HousingUpgradeButton_pressed():
 	selected_building_data.Type = Global.B_HOUSING_T2
@@ -425,6 +443,7 @@ func _on_StorehouseExitButton_pressed():
 	selected_building_data = {}
 	$UI/StorehousePanel.visible = false
 	Global.display_type = Global.display.NONE
+	$UI/UIUniversal.visible = false
 
 func _on_StorehouseUpgradeButton_pressed():
 	selected_building_data.Type = Global.B_STOREHOUSE_T2
@@ -450,3 +469,11 @@ func _on_MonumentUpgradeButton_pressed():
 			building_map.set_cell(selected_building_data.Position.x,selected_building_data.Position.y,Global.B_SCHOOL)
 	population -= 10
 	support -= 75
+
+func _on_border_update():
+	match ownership:
+		0:
+			border_color = Color.lightblue
+		1:
+			border_color = Color(0.8,0,0)
+	create_boundaries()

@@ -7,6 +7,7 @@ var mouse_pos_viewport = Vector2(0,0)
 var combattants = []
 signal end_turn(player)
 signal mouse_click_world(tilepos)
+signal update_borders()
 var selected_tile = -1
 var in_combat = false
 enum display {
