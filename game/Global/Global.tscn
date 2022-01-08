@@ -71,15 +71,15 @@ format = 1
 layer = 2
 
 [node name="EndTurn" type="Sprite" parent="UI"]
-position = Vector2( 521.15, 272.539 )
+position = Vector2( 534.15, 256.539 )
 scale = Vector2( 0.509875, 0.509875 )
 texture = ExtResource( 3 )
 
 [node name="TurnButton" type="Button" parent="UI"]
-margin_left = 475.0
-margin_top = 256.0
-margin_right = 568.0
-margin_bottom = 288.0
+margin_left = 488.0
+margin_top = 240.0
+margin_right = 581.0
+margin_bottom = 272.0
 theme = SubResource( 16 )
 custom_styles/pressed = SubResource( 2 )
 custom_styles/focus = SubResource( 3 )
