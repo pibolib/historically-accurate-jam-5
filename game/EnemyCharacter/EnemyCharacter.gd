@@ -7,6 +7,8 @@ var footmen = 5
 var archers = 0
 var cavalry = 0
 var elephants = 0
+var sprites = [preload("res://gfx/enemy1.png"),preload("res://gfx/enemy2.png")]
+var animtime = 0
 var ap = 3
 var target = Vector2(0,0)
 export(int, 1, 5, 1) var difficulty_level = 1
@@ -16,12 +18,17 @@ onready var building_map = get_parent().get_node("BuildingMap")
 onready var movement_map = get_parent().get_node("MovementMap")
 
 func _ready():
+	$Sprite.texture = sprites[randi()%2]
 	tile_pos = floor_map.world_to_map(position)
 	Global.connect("end_turn",self,"_on_end_turn")
 	target = tile_pos
 	get_current_town()
 
 func _process(delta):
+	animtime += delta*3
+	if animtime >= 3:
+		animtime -= 3
+	$Sprite.region_rect.position.x = 64 * int(animtime)
 	position = floor_map.map_to_world(tile_pos)
 	var move_towards = target_move(target).Pos
 	if Global.turn == 1:
