@@ -5,6 +5,7 @@ var combat_scene = preload("res://game/Combat/CombatScene.tscn")
 class_name Character
 
 export var char_name = "Name"
+export var id = 0
 var type = "Player"
 export(int,1,7) var max_ap = 5
 var ap = 0
@@ -65,7 +66,7 @@ func _ready():
 	Global.connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
-	Global.player_positions.append(tile_pos)
+	Global.player_positions[id] = tile_pos
 	$Name.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	#$ArmyStats.visible = (Global.zoom_value <= Global.zoom_text_invis_threshold)
 	army = footmen + archers + cavalry + elephants
@@ -342,6 +343,8 @@ func test_movement(pos):
 				cost += 2
 			movement_map.set_cell(current_pos.x,current_pos.y,0)
 		if floor_map.get_cell(goal_pos.x,goal_pos.y) == Global.T_WATER:
+			movement_data.CanMove = false
+		if Global.player_positions.has(goal_pos):
 			movement_data.CanMove = false
 		movement_data.Cost = cost
 		movement_data.Distance = distance
