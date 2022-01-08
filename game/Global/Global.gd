@@ -50,7 +50,7 @@ enum {
 }
 
 var player_positions = [
-	
+	Vector2(0,0),Vector2(0,0)
 ]
 
 var rice_paddy = {
@@ -140,7 +140,6 @@ func _process(delta):
 		$UI/EndTurn.visible = !(display_type == display.POPUP)
 		$UI/NhiButton.visible = (display_type == display.NONE)
 		$UI/TracButton.visible = (display_type == display.NONE)
-		player_positions = []
 		mouse_pos_viewport = get_viewport().get_mouse_position()
 		$Mouse.position = get_global_mouse_position()
 		if Input.is_action_just_pressed("action_endturn") and turn == 0:

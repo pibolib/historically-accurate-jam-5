@@ -74,9 +74,14 @@ char_name = "Trung Trac"
 [node name="Character2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 128, 0 )
 char_name = "Trung Nhi "
+id = 1
 sprite = ExtResource( 9 )
 
 [node name="WorldCamera" parent="." instance=ExtResource( 5 )]
+limit_left = -1344
+limit_top = -1296
+limit_right = 2176
+limit_bottom = 2736
 
 [node name="Towns" type="Node2D" parent="."]
 
