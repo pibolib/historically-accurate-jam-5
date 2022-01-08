@@ -42,6 +42,10 @@ enum {
 	B_NULL = 999
 }
 
+var player_positions = [
+	
+]
+
 var rice_paddy = {
 	"Type": B_RICE_PADDY,
 	"Position": Vector2(0,0),
@@ -124,13 +128,16 @@ func _ready():
 	connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
+	player_positions = []
 	mouse_pos_viewport = get_viewport().get_mouse_position()
 	$Mouse.position = get_global_mouse_position()
 	if Input.is_action_just_pressed("action_endturn") and turn == 0:
-		emit_signal("end_turn",0)
+		emit_signal("end_turn",turn)
+		turn = 1
 	if Input.is_action_just_pressed("action_lc"):
 		emit_signal("mouse_click_world",$Base.world_to_map($Mouse.position))
 	$UI/Label.text = String(display_type)
+	$UI/TurnButton.disabled = !$EnemyTurnWait.is_stopped()
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))
@@ -143,4 +150,12 @@ func get_mouse_tile():
 
 
 func _on_TurnButton_pressed():
-	emit_signal("end_turn",0)
+	if turn == 0:
+		emit_signal("end_turn",0)
+		turn = 1
+		$EnemyTurnWait.start(0.5)
+
+func _on_Timer_timeout():
+	emit_signal("end_turn",1)
+	turn = 0
+	$EnemyTurnWait.stop()
