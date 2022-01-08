@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Historically-accurate-jam- 5"
-run/main_scene="res://game/MainGame/World-Tony.tscn"
+run/main_scene="res://game/MainGame/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]
