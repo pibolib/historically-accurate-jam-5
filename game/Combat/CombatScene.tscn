@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/Combat/CombatScene.gd" type="Script" id=1]
 [ext_resource path="res://gfx/footmen.png" type="Texture" id=2]
-[ext_resource path="res://gfx/elephant.png" type="Texture" id=3]
+[ext_resource path="res://gfx/elephant_destroy.png" type="Texture" id=3]
 [ext_resource path="res://gfx/archer.png" type="Texture" id=4]
 [ext_resource path="res://gfx/cavalry.png" type="Texture" id=5]
 [ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=6]
