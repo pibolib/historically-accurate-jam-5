@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/Global/Global.gd" type="Script" id=1]
+[ext_resource path="res://gfx/EndTurn.png" type="Texture" id=2]
+[ext_resource path="res://font/UIFont.tres" type="DynamicFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 0.5, 0.5 )
 
 [sub_resource type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [node name="Global" type="Node2D"]
 script = ExtResource( 1 )
@@ -23,12 +28,19 @@ format = 1
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
+[node name="EndTurn" type="Sprite" parent="UI"]
+position = Vector2( 520, 272 )
+texture = ExtResource( 2 )
+
 [node name="TurnButton" type="Button" parent="UI"]
 margin_left = 472.0
 margin_top = 256.0
 margin_right = 568.0
 margin_bottom = 288.0
 theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.317647, 0.317647, 0.317647, 1 )
+custom_fonts/font = ExtResource( 3 )
+custom_styles/normal = SubResource( 3 )
 text = "END TURN"
 __meta__ = {
 "_edit_use_anchors_": false

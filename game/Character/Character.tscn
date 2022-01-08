@@ -29,16 +29,30 @@ bg_color = Color( 0.682353, 0.635294, 0.584314, 0.67451 )
 bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
+bg_color = Color( 0.00392157, 0.00392157, 0.00392157, 0.286275 )
 
 [sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.00392157, 0.00392157, 0.00392157, 0.286275 )
+bg_color = Color( 0.682353, 0.635294, 0.584314, 0.580392 )
 
 [node name="Character" type="Node2D"]
 z_index = 100
 script = ExtResource( 1 )
 command = 3
 sprite = ExtResource( 4 )
+
+[node name="SelectedArrow" type="Line2D" parent="."]
+position = Vector2( 0, -13 )
+points = PoolVector2Array( 16, -24, 48, -24, 32, -16, 16, -24 )
+width = 3.0
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 18 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="PlayerSelect" type="Sprite" parent="SelectedArrow"]
+position = Vector2( 32, 5 )
+texture = ExtResource( 18 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 32, 32 )
@@ -263,8 +277,8 @@ margin_left = -568.0
 margin_top = -8.0
 margin_right = -440.0
 margin_bottom = 32.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "Name"
 align = 1
 valign = 1
@@ -294,8 +308,8 @@ margin_top = 29.0
 margin_right = 56.0
 margin_bottom = 45.0
 theme = ExtResource( 17 )
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -307,8 +321,8 @@ margin_left = 8.0
 margin_top = 72.0
 margin_right = 56.0
 margin_bottom = 88.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -320,8 +334,8 @@ margin_left = 8.0
 margin_top = 116.0
 margin_right = 56.0
 margin_bottom = 132.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -333,8 +347,8 @@ margin_left = 8.0
 margin_top = 172.0
 margin_right = 56.0
 margin_bottom = 188.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -345,8 +359,8 @@ __meta__ = {
 margin_top = 208.0
 margin_right = 64.0
 margin_bottom = 247.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "TOTAL
 0/30"
 align = 1
@@ -608,20 +622,6 @@ margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="SelectedArrow" type="Line2D" parent="UI"]
-position = Vector2( 0, -13 )
-points = PoolVector2Array( 16, -24, 48, -24, 32, -16, 16, -24 )
-width = 3.0
-default_color = Color( 1, 1, 1, 1 )
-texture = ExtResource( 18 )
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="PlayerSelect" type="Sprite" parent="UI/SelectedArrow"]
-position = Vector2( 32, 15 )
-texture = ExtResource( 18 )
 
 [node name="ReinforceWait" type="Timer" parent="."]
 wait_time = 0.3

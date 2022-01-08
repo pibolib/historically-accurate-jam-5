@@ -9,18 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
-"class": "Hexagon",
-"language": "GDScript",
-"path": "res://game/MainGame/ControlHex/Hexagon.gd"
-}, {
 "base": "TileMap",
 "class": "Town",
 "language": "GDScript",
 "path": "res://game/Town/Town.gd"
 } ]
 _global_script_class_icons={
-"Hexagon": "",
 "Town": ""
 }
 
