@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://gfx/building_town_center.png" type="Texture" id=1]
 [ext_resource path="res://game/Town/Town.gd" type="Script" id=2]
@@ -6,6 +6,15 @@
 [ext_resource path="res://gfx/tile_ownership.png" type="Texture" id=4]
 [ext_resource path="res://font/UISmallFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://gfx/building_barracks.png" type="Texture" id=6]
+[ext_resource path="res://gfx/building_barracks_t2.png" type="Texture" id=7]
+[ext_resource path="res://gfx/building_elephant_pen.png" type="Texture" id=8]
+[ext_resource path="res://gfx/building_housing.png" type="Texture" id=9]
+[ext_resource path="res://gfx/building_housing_t2.png" type="Texture" id=10]
+[ext_resource path="res://gfx/building_storehouse_t2.png" type="Texture" id=11]
+[ext_resource path="res://gfx/building_storehouse.png" type="Texture" id=12]
+[ext_resource path="res://gfx/building_temple.png" type="Texture" id=13]
+[ext_resource path="res://gfx/building_school.png" type="Texture" id=14]
+[ext_resource path="res://gfx/building_monument.png" type="Texture" id=15]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tile_ownership.png 0"
@@ -39,7 +48,6 @@ margin_right = 64.0
 margin_bottom = 24.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
-text = "blah blah"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -102,39 +110,439 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="0" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 32, 32 )
-texture = ExtResource( 6 )
-
-[node name="1" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 96, 32 )
-texture = ExtResource( 6 )
-
-[node name="2" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 160, 32 )
-texture = ExtResource( 6 )
-
-[node name="3" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 224, 32 )
-texture = ExtResource( 6 )
-
-[node name="4" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 288, 32 )
-texture = ExtResource( 6 )
-
-[node name="5" type="Sprite" parent="UI/BarracksPanel/BarracksPanel2"]
-position = Vector2( 352, 32 )
-texture = ExtResource( 6 )
-
 [node name="ProgressBar" type="ProgressBar" parent="UI/BarracksPanel/BarracksPanel2"]
 anchor_right = 1.0
 anchor_bottom = 0.125
+margin_top = 48.0
 margin_right = -320.0
-margin_bottom = 6.0
+margin_bottom = 54.0
+max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="building_barracks" type="Sprite" parent="UI/BarracksPanel"]
-position = Vector2( 40, 24 )
+[node name="InProgress" type="Label" parent="UI/BarracksPanel/BarracksPanel2"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 376.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/BarracksPanel"]
+position = Vector2( 32, 32 )
 texture = ExtResource( 6 )
+
+[node name="SpriteT2" type="Sprite" parent="UI/BarracksPanel"]
+visible = false
+position = Vector2( 32, 32 )
+texture = ExtResource( 7 )
+
+[node name="ExitButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 344.0
+margin_top = 8.0
+margin_right = 379.0
+margin_bottom = 28.0
+hint_tooltip = "Exit this menu."
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 272.0
+margin_top = 8.0
+margin_right = 337.0
+margin_bottom = 28.0
+hint_tooltip = "Upgrade this building to Tier 2.
+ Tier 2 Barracks produce units twice as fast.
+Upgrading this will cost 10 population and 75 influence."
+text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 8.0
+margin_top = 136.0
+margin_right = 123.0
+margin_bottom = 156.0
+hint_tooltip = "Removes currently in progress unit. Refunds population cost."
+text = "Remove Current"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FootmenButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 128.0
+margin_top = 136.0
+margin_right = 226.0
+margin_bottom = 156.0
+hint_tooltip = "Add footmen to the production queue. Costs 1 population."
+text = "Add Footmen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ArchersButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 232.0
+margin_top = 136.0
+margin_right = 330.0
+margin_bottom = 156.0
+hint_tooltip = "Add archers to the production queue. Costs 1 population."
+text = "Add Archers"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CavalryButton" type="Button" parent="UI/BarracksPanel"]
+margin_left = 8.0
+margin_top = 160.0
+margin_right = 106.0
+margin_bottom = 180.0
+hint_tooltip = "Add cavalry to the production queue. Costs 2 population."
+text = "Add Cavalry"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="UI/BarracksPanel"]
+margin_left = 72.0
+margin_top = 28.0
+margin_right = 126.0
+margin_bottom = 42.0
+text = "Barracks"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reserves" type="Label" parent="UI/BarracksPanel"]
+margin_left = 128.0
+margin_top = 160.0
+margin_right = 376.0
+margin_bottom = 225.0
+text = "Reserves:
+Footmen: 0
+Archers: 0
+Cavalry: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InProgress" type="Label" parent="UI/BarracksPanel"]
+margin_left = 8.0
+margin_top = 56.0
+margin_right = 153.0
+margin_bottom = 70.0
+text = "Production In Progress"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Population" type="Label" parent="UI/BarracksPanel"]
+margin_left = 216.0
+margin_top = 160.0
+margin_right = 361.0
+margin_bottom = 174.0
+text = "Local Population:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ElephantPenPanel" type="Panel" parent="UI"]
+visible = false
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ElephantPenPanel" type="Panel" parent="UI/ElephantPenPanel"]
+modulate = Color( 0.643137, 0.643137, 0.643137, 1 )
+margin_top = 64.0
+margin_right = 384.0
+margin_bottom = 128.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/ElephantPenPanel/ElephantPenPanel"]
+anchor_right = 1.0
+anchor_bottom = 0.125
+margin_top = 48.0
+margin_right = -320.0
+margin_bottom = 54.0
+max_value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InProgress" type="Label" parent="UI/ElephantPenPanel/ElephantPenPanel"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 376.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/ElephantPenPanel"]
+position = Vector2( 40, 24 )
+texture = ExtResource( 8 )
+
+[node name="ExitButton" type="Button" parent="UI/ElephantPenPanel"]
+margin_left = 337.0
+margin_top = 8.0
+margin_right = 372.0
+margin_bottom = 28.0
+hint_tooltip = "Exit this menu."
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveButton" type="Button" parent="UI/ElephantPenPanel"]
+margin_left = 8.0
+margin_top = 136.0
+margin_right = 123.0
+margin_bottom = 156.0
+hint_tooltip = "Removes currently in progress unit. Refunds population cost."
+text = "Remove Current"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ElephantButton" type="Button" parent="UI/ElephantPenPanel"]
+margin_left = 128.0
+margin_top = 136.0
+margin_right = 226.0
+margin_bottom = 156.0
+hint_tooltip = "Add a War Elephant to the production queue. Costs 10 population and 20 food to produce."
+text = "Add War Elephant"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="UI/ElephantPenPanel"]
+margin_left = 80.0
+margin_top = 24.0
+margin_right = 163.0
+margin_bottom = 38.0
+text = "Elephant Pen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reserves" type="Label" parent="UI/ElephantPenPanel"]
+margin_left = 8.0
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 225.0
+text = "Reserves:
+War Elephants: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InProgress" type="Label" parent="UI/ElephantPenPanel"]
+margin_left = 8.0
+margin_top = 56.0
+margin_right = 153.0
+margin_bottom = 70.0
+text = "Production In Progress"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Population" type="Label" parent="UI/ElephantPenPanel"]
+margin_left = 226.0
+margin_top = 160.0
+margin_right = 371.0
+margin_bottom = 174.0
+text = "Local Population:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HousingPanel" type="Panel" parent="UI"]
+visible = false
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/HousingPanel"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 9 )
+
+[node name="SpriteT2" type="Sprite" parent="UI/HousingPanel"]
+visible = false
+position = Vector2( 32, 32 )
+texture = ExtResource( 10 )
+
+[node name="ExitButton" type="Button" parent="UI/HousingPanel"]
+margin_left = 337.0
+margin_top = 8.0
+margin_right = 372.0
+margin_bottom = 28.0
+hint_tooltip = "Exit this menu."
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeButton" type="Button" parent="UI/HousingPanel"]
+margin_left = 264.0
+margin_top = 8.0
+margin_right = 329.0
+margin_bottom = 28.0
+hint_tooltip = "Upgrade this building to Tier 2.
+Tier 2 Housing can hold 8 population instead of 4.
+Upgrading this will cost 10 population and 75 influence."
+text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="UI/HousingPanel"]
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 147.0
+margin_bottom = 38.0
+text = "Housing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StorehousePanel" type="Panel" parent="UI"]
+visible = false
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/StorehousePanel"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 12 )
+
+[node name="SpriteT2" type="Sprite" parent="UI/StorehousePanel"]
+visible = false
+position = Vector2( 32, 32 )
+texture = ExtResource( 11 )
+
+[node name="ExitButton" type="Button" parent="UI/StorehousePanel"]
+margin_left = 337.0
+margin_top = 8.0
+margin_right = 372.0
+margin_bottom = 28.0
+hint_tooltip = "Exit this menu."
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeButton" type="Button" parent="UI/StorehousePanel"]
+margin_left = 264.0
+margin_top = 8.0
+margin_right = 329.0
+margin_bottom = 28.0
+hint_tooltip = "Upgrade this building to Tier 2.
+Tier 2 Storehouses can hold 60 food instead of 30.
+Upgrading this will cost 10 population and 75 influence."
+text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="UI/StorehousePanel"]
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 147.0
+margin_bottom = 38.0
+text = "Storehouse"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MonumentPanel" type="Panel" parent="UI"]
+visible = false
+margin_left = 128.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/MonumentPanel"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 15 )
+
+[node name="SpriteT2" type="Sprite" parent="UI/MonumentPanel"]
+visible = false
+position = Vector2( 32, 32 )
+texture = ExtResource( 13 )
+
+[node name="SpriteT3" type="Sprite" parent="UI/MonumentPanel"]
+visible = false
+position = Vector2( 32, 32 )
+texture = ExtResource( 14 )
+
+[node name="ExitButton" type="Button" parent="UI/MonumentPanel"]
+margin_left = 337.0
+margin_top = 8.0
+margin_right = 372.0
+margin_bottom = 28.0
+hint_tooltip = "Exit this menu."
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpgradeButton" type="Button" parent="UI/MonumentPanel"]
+margin_left = 264.0
+margin_top = 8.0
+margin_right = 329.0
+margin_bottom = 28.0
+hint_tooltip = "Upgrade this building to a Temple.
+Temples can hold up to 25 influence instead of 10.
+Upgrading this will cost 10 population and 75 influence."
+text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="UI/MonumentPanel"]
+margin_left = 64.0
+margin_top = 24.0
+margin_right = 147.0
+margin_bottom = 38.0
+text = "Monument"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="UI/BarracksPanel/ExitButton" to="." method="_on_BarracksExitButton_pressed"]
+[connection signal="pressed" from="UI/BarracksPanel/UpgradeButton" to="." method="_on_BarracksUpgradeButton_pressed"]
+[connection signal="pressed" from="UI/BarracksPanel/RemoveButton" to="." method="_on_BarracksRemoveButton_pressed"]
+[connection signal="pressed" from="UI/BarracksPanel/FootmenButton" to="." method="_on_BarracksFootmenButton_pressed"]
+[connection signal="pressed" from="UI/BarracksPanel/ArchersButton" to="." method="_on_BarracksArchersButton_pressed"]
+[connection signal="pressed" from="UI/BarracksPanel/CavalryButton" to="." method="_on_BarracksCavalryButton_pressed"]
+[connection signal="pressed" from="UI/ElephantPenPanel/ExitButton" to="." method="_on_ElephantPenExitButton_pressed"]
+[connection signal="pressed" from="UI/ElephantPenPanel/RemoveButton" to="." method="_on_ElephantPenRemoveButton_pressed"]
+[connection signal="pressed" from="UI/ElephantPenPanel/ElephantButton" to="." method="_on_ElephantPenElephantButton_pressed"]
+[connection signal="pressed" from="UI/HousingPanel/ExitButton" to="." method="_on_HousingExitButton_pressed"]
+[connection signal="pressed" from="UI/HousingPanel/UpgradeButton" to="." method="_on_HousingUpgradeButton_pressed"]
+[connection signal="pressed" from="UI/StorehousePanel/ExitButton" to="." method="_on_StorehouseExitButton_pressed"]
+[connection signal="pressed" from="UI/StorehousePanel/UpgradeButton" to="." method="_on_StorehouseUpgradeButton_pressed"]
+[connection signal="pressed" from="UI/MonumentPanel/ExitButton" to="." method="_on_MonumentExitButton_pressed"]
+[connection signal="pressed" from="UI/MonumentPanel/UpgradeButton" to="." method="_on_MonumentUpgradeButton_pressed"]

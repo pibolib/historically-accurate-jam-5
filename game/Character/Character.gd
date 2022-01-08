@@ -9,7 +9,21 @@ export(int,1,5) var influence = 3
 export(int,1,5) var construction = 1
 export(int,1,5) var command = 2
 export var sprite = preload("res://icon.png")
-var previewsprites = [preload("res://gfx/tile_rice_3.png"),-1,preload("res://gfx/building_fishingboat.png"),preload("res://gfx/building_housing.png"),preload("res://gfx/building_barracks.png")]
+var previewsprites = [
+	preload("res://gfx/tile_rice_3.png"),
+	-1,
+	preload("res://gfx/building_fishingboat.png"),
+	preload("res://gfx/building_housing.png"),
+	preload("res://gfx/building_barracks.png"),
+	-1,
+	-1,
+	-1,
+	-1,
+	preload("res://gfx/building_elephant_pen.png"),
+	preload("res://gfx/building_storehouse.png"),
+	-1,
+	preload("res://gfx/building_monument.png")
+	]
 var deletesprite = preload("res://gfx/occupied_tile.png")
 var army = 0
 var footmen = 3
@@ -28,19 +42,6 @@ enum PLAYER_ACTION {
 	IDLE, MOVE, BUILD, REMOVE, REINFORCE, REINFORCE_CHOOSE
 }
 
-enum {
-	T_GRASS = 0, 
-	T_SAND = 1, 
-	T_WATER = 10, 
-	T_DIRT = 2, 
-	T_ROCK = 4,
-	T_GRAVEL = 5,
-	T_DARK_GRASS = 7
-} # tile types, building types, special tiles
-enum {
-	B_RICE_PADDY_L1, B_OCCUPIED_X, B_FISHING_BOAT, B_HOUSING, B_BARRACKS, B_GUARD_TOWER,
-	B_ELEPHANT_PEN, B_STOREHOUSE, B_TEMPLE, B_MONUMENT, B_SCHOOL
-}
 onready var floor_map = get_parent().get_node("FloorMap")
 onready var building_map = get_parent().get_node("BuildingMap")
 
@@ -78,19 +79,17 @@ func _process(delta):
 	$SpritePreview.position = building_map.map_to_world(Global.get_mouse_tile())-position+$Sprite.position+Vector2(0,8)
 	if xp >= 100 and rank < 5:
 		level_up()
-	if mode != PLAYER_ACTION.IDLE:
-		selected = true
-		Global.player_is_selected = true
-		$SpritePreview.visible = true
-	else:
+	if !selected:
 		$SpritePreview.visible = false
+	else:
+		$SpritePreview.visible = true
 	if mode == PLAYER_ACTION.BUILD:
 		if build_selected != -1 or build_selected == -99:
 			if build_selected != -99:
 				$SpritePreview.texture = previewsprites[build_selected]
 				if check_valid_build(Global.get_mouse_tile(), build_selected):
 					$SpritePreview.modulate = Color(0,1,0,0.7)
-					if Input.is_action_just_pressed("action_lc"):
+					if Input.is_action_just_pressed("action_rc"):
 						building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,build_selected)
 						var towns = get_parent().get_node("Towns")
 						for town in towns.get_children():
@@ -108,7 +107,7 @@ func _process(delta):
 						if town.ownership == 0: #player ownership
 							if town.owned_tiles.has(Global.get_mouse_tile()) and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != -1 and building_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y) != 1:
 								$SpritePreview.modulate = Color(0,1,0,0.7)
-								if Input.is_action_just_pressed("action_lc"):
+								if Input.is_action_just_pressed("action_rc"):
 									building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,-1)
 									for building in town.buildings:
 										if building.Position == Global.get_mouse_tile():
@@ -117,16 +116,13 @@ func _process(delta):
 											break
 							else:
 								$SpritePreview.modulate = Color(1,0,0,0.7)
-				
-
 		else:
 			$SpritePreview.visible = false
 	elif mode == PLAYER_ACTION.MOVE:
 		$SpritePreview.texture = sprite
-		$UI/Panel/MoveButton.text = "Cancel"
 		var movement_data = test_movement(Global.get_mouse_tile())
 		if movement_data.Cost <= ap and movement_data.CanMove:
-			if Input.is_action_just_pressed("action_lc"):
+			if Input.is_action_just_pressed("action_rc"):
 				tile_pos = Global.get_mouse_tile()
 				ap -= movement_data.Cost
 				position = floor_map.map_to_world(tile_pos)
@@ -137,7 +133,7 @@ func _process(delta):
 		$UI/Panel/ReinforceButton.text = "Cancel"
 		if check_valid_barracks(Global.get_mouse_tile()):
 			$SpritePreview.modulate = Color(0,1,0,0.7)
-			if Input.is_action_just_pressed("action_lc"):
+			if Input.is_action_just_pressed("action_rc"):
 				selected_military_source = Global.get_mouse_tile()
 				mode = PLAYER_ACTION.REINFORCE
 				$UI/Panel/ReinforceButton.text = "Army"
@@ -145,12 +141,35 @@ func _process(delta):
 			$SpritePreview.modulate = Color(1,0,0,0.7)
 	elif mode == PLAYER_ACTION.REINFORCE:
 		var barracksinfo = get_building_data(selected_military_source)
-		$UI/ReinforceMenu/Footman/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
-		$UI/ReinforceMenu/Archer/Quantity.text = String(barracksinfo.Holding[1]).pad_zeros(2)
-		$UI/ReinforceMenu/Cavalry/Quantity.text = String(barracksinfo.Holding[2]).pad_zeros(2)
+		match barracksinfo.Type:
+			Global.B_BARRACKS, Global.B_BARRACKS_T2:
+				$UI/ReinforceMenu/Footman/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
+				$UI/ReinforceMenu/Archer/Quantity.text = String(barracksinfo.Holding[1]).pad_zeros(2)
+				$UI/ReinforceMenu/Cavalry/Quantity.text = String(barracksinfo.Holding[2]).pad_zeros(2)
+				$UI/ReinforceMenu/Elephants/Quantity.text = "00"
+				$UI/ReinforceMenu/Footman/Deposit.disabled = !(footmen > 0)
+				$UI/ReinforceMenu/Footman/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
+				$UI/ReinforceMenu/Archer/Deposit.disabled = !(archers > 0)
+				$UI/ReinforceMenu/Archer/Withdraw.disabled = !(barracksinfo.Holding[1] > 0 and army < max_army)
+				$UI/ReinforceMenu/Cavalry/Deposit.disabled = !(cavalry > 0)
+				$UI/ReinforceMenu/Cavalry/Withdraw.disabled = !(barracksinfo.Holding[2] > 0 and army < max_army)
+				$UI/ReinforceMenu/Elephants/Deposit.disabled = true
+				$UI/ReinforceMenu/Elephants/Withdraw.disabled = true
+			Global.B_ELEPHANT_PEN:
+				$UI/ReinforceMenu/Footman/Quantity.text = "00"
+				$UI/ReinforceMenu/Archer/Quantity.text = "00"
+				$UI/ReinforceMenu/Cavalry/Quantity.text = "00"
+				$UI/ReinforceMenu/Elephants/Quantity.text = String(barracksinfo.Holding[0]).pad_zeros(2)
+				$UI/ReinforceMenu/Footman/Deposit.disabled = true
+				$UI/ReinforceMenu/Footman/Withdraw.disabled = true
+				$UI/ReinforceMenu/Archer/Deposit.disabled = true
+				$UI/ReinforceMenu/Archer/Withdraw.disabled = true
+				$UI/ReinforceMenu/Cavalry/Deposit.disabled = true
+				$UI/ReinforceMenu/Cavalry/Withdraw.disabled = true
+				$UI/ReinforceMenu/Elephants/Deposit.disabled = !(elephants > 0)
+				$UI/ReinforceMenu/Elephants/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
 	else:
 		$UI/Panel/ReinforceButton.text = "Army"
-		$UI/Panel/MoveButton.text = "Move"
 	#print(floor_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y))
 
 func level_up():
@@ -174,7 +193,6 @@ func level_up():
 			skill_pts = 0
 	xp -= 100
 	max_army = 3000*command
-	print("Level up!")
 
 func check_valid_build(location, type):
 	if building_map.get_cell(location.x,location.y) != -1:
@@ -187,14 +205,17 @@ func check_valid_build(location, type):
 				if town.owned_tiles.has(tile_pos):
 					if town.owned_tiles.has(location):
 						match type:
-							B_RICE_PADDY_L1:
-								if floor_tile != T_WATER and floor_tile != T_GRAVEL and floor_tile != T_ROCK:
+							Global.B_RICE_PADDY:
+								if floor_tile != Global.T_WATER and floor_tile != Global.T_GRAVEL and floor_tile != Global.T_ROCK:
 									return true
-							B_FISHING_BOAT:
-								if floor_tile == T_WATER:
+							Global.B_FISHING_BOAT:
+								if floor_tile == Global.T_WATER:
 									return true
-							B_BARRACKS, B_HOUSING:
-								if floor_tile != T_WATER:
+							Global.B_BARRACKS, Global.B_HOUSING, Global.B_MONUMENT, Global.B_STOREHOUSE:
+								if floor_tile != Global.T_WATER:
+									return true
+							Global.B_ELEPHANT_PEN:
+								if floor_tile == Global.T_GRASS or floor_tile == Global.T_DARK_GRASS:
 									return true
 	return false
 	
@@ -207,7 +228,7 @@ func check_valid_barracks(location):
 					var town_buildings = town.buildings
 					var valid_barracks_locs = []
 					for building in town_buildings:
-						if building.Type == Global.B_BARRACKS:
+						if building.Type == Global.B_BARRACKS or building.Type == Global.B_BARRACKS_T2 or building.Type == Global.B_ELEPHANT_PEN:
 							valid_barracks_locs.append(building.Position)
 					if valid_barracks_locs.has(location):
 						return true
@@ -275,12 +296,11 @@ func test_movement(pos):
 							current_pos.y -= 1
 			distance += 1
 			var current_cell = floor_map.get_cell(current_pos.x,current_pos.y)
-			if current_cell != T_WATER:
+			if current_cell != Global.T_WATER:
 				cost += 1
 			else:
 				cost += 2
-		print("AP Cost: "+String(cost)+", Distance: "+String(distance))
-		if floor_map.get_cell(goal_pos.x,goal_pos.y) == T_WATER:
+		if floor_map.get_cell(goal_pos.x,goal_pos.y) == Global.T_WATER:
 			movement_data.CanMove = false
 		movement_data.Cost = cost
 		movement_data.Distance = distance
@@ -288,39 +308,31 @@ func test_movement(pos):
 		
 func _on_mouse_click(pos):
 	var pos_match = (pos == tile_pos)
-	if pos_match:
+	if pos_match and Global.display_type == Global.display.NONE:
 		selected = true
-		Global.player_is_selected = true
-	if Global.get_mouse_pos().y < 256:
+		Global.display_type = Global.display.PLAYER
+		mode = PLAYER_ACTION.MOVE
+		$SpritePreview.visible = true
+	if Global.get_mouse_pos().y < 256 and Global.display_type == Global.display.PLAYER:
 		match mode:
-			PLAYER_ACTION.IDLE:
+			PLAYER_ACTION.MOVE:
 				if !pos_match:
 					selected = false
-					Global.player_is_selected = false
-
+					Global.display_type = Global.display.NONE
 
 func _on_ReinforceButton_pressed():
-	if mode == PLAYER_ACTION.IDLE:
+	if mode == PLAYER_ACTION.MOVE:
 		mode = PLAYER_ACTION.REINFORCE_CHOOSE
 	else:
-		mode = PLAYER_ACTION.IDLE
-
+		mode = PLAYER_ACTION.MOVE
 
 
 func _on_RemoveButton_pressed():
 	mode = PLAYER_ACTION.REMOVE
 
 
-
 func _on_BuildButton_pressed():
 	mode = PLAYER_ACTION.BUILD
-
-
-func _on_MoveButton_pressed():
-	if mode == PLAYER_ACTION.IDLE:
-		mode = PLAYER_ACTION.MOVE
-	else:
-		mode = PLAYER_ACTION.IDLE
 
 func _on_BuildMenuAction_pressed(type):
 #	if building_map.get_cell(tile_pos.x,tile_pos.y) == -1:
@@ -328,16 +340,8 @@ func _on_BuildMenuAction_pressed(type):
 	build_selected = type
 
 
-func _on_Panel_mouse_entered():
-	$SpritePreview.visible = false
-
-
-func _on_Panel_mouse_exited():
-	$SpritePreview.visible = true
-
-
 func _on_BuildBackButton_pressed():
-	mode = PLAYER_ACTION.IDLE
+	mode = PLAYER_ACTION.MOVE
 	build_selected = -1
 	selected = true
 	$UI/Panel.visible = selected
@@ -347,11 +351,10 @@ func _on_end_turn(player):
 
 
 func _on_ReinforceBackButton_pressed():
-	mode = PLAYER_ACTION.IDLE
+	mode = PLAYER_ACTION.MOVE
 	selected_military_source = -1
 	selected = true
 	$UI/Panel.visible = selected
-
 
 func _on_FootmanDeposit_pressed():
 	var barracksinfo = get_building_data(selected_military_source)
@@ -393,6 +396,19 @@ func _on_CavalryWithdraw_pressed():
 		cavalry += 1
 		barracksinfo.Holding[2] -= 1
 
-
 func _on_DestroyButton_pressed():
 	build_selected = -99
+
+
+func _on_ElephantDeposit_pressed():
+	var barracksinfo = get_building_data(selected_military_source)
+	if elephants > 0:
+		elephants -= 1
+		barracksinfo.Holding[0] += 1
+
+
+func _on_ElephantWithdraw_pressed():
+	var barracksinfo = get_building_data(selected_military_source)
+	if footmen + archers + cavalry + elephants < max_army and barracksinfo.Holding[0] > 0:
+		elephants += 1
+		barracksinfo.Holding[0] -= 1

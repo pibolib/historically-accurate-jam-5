@@ -14,7 +14,7 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Base" type="TileMap" parent="."]
-cell_size = Vector2( 64, 48 )
+cell_size = Vector2( 64, 40 )
 cell_half_offset = 0
 format = 1
 
@@ -25,6 +25,15 @@ layer = 2
 margin_right = 78.0
 margin_bottom = 48.0
 text = "END TURN"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI"]
+margin_left = 82.1354
+margin_top = 2.67571
+margin_right = 122.135
+margin_bottom = 16.6757
 __meta__ = {
 "_edit_use_anchors_": false
 }

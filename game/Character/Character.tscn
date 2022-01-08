@@ -1,9 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://game/Character/Character.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://font/UIFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://gfx/sister1.png" type="Texture" id=4]
+[ext_resource path="res://gfx/occupied_tile.png" type="Texture" id=5]
+[ext_resource path="res://gfx/building_housing.png" type="Texture" id=6]
+[ext_resource path="res://gfx/building_fishingboat.png" type="Texture" id=7]
+[ext_resource path="res://gfx/building_barracks.png" type="Texture" id=8]
+[ext_resource path="res://gfx/building_elephant_pen.png" type="Texture" id=9]
+[ext_resource path="res://gfx/tile_rice_0.png" type="Texture" id=10]
+[ext_resource path="res://gfx/building_storehouse.png" type="Texture" id=11]
+[ext_resource path="res://gfx/building_monument.png" type="Texture" id=12]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -62,21 +70,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MoveButton" type="Button" parent="UI/Panel"]
+[node name="BuildButton" type="Button" parent="UI/Panel"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 120.0
-margin_bottom = 72.0
-hint_tooltip = "Click on a valid location (green preview) to move."
-text = "Move"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BuildButton" type="Button" parent="UI/Panel"]
-margin_left = 136.0
-margin_top = 8.0
-margin_right = 248.0
 margin_bottom = 72.0
 hint_tooltip = "Choose a building, then choose a location to build."
 text = "Build"
@@ -85,20 +82,12 @@ __meta__ = {
 }
 
 [node name="ReinforceButton" type="Button" parent="UI/Panel"]
-margin_left = 264.0
+margin_left = 136.0
 margin_top = 8.0
-margin_right = 376.0
+margin_right = 248.0
 margin_bottom = 72.0
 hint_tooltip = "Choose a Barracks or Elephant Pen to reinforce from."
 text = "Reinforce"
-
-[node name="RemoveButton" type="Button" parent="UI/Panel"]
-margin_left = 392.0
-margin_top = 8.0
-margin_right = 504.0
-margin_bottom = 72.0
-hint_tooltip = "Choose a building to remove."
-text = "Remove"
 
 [node name="ReinforceMenu" type="Panel" parent="UI"]
 visible = false
@@ -130,6 +119,7 @@ margin_left = 88.0
 margin_top = 8.0
 margin_right = 160.0
 margin_bottom = 32.0
+hint_tooltip = "Deposit one footman unit at the selected location."
 text = "Deposit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -140,6 +130,7 @@ margin_left = 88.0
 margin_top = 48.0
 margin_right = 160.0
 margin_bottom = 72.0
+hint_tooltip = "Withdraw one footman unit from the selected location."
 text = "Withdraw"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -181,6 +172,7 @@ margin_left = 88.0
 margin_top = 8.0
 margin_right = 160.0
 margin_bottom = 32.0
+hint_tooltip = "Deposit one archer unit at the selected location."
 text = "Deposit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -191,6 +183,7 @@ margin_left = 88.0
 margin_top = 48.0
 margin_right = 160.0
 margin_bottom = 72.0
+hint_tooltip = "Withdraw one archer unit from the selected location."
 text = "Withdraw"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -232,6 +225,7 @@ margin_left = 88.0
 margin_top = 8.0
 margin_right = 160.0
 margin_bottom = 32.0
+hint_tooltip = "Deposit one cavalry unit at the selected location."
 text = "Deposit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -242,6 +236,7 @@ margin_left = 88.0
 margin_top = 48.0
 margin_right = 160.0
 margin_bottom = 72.0
+hint_tooltip = "Withdraw one cavalry unit from the selected location."
 text = "Withdraw"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -270,7 +265,61 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Elephants" type="Control" parent="UI/ReinforceMenu"]
+margin_left = 472.0
+margin_right = 512.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Deposit" type="Button" parent="UI/ReinforceMenu/Elephants"]
+margin_left = 88.0
+margin_top = 8.0
+margin_right = 160.0
+margin_bottom = 32.0
+hint_tooltip = "Deposit one elephant at the selected location."
+text = "Deposit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Withdraw" type="Button" parent="UI/ReinforceMenu/Elephants"]
+margin_left = 88.0
+margin_top = 48.0
+margin_right = 160.0
+margin_bottom = 72.0
+hint_tooltip = "Withdraw one elephant unit from the selected location."
+text = "Withdraw"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/ReinforceMenu/Elephants"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 80.0
+margin_bottom = 24.0
+text = "Elephants"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="UI/ReinforceMenu/Elephants"]
+margin_left = 8.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 3 )
+text = "00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="BuildMenu" type="Panel" parent="UI"]
+visible = false
 margin_top = 280.0
 margin_right = 640.0
 margin_bottom = 360.0
@@ -289,48 +338,116 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="tile_rice_0" type="Sprite" parent="UI/BuildMenu/RicePaddy"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 10 )
+
 [node name="FishingBoat" type="Button" parent="UI/BuildMenu"]
-margin_left = 88.0
+margin_left = 80.0
 margin_top = 8.0
-margin_right = 152.0
+margin_right = 144.0
 margin_bottom = 72.0
 hint_tooltip = "A setup for fishing in the nearby waters. Produces 1 food per turn."
-text = "Fishing"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="building_fishingboat" type="Sprite" parent="UI/BuildMenu/FishingBoat"]
+position = Vector2( 32, 24 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
 
 [node name="Barracks" type="Button" parent="UI/BuildMenu"]
-margin_left = 168.0
+margin_left = 152.0
 margin_top = 8.0
-margin_right = 232.0
+margin_right = 216.0
 margin_bottom = 72.0
 hint_tooltip = "Training facilities for military troops. Allows for the production of footmen, archers, and cavalry."
-text = "Army"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="building_barracks" type="Sprite" parent="UI/BuildMenu/Barracks"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 8 )
+
 [node name="Housing" type="Button" parent="UI/BuildMenu"]
-margin_left = 248.0
+margin_left = 224.0
 margin_top = 8.0
-margin_right = 312.0
+margin_right = 288.0
 margin_bottom = 72.0
 hint_tooltip = "General Housing. Increases maximum population by 4, produces 1 population every 2 turns."
-text = "Housing"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="building_housing" type="Sprite" parent="UI/BuildMenu/Housing"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 6 )
+
+[node name="Storehouse" type="Button" parent="UI/BuildMenu"]
+margin_left = 296.0
+margin_top = 8.0
+margin_right = 360.0
+margin_bottom = 72.0
+hint_tooltip = "Stores food for long periods of time. Increases maximum food by 30."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="building_storehouse" type="Sprite" parent="UI/BuildMenu/Storehouse"]
+position = Vector2( 32, 24 )
+texture = ExtResource( 11 )
+
+[node name="Elephant" type="Button" parent="UI/BuildMenu"]
+margin_left = 368.0
+margin_top = 8.0
+margin_right = 432.0
+margin_bottom = 72.0
+hint_tooltip = "Facilities used to raise elephants for use in war. 
+Allows for production of War Elephants."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="building_elephant_pen" type="Sprite" parent="UI/BuildMenu/Elephant"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 8.24411, 29.2487, 46.7784, 27.3731 )
+
+[node name="Monument" type="Button" parent="UI/BuildMenu"]
+margin_left = 440.0
+margin_top = 8.0
+margin_right = 504.0
+margin_bottom = 72.0
+hint_tooltip = "A small monument. Increases the maximum local influence by 10, 
+increases influence per turn by 5."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="building_monument" type="Sprite" parent="UI/BuildMenu/Monument"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 12 )
+region_rect = Rect2( 8.24411, 29.2487, 46.7784, 27.3731 )
 
 [node name="DestroyButton" type="Button" parent="UI/BuildMenu"]
 margin_left = 568.0
 margin_top = 8.0
 margin_right = 632.0
 margin_bottom = 72.0
-text = "Destroy"
+hint_tooltip = "Remove an existing building or environmental element."
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="occupied_tile" type="Sprite" parent="UI/BuildMenu/DestroyButton"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 48 )
 
 [node name="BackButton" type="Button" parent="UI/BuildMenu"]
 margin_left = 8.0
@@ -349,6 +466,7 @@ __meta__ = {
 }
 
 [node name="SelectedArrow" type="Line2D" parent="."]
+visible = false
 position = Vector2( 0, -7 )
 points = PoolVector2Array( 16, -24, 48, -24, 32, -16, 16, -24 )
 width = 3.0
@@ -357,12 +475,8 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[connection signal="mouse_entered" from="UI/Panel" to="." method="_on_Panel_mouse_entered"]
-[connection signal="mouse_exited" from="UI/Panel" to="." method="_on_Panel_mouse_exited"]
-[connection signal="pressed" from="UI/Panel/MoveButton" to="." method="_on_MoveButton_pressed"]
 [connection signal="pressed" from="UI/Panel/BuildButton" to="." method="_on_BuildButton_pressed"]
 [connection signal="pressed" from="UI/Panel/ReinforceButton" to="." method="_on_ReinforceButton_pressed"]
-[connection signal="pressed" from="UI/Panel/RemoveButton" to="." method="_on_RemoveButton_pressed"]
 [connection signal="pressed" from="UI/ReinforceMenu/BackButton" to="." method="_on_ReinforceBackButton_pressed"]
 [connection signal="pressed" from="UI/ReinforceMenu/Footman/Deposit" to="." method="_on_FootmanDeposit_pressed"]
 [connection signal="pressed" from="UI/ReinforceMenu/Footman/Withdraw" to="." method="_on_FootmanWithdraw_pressed"]
@@ -370,9 +484,14 @@ end_cap_mode = 2
 [connection signal="pressed" from="UI/ReinforceMenu/Archer/Withdraw" to="." method="_on_ArcherWithdraw_pressed"]
 [connection signal="pressed" from="UI/ReinforceMenu/Cavalry/Deposit" to="." method="_on_CavalryDeposit_pressed"]
 [connection signal="pressed" from="UI/ReinforceMenu/Cavalry/Withdraw" to="." method="_on_CavalryWithdraw_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Elephants/Deposit" to="." method="_on_ElephantDeposit_pressed"]
+[connection signal="pressed" from="UI/ReinforceMenu/Elephants/Withdraw" to="." method="_on_ElephantWithdraw_pressed"]
 [connection signal="pressed" from="UI/BuildMenu/RicePaddy" to="." method="_on_BuildMenuAction_pressed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/BuildMenu/FishingBoat" to="." method="_on_BuildMenuAction_pressed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/BuildMenu/Barracks" to="." method="_on_BuildMenuAction_pressed" binds= [ 4 ]]
 [connection signal="pressed" from="UI/BuildMenu/Housing" to="." method="_on_BuildMenuAction_pressed" binds= [ 3 ]]
+[connection signal="pressed" from="UI/BuildMenu/Storehouse" to="." method="_on_BuildMenuAction_pressed" binds= [ 10 ]]
+[connection signal="pressed" from="UI/BuildMenu/Elephant" to="." method="_on_BuildMenuAction_pressed" binds= [ 9 ]]
+[connection signal="pressed" from="UI/BuildMenu/Monument" to="." method="_on_BuildMenuAction_pressed" binds= [ 12 ]]
 [connection signal="pressed" from="UI/BuildMenu/DestroyButton" to="." method="_on_DestroyButton_pressed"]
 [connection signal="pressed" from="UI/BuildMenu/BackButton" to="." method="_on_BuildBackButton_pressed"]

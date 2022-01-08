@@ -4,15 +4,44 @@ var turn = 0 #0: player, 1: enemy
 signal end_turn(player)
 signal mouse_click_world(tilepos)
 var selected_tile = -1
-var player_is_selected = false
+enum display {
+	NONE, 
+	PLAYER, 
+	POPUP,
+	SMALL_BUTTON
+}
+var display_type = display.NONE
 
 enum {
-	B_RICE_PADDY_L1, B_OCCUPIED_X, B_FISHING_BOAT, B_HOUSING, B_BARRACKS, B_GUARD_TOWER,
-	B_ELEPHANT_PEN, B_STOREHOUSE, B_TEMPLE, B_MONUMENT, B_SCHOOL
+	T_GRASS = 0, 
+	T_SAND = 1, 
+	T_WATER = 10, 
+	T_DIRT = 2, 
+	T_ROCK = 4,
+	T_GRAVEL = 5,
+	T_DARK_GRASS = 7
+} # tile types, building types, special tiles
+enum {
+	B_RICE_PADDY = 0, 
+	B_OCCUPIED_X = 1, 
+	B_FISHING_BOAT = 2, 
+	B_HOUSING = 3, 
+	B_BARRACKS = 4, 
+	B_ENV_FOREST1 = 5,
+	B_ENV_FOREST2 = 6,
+	B_BARRACKS_T2 = 7,
+	B_HOUSING_T2 = 8,
+	B_ELEPHANT_PEN = 9, 
+	B_STOREHOUSE = 10
+	B_STOREHOUSE_T2 = 11, 
+	B_MONUMENT = 12, 
+	B_TEMPLE = 13, 
+	B_SCHOOL = 14,
+	B_NULL = 999
 }
 
-var rice_paddy_l1 = {
-	"Type": B_RICE_PADDY_L1,
+var rice_paddy = {
+	"Type": B_RICE_PADDY,
 	"Position": Vector2(0,0),
 	"Name": "Rice Paddy (Tier 1)",
 	"Description": "A place where rice is cultivated. Produces 5 food every 4 turns.",
@@ -40,11 +69,11 @@ var barracks = {
 	"Name": "Barracks (Tier 1)",
 	"Description": "Training facilities for military troops. Allows for the production of footmen, archers, and cavalry.",
 	"InProduction": [],
-	"Holding": [5,10,15]
+	"Holding": [0,0,0]
 }
 
 var guard_tower = {
-	"Type": B_GUARD_TOWER,
+	"Type": B_NULL,
 	"Position": Vector2(0,0),
 	"Name": "Guard Tower",
 	"Description": "Tower from which a large stretch of land can be seen. Houses military forces not in active use.",
@@ -57,7 +86,7 @@ var elephant_pen = {
 	"Name": "Elephant Pen",
 	"Description": "Facilities used to raise elephants for use in war. Allows for production of War Elephants.",
 	"InProduction": [],
-	"Holding": []
+	"Holding": [0]
 }
 
 var storehouse = {
@@ -92,14 +121,13 @@ var school = {
 func _ready():
 	connect("end_turn",self,"_on_end_turn")
 
-
 func _process(delta):
 	$Mouse.position = get_viewport().get_mouse_position()
 	if Input.is_action_just_pressed("action_endturn") and turn == 0:
 		emit_signal("end_turn",0)
 	if Input.is_action_just_pressed("action_lc"):
 		emit_signal("mouse_click_world",$Base.world_to_map($Mouse.position))
-		print("Mouse click at "+String($Base.world_to_map($Mouse.position)))
+	$UI/Label.text = String(display_type)
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))
