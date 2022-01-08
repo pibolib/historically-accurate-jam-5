@@ -27,9 +27,9 @@ var previewsprites = [
 	]
 var deletesprite = preload("res://gfx/occupied_tile.png")
 var army = 0
-var footmen = 3
-var archers = 1
-var cavalry = 1
+var footmen = 0
+var archers = 0
+var cavalry = 0
 var elephants = 0
 var max_army = 0
 var tile_pos = Vector2(0,0)
@@ -60,6 +60,7 @@ func _ready():
 	Global.connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
+	Global.player_positions.append(tile_pos)
 	$Name.visible = (Global.zoom_value <= 1)
 	army = footmen + archers + cavalry + elephants
 	$UI/Panel.visible = selected
@@ -371,7 +372,8 @@ func _on_BuildBackButton_pressed():
 	$UI/Panel.visible = selected
 
 func _on_end_turn(player):
-	ap = max_ap
+	if player == 0:
+		ap = max_ap
 
 
 func _on_ReinforceBackButton_pressed():
