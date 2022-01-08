@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://game/Character/Character.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -19,11 +19,14 @@
 [ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=17]
 [ext_resource path="res://font/UIFontNoOutline.tres" type="DynamicFont" id=18]
 [ext_resource path="res://gfx/playerSelect.png" type="Texture" id=19]
+[ext_resource path="res://gfx/food.png" type="Texture" id=20]
+[ext_resource path="res://gfx/influence.png" type="Texture" id=21]
+[ext_resource path="res://gfx/population.png" type="Texture" id=22]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=2]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.682353, 0.635294, 0.584314, 0.67451 )
@@ -124,12 +127,11 @@ visible = false
 position = Vector2( 32, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource( 8 )
+shape = SubResource( 2 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Panel" type="Panel" parent="UI"]
-visible = false
 margin_top = 280.0
 margin_right = 640.0
 margin_bottom = 360.0
@@ -154,6 +156,60 @@ __meta__ = {
 position = Vector2( 32, 32 )
 texture = ExtResource( 10 )
 
+[node name="food" type="Sprite" parent="UI/Panel/RicePaddy"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/RicePaddy/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "2"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/RicePaddy"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/RicePaddy/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "2"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/RicePaddy"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/RicePaddy/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "20"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="FishingBoat" type="Button" parent="UI/Panel"]
 margin_left = 80.0
 margin_top = 8.0
@@ -170,6 +226,60 @@ texture = ExtResource( 7 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 64 )
 
+[node name="food" type="Sprite" parent="UI/Panel/FishingBoat"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/FishingBoat/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/FishingBoat"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/FishingBoat/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/FishingBoat"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/FishingBoat/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "20"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Barracks" type="Button" parent="UI/Panel"]
 margin_left = 152.0
 margin_top = 8.0
@@ -184,11 +294,66 @@ __meta__ = {
 position = Vector2( 32, 32 )
 texture = ExtResource( 8 )
 
+[node name="food" type="Sprite" parent="UI/Panel/Barracks"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/Barracks/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "5"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/Barracks"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/Barracks/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "5"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/Barracks"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/Barracks/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "50"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Housing" type="Button" parent="UI/Panel"]
 margin_left = 224.0
 margin_top = 8.0
 margin_right = 288.0
 margin_bottom = 72.0
+rect_pivot_offset = Vector2( -8, 40 )
 hint_tooltip = "General Housing. Increases maximum population by 4, produces 1 population every 2 turns."
 __meta__ = {
 "_edit_use_anchors_": false
@@ -198,11 +363,66 @@ __meta__ = {
 position = Vector2( 32, 32 )
 texture = ExtResource( 6 )
 
+[node name="food" type="Sprite" parent="UI/Panel/Housing"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/Housing/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/Housing"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/Housing/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/Housing"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/Housing/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "30"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Storehouse" type="Button" parent="UI/Panel"]
 margin_left = 296.0
 margin_top = 8.0
 margin_right = 360.0
 margin_bottom = 72.0
+rect_pivot_offset = Vector2( 8, 40 )
 hint_tooltip = "Stores food for long periods of time. Increases maximum food by 30."
 __meta__ = {
 "_edit_use_anchors_": false
@@ -211,6 +431,60 @@ __meta__ = {
 [node name="building_storehouse" type="Sprite" parent="UI/Panel/Storehouse"]
 position = Vector2( 32, 24 )
 texture = ExtResource( 11 )
+
+[node name="food" type="Sprite" parent="UI/Panel/Storehouse"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/Storehouse/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "5"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/Storehouse"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/Storehouse/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "2"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/Storehouse"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/Storehouse/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "40"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Elephant" type="Button" parent="UI/Panel"]
 margin_left = 368.0
@@ -229,11 +503,66 @@ texture = ExtResource( 9 )
 region_enabled = true
 region_rect = Rect2( 8.24411, 29.2487, 46.7784, 27.3731 )
 
+[node name="food" type="Sprite" parent="UI/Panel/Elephant"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/Elephant/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "10"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/Elephant"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/Elephant/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "5"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/Elephant"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/Elephant/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "100"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Monument" type="Button" parent="UI/Panel"]
 margin_left = 440.0
 margin_top = 8.0
 margin_right = 504.0
 margin_bottom = 72.0
+rect_pivot_offset = Vector2( -32, -8 )
 hint_tooltip = "A small monument. Increases the maximum local influence by 10, 
 increases influence per turn by 5."
 __meta__ = {
@@ -244,6 +573,60 @@ __meta__ = {
 position = Vector2( 32, 32 )
 texture = ExtResource( 12 )
 region_rect = Rect2( 8.24411, 29.2487, 46.7784, 27.3731 )
+
+[node name="food" type="Sprite" parent="UI/Panel/Monument"]
+position = Vector2( 8, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="UI/Panel/Monument/food"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "0"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="population" type="Sprite" parent="UI/Panel/Monument"]
+position = Vector2( 32, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label2" type="Label" parent="UI/Panel/Monument/population"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="influence" type="Sprite" parent="UI/Panel/Monument"]
+position = Vector2( 56, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Label3" type="Label" parent="UI/Panel/Monument/influence"]
+margin_left = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "10"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="DestroyButton" type="Button" parent="UI/Panel"]
 margin_left = 568.0

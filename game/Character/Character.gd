@@ -90,6 +90,7 @@ func _process(delta):
 	if !selected:
 		$SpritePreview.visible = false
 	else:
+		Global.display_type = Global.display.PLAYER
 		camera.position = position + Vector2(32,20)
 		$SpritePreview.visible = true
 		$UI/Panel/InfoPanel/Name.text = char_name
@@ -131,7 +132,7 @@ func _process(delta):
 												break
 								else:
 									$SpritePreview.modulate = Color(1,0,0,0.7)
-			else:
+			else: 
 				$SpritePreview.visible = false
 		elif mode == PLAYER_ACTION.MOVE:
 			$SpritePreview.texture = defaultpreview
@@ -195,7 +196,6 @@ func _process(delta):
 					$UI/ReinforceMenu/Cavalry/Withdraw.disabled = true
 					$UI/ReinforceMenu/Elephants/Deposit.disabled = !(elephants > 0)
 					$UI/ReinforceMenu/Elephants/Withdraw.disabled = !(barracksinfo.Holding[0] > 0 and army < max_army)
-		#print(floor_map.get_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y))
 
 func level_up():
 	var skill_pts = 2
@@ -334,9 +334,9 @@ func test_movement(pos):
 		
 func _on_mouse_click(pos):
 	var pos_match = (pos == tile_pos)
-	if pos_match and Global.display_type == Global.display.NONE:
-		selected = true
+	if pos_match and (Global.display_type == Global.display.NONE or Global.display_type == Global.display.PLAYER):
 		Global.display_type = Global.display.PLAYER
+		selected = true
 		mode = PLAYER_ACTION.MOVE
 		$SpritePreview.visible = true
 	if Global.mouse_pos_viewport.y < 256 and Global.display_type == Global.display.PLAYER:
@@ -431,7 +431,12 @@ func _on_CavalryWithdraw_pressed():
 		barracksinfo.Holding[2] -= 1
 
 func _on_DestroyButton_pressed():
-	build_selected = -99
+	mode = PLAYER_ACTION.BUILD
+	if build_selected == -99:
+		build_selected = -1
+		mode = PLAYER_ACTION.MOVE
+	else:
+		build_selected = -99
 
 
 func _on_ElephantDeposit_pressed():

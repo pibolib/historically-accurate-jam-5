@@ -245,7 +245,7 @@ margin_left = 48.0
 margin_top = 64.0
 margin_right = 68.0
 margin_bottom = 84.0
-hint_tooltip = "Removes currently in progress unit. Refunds population cost."
+hint_tooltip = "Removes currently in progress unit."
 theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -260,7 +260,7 @@ margin_left = 16.0
 margin_top = 140.0
 margin_right = 114.0
 margin_bottom = 204.0
-hint_tooltip = "Add footmen to the production queue. Costs 1 population."
+hint_tooltip = "Add footmen to the production queue."
 theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -322,7 +322,7 @@ margin_left = 144.0
 margin_top = 140.0
 margin_right = 240.0
 margin_bottom = 204.0
-hint_tooltip = "Add archers to the production queue. Costs 1 population."
+hint_tooltip = "Add archers to the production queue."
 theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -384,7 +384,7 @@ margin_left = 272.0
 margin_top = 140.0
 margin_right = 368.0
 margin_bottom = 204.0
-hint_tooltip = "Add cavalry to the production queue. Costs 2 population."
+hint_tooltip = "Add cavalry to the production queue."
 theme = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -665,7 +665,7 @@ margin_right = 37.0
 margin_bottom = 69.0
 rect_pivot_offset = Vector2( 8, 7 )
 custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
-text = "2"
+text = "20"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -677,7 +677,7 @@ margin_right = 109.0
 margin_bottom = 67.0
 rect_pivot_offset = Vector2( 8, 7 )
 custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
-text = "1"
+text = "10"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false

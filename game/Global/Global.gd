@@ -1,5 +1,6 @@
 extends Node2D
 
+var ingame = true
 var turn = 0 #0: player, 1: enemy
 var zoom_value = 1
 var zoom_text_invis_threshold = 2
@@ -8,6 +9,8 @@ var combattants = []
 signal end_turn(player)
 signal mouse_click_world(tilepos)
 signal update_borders()
+signal focus_trac()
+signal focus_nhi()
 var selected_tile = -1
 var in_combat = false
 enum display {
@@ -132,18 +135,31 @@ func _ready():
 	connect("end_turn",self,"_on_end_turn")
 
 func _process(delta):
-	$UI/TurnButton.visible = !(display_type == display.POPUP)
-	$UI/EndTurn.visible = !(display_type == display.POPUP)
-	player_positions = []
-	mouse_pos_viewport = get_viewport().get_mouse_position()
-	$Mouse.position = get_global_mouse_position()
-	if Input.is_action_just_pressed("action_endturn") and turn == 0:
-		emit_signal("end_turn",turn)
-		turn = 1
-	if Input.is_action_just_pressed("action_lc"):
-		emit_signal("mouse_click_world",$Base.world_to_map($Mouse.position))
-	$UI/Label.text = String(display_type)
-	$UI/TurnButton.disabled = !$EnemyTurnWait.is_stopped()
+	if ingame:
+		$UI/TurnButton.visible = !(display_type == display.POPUP)
+		$UI/EndTurn.visible = !(display_type == display.POPUP)
+		$UI/NhiButton.visible = (display_type == display.NONE)
+		$UI/sister1.visible = (display_type == display.NONE)
+		$UI/sister2.visible = (display_type == display.NONE)
+		$UI/TracButton.visible = (display_type == display.NONE)
+		player_positions = []
+		mouse_pos_viewport = get_viewport().get_mouse_position()
+		$Mouse.position = get_global_mouse_position()
+		if Input.is_action_just_pressed("action_endturn") and turn == 0:
+			emit_signal("end_turn",turn)
+			turn = 1
+		if Input.is_action_just_pressed("action_lc"):
+			emit_signal("mouse_click_world",$Base.world_to_map($Mouse.position))
+		$UI/Label.text = String(display_type)
+		$UI/TurnButton.disabled = !$EnemyTurnWait.is_stopped()
+	else:
+		$UI/EndTurn.visible = false
+		$UI/Label.visible = false
+		$UI/TurnButton.visible = false
+		$UI/NhiButton.visible = false
+		$UI/TracButton.visible = false
+		$UI/sister1.visible = false
+		$UI/sister2.visible = false
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))
@@ -165,3 +181,11 @@ func _on_Timer_timeout():
 	emit_signal("end_turn",1)
 	turn = 0
 	$EnemyTurnWait.stop()
+
+
+func _on_TracButton_pressed():
+	emit_signal("focus_trac")
+
+
+func _on_NhiButton_pressed():
+	emit_signal("focus_nhi")

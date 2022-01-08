@@ -1,57 +1,60 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://game/Global/Global.gd" type="Script" id=1]
 [ext_resource path="res://font/UIFontNoOutline.tres" type="DynamicFont" id=2]
 [ext_resource path="res://gfx/EndTurn.png" type="Texture" id=3]
+[ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=4]
+[ext_resource path="res://gfx/sister2.png" type="Texture" id=5]
+[ext_resource path="res://gfx/sister1.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 0.5, 0.5 )
 
-[sub_resource type="StyleBoxEmpty" id=11]
+[sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="StyleBoxEmpty" id=12]
+[sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="StyleBoxEmpty" id=13]
+[sub_resource type="StyleBoxEmpty" id=4]
 
-[sub_resource type="StyleBoxEmpty" id=14]
+[sub_resource type="StyleBoxEmpty" id=5]
 
-[sub_resource type="StyleBoxEmpty" id=15]
-
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxEmpty" id=6]
 
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.447059, 0.454902, 0.462745, 1 )
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.894118, 0.854902, 0.796078, 1 )
+bg_color = Color( 0.447059, 0.454902, 0.462745, 1 )
 
 [sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0.658824, 0.8, 0.901961, 1 )
+bg_color = Color( 0.894118, 0.854902, 0.796078, 1 )
 
 [sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.658824, 0.8, 0.901961, 1 )
 
-[sub_resource type="Theme" id=16]
+[sub_resource type="StyleBoxFlat" id=11]
+
+[sub_resource type="Theme" id=12]
 default_font = ExtResource( 2 )
 Button/colors/font_color = Color( 0.243137, 0.231373, 0.231373, 1 )
-Button/styles/disabled = SubResource( 11 )
-Button/styles/focus = SubResource( 12 )
-Button/styles/hover = SubResource( 13 )
-Button/styles/normal = SubResource( 14 )
-Button/styles/pressed = SubResource( 15 )
-MenuButton/styles/disabled = SubResource( 6 )
-MenuButton/styles/focus = SubResource( 7 )
-MenuButton/styles/hover = SubResource( 8 )
-MenuButton/styles/normal = SubResource( 9 )
-MenuButton/styles/pressed = SubResource( 10 )
+Button/styles/disabled = SubResource( 2 )
+Button/styles/focus = SubResource( 3 )
+Button/styles/hover = SubResource( 4 )
+Button/styles/normal = SubResource( 5 )
+Button/styles/pressed = SubResource( 6 )
+MenuButton/styles/disabled = SubResource( 7 )
+MenuButton/styles/focus = SubResource( 8 )
+MenuButton/styles/hover = SubResource( 9 )
+MenuButton/styles/normal = SubResource( 10 )
+MenuButton/styles/pressed = SubResource( 11 )
 TextEdit/colors/completion_background_color = Color( 0.494118, 0.435294, 0.654902, 1 )
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [node name="Global" type="Node2D"]
@@ -80,10 +83,10 @@ margin_left = 488.0
 margin_top = 240.0
 margin_right = 581.0
 margin_bottom = 272.0
-theme = SubResource( 16 )
-custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 3 )
-custom_styles/normal = SubResource( 4 )
+theme = SubResource( 12 )
+custom_styles/pressed = SubResource( 13 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
 text = "END TURN"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -98,8 +101,44 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="sister1" type="Sprite" parent="UI"]
+position = Vector2( 48, 32 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+
+[node name="sister2" type="Sprite" parent="UI"]
+position = Vector2( 128, 32 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+
+[node name="TracButton" type="Button" parent="UI"]
+margin_left = 16.0
+margin_top = 40.0
+margin_right = 80.0
+margin_bottom = 56.0
+theme = ExtResource( 4 )
+text = "Trung Trac"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NhiButton" type="Button" parent="UI"]
+margin_left = 96.0
+margin_top = 40.0
+margin_right = 160.0
+margin_bottom = 56.0
+theme = ExtResource( 4 )
+text = "Trung Nhi"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="EnemyTurnWait" type="Timer" parent="."]
 wait_time = 0.5
 
 [connection signal="pressed" from="UI/TurnButton" to="." method="_on_TurnButton_pressed"]
+[connection signal="pressed" from="UI/TracButton" to="." method="_on_TracButton_pressed"]
+[connection signal="pressed" from="UI/NhiButton" to="." method="_on_NhiButton_pressed"]
 [connection signal="timeout" from="EnemyTurnWait" to="." method="_on_Timer_timeout"]

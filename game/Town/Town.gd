@@ -263,9 +263,9 @@ func display_gui(building: Dictionary):
 		Global.B_BARRACKS, Global.B_BARRACKS_T2:
 			$UI/BarracksPanel.visible = true
 			Global.display_type = Global.display.POPUP
-			$UI/BarracksPanel/FootmenButton.disabled = !(population >= 1 and building.InProduction.size() < 6)
-			$UI/BarracksPanel/ArchersButton.disabled = !(population >= 1 and building.InProduction.size() < 6)
-			$UI/BarracksPanel/CavalryButton.disabled = !(population >= 2 and building.InProduction.size() < 6)
+			$UI/BarracksPanel/FootmenButton.disabled = !(population >= 1 and food >= 2 and building.InProduction.size() < 6)
+			$UI/BarracksPanel/ArchersButton.disabled = !(population >= 1 and food >= 3 and building.InProduction.size() < 6)
+			$UI/BarracksPanel/CavalryButton.disabled = !(population >= 2 and food >= 5 and building.InProduction.size() < 6)
 			$UI/BarracksPanel/RemoveButton.disabled = !(building.InProduction.size() > 0)
 			$UI/BarracksPanel/UpgradeButton.disabled = !(building.Type == Global.B_BARRACKS and population >= 10 and support >= 75)
 			$UI/BarracksPanel/BarracksPanel2/InProgress.text = ""
@@ -388,19 +388,35 @@ func _on_BarracksExitButton_pressed():
 
 func _on_BarracksRemoveButton_pressed():
 	if selected_building_data.InProduction.size() > 0:
+		match selected_building_data.InProduction[0][0]:
+			0:
+				population += 1
+				food += 2
+			1:
+				population += 1
+				food += 3
+			2:
+				population += 2
+				food += 5
 		selected_building_data.InProduction.remove(0)
 
 func _on_BarracksFootmenButton_pressed():
 	if selected_building_data.InProduction.size() < 6:
 		selected_building_data.InProduction.append([0,0,2])
+		population -= 1
+		food -= 2
 
 func _on_BarracksArchersButton_pressed():
 	if selected_building_data.InProduction.size() < 6:
 		selected_building_data.InProduction.append([1,0,2])
+		population -= 1
+		food -= 3
 
 func _on_BarracksCavalryButton_pressed():
 	if selected_building_data.InProduction.size() < 6:
 		selected_building_data.InProduction.append([2,0,3])
+		population -= 2
+		food -= 5
 
 func _on_BarracksUpgradeButton_pressed():
 	selected_building_data.Type = Global.B_BARRACKS_T2
@@ -411,10 +427,14 @@ func _on_BarracksUpgradeButton_pressed():
 func _on_ElephantPenRemoveButton_pressed():
 	if selected_building_data.InProduction.size() > 0:
 		selected_building_data.InProduction.remove(0)
+		food += 20
+		population += 10
 
 func _on_ElephantPenElephantButton_pressed():
 	if selected_building_data.InProduction.size() < 3:
 		selected_building_data.InProduction.append([0,0,10])
+		food -= 20
+		population -= 10
 
 func _on_ElephantPenExitButton_pressed():
 	selected_tile = -1

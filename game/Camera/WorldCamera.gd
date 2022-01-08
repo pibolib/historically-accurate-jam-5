@@ -1,5 +1,9 @@
 extends Camera2D
 
+func _ready():
+	Global.connect("focus_nhi",self,"_on_focus_nhi")
+	Global.connect("focus_trac",self,"_on_focus_trac")
+
 func _process(delta):
 	zoom.x = Global.zoom_value
 	zoom.y = Global.zoom_value
@@ -28,3 +32,11 @@ func _process(delta):
 			if area.name == "Mouse":
 				position.y += 4
 				break
+
+func _on_focus_trac():
+	var targettile = Global.player_positions[0]
+	position = get_parent().get_node("FloorMap").map_to_world(targettile)+Vector2(32,20)
+
+func _on_focus_nhi():
+	var targettile = Global.player_positions[1]
+	position = get_parent().get_node("FloorMap").map_to_world(targettile)+Vector2(32,20)
