@@ -122,6 +122,7 @@ func _process(delta):
 					if check_valid_build(Global.get_mouse_tile(), build_selected):
 						$SpritePreview.modulate = Color(0,1,0,0.7)
 						if Input.is_action_just_pressed("action_rc"):
+							Global.get_node("SFXPlace").playing = true
 							building_map.set_cell(Global.get_mouse_tile().x,Global.get_mouse_tile().y,build_selected)
 							for town in towns.get_children():
 								if town is TileMap:

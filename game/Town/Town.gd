@@ -36,6 +36,7 @@ func _ready():
 			border_color = Color.lightblue
 		1:
 			border_color = Color(0.8,0,0)
+			Global.enemyowned += 1
 	if fortified:
 		$Sprite.texture = load("res://gfx/building_town_center_1.png")
 	$Name.text = town_name
@@ -229,7 +230,7 @@ func calculate_food_limit():
 	
 func calculate_support_limit():
 	# go through each owned tile and determine its benefits to the support limit.
-	support_limit = 100
+	support_limit = 20
 	for tile in owned_tiles:
 		var this_tile_support = 0
 		var current_building = building_map.get_cell(tile.x,tile.y)

@@ -184,6 +184,7 @@ func _on_RoundButton_pressed():
 					break
 				if participant.type == "Town":
 					participant.ownership = 0
+					Global.enemyowned -= 1
 					Global.emit_signal("update_borders")
 				if participant.type == "Player":
 					participant.footmen = playerside[0]
@@ -194,6 +195,7 @@ func _on_RoundButton_pressed():
 			for participant in Global.combattants:
 				if participant.type == "Player":
 					participant.queue_free()
+					Global.gamestate = 2
 					break
 		Global.in_combat = false
 		Global.display_type = Global.display.NONE

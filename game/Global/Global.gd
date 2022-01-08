@@ -1,9 +1,11 @@
 extends Node2D
 
 var bgm = [
-	preload("res://bgm/themeb.ogg"),
-	preload("res://bgm/maintheme.ogg")
+	preload("res://bgm/maintheme.ogg"),
+	preload("res://bgm/themeb.ogg")
 ]
+var enemyowned = 0
+var gamestate = 0 # 0: none, 1: win, 2: lose
 var currenttrack = 0
 var ingame = false
 var turn = 0 #0: player, 1: enemy
@@ -138,6 +140,7 @@ var school = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect("end_turn",self,"_on_end_turn")
+	connect("mouse_click_world",self,"_on_mouse_click")
 
 func _process(delta):
 	if $BGM.stream != bgm[currenttrack]:
@@ -159,12 +162,16 @@ func _process(delta):
 			emit_signal("mouse_click_world",$Base.world_to_map($Mouse.position))
 		$UI/Label.text = String(display_type)
 		$UI/TurnButton.disabled = !$EnemyTurnWait.is_stopped()
+		if Global.enemyowned == 0:
+			gamestate = 1
 	else:
 		$UI/EndTurn.visible = false
 		$UI/Label.visible = false
 		$UI/TurnButton.visible = false
 		$UI/NhiButton.visible = false
 		$UI/TracButton.visible = false
+	$UI/Win.visible = (gamestate == 1)
+	$UI/Lose.visible = (gamestate == 2)
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))
@@ -175,6 +182,13 @@ func get_mouse_pos():
 func get_mouse_tile():
 	return $Base.world_to_map($Mouse.position)
 
+func _on_mouse_click(pos):
+	if gamestate != 0:
+		get_tree().change_scene("res://game/MainGame/TitleScreen.tscn")
+		gamestate = 0
+		ingame = false
+		currenttrack = 0
+	$SFXClick.playing = true
 
 func _on_TurnButton_pressed():
 	if turn == 0:
