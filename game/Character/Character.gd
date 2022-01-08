@@ -2,6 +2,8 @@ extends Node2D
 
 var combat_scene = preload("res://game/Combat/CombatScene.tscn")
 
+class_name Character
+
 export var char_name = "Name"
 var type = "Player"
 export(int,1,7) var max_ap = 5
@@ -164,7 +166,6 @@ func _process(delta):
 				$SpritePreview.modulate = Color(1,0,0,0.7)
 		elif mode == PLAYER_ACTION.REINFORCE:
 			Global.display_type = Global.display.PLAYER
-			selected = true
 			$SpritePreview/Label.visible = false
 			var barracksinfo = get_building_data(selected_military_source)
 			match barracksinfo.Type:
@@ -344,8 +345,10 @@ func _on_mouse_click(pos):
 				build_selected = -1
 				mode = PLAYER_ACTION.MOVE
 			else:
-				selected = false
 				Global.display_type = Global.display.NONE
+				selected = false
+	if Global.display_type == Global.display.NONE:
+		selected = false
 
 func _on_ReinforceButton_pressed():
 	if mode == PLAYER_ACTION.MOVE:
@@ -373,7 +376,6 @@ func _on_BuildMenuAction_pressed(type):
 func _on_BuildBackButton_pressed():
 	mode = PLAYER_ACTION.MOVE
 	build_selected = -1
-	selected = true
 	$UI/Panel.visible = selected
 
 func _on_end_turn(player):

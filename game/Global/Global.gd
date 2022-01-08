@@ -133,6 +133,7 @@ func _ready():
 
 func _process(delta):
 	$UI/TurnButton.visible = !(display_type == display.POPUP)
+	$UI/EndTurn.visible = !(display_type == display.POPUP)
 	player_positions = []
 	mouse_pos_viewport = get_viewport().get_mouse_position()
 	$Mouse.position = get_global_mouse_position()

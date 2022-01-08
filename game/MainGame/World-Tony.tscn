@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/Town/Town.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/MainGame/WorldFloorTSet.tres" type="TileSet" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://gfx/tile_movement.png" type="Texture" id=6]
 [ext_resource path="res://game/MainGame/World-Tony.gd" type="Script" id=7]
 [ext_resource path="res://game/EnemyCharacter/EnemyCharacter.tscn" type="PackedScene" id=8]
+[ext_resource path="res://gfx/sister2.png" type="Texture" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "tile_movement.png 0"
@@ -68,6 +69,12 @@ format = 1
 
 [node name="Character" parent="." instance=ExtResource( 4 )]
 position = Vector2( 224, 40 )
+char_name = "Trung Trac"
+
+[node name="Character2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 0 )
+char_name = "Trung Nhi "
+sprite = ExtResource( 9 )
 
 [node name="WorldCamera" parent="." instance=ExtResource( 5 )]
 
