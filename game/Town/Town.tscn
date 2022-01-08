@@ -23,7 +23,7 @@
 [ext_resource path="res://gfx/archer.png" type="Texture" id=21]
 [ext_resource path="res://gfx/footmen.png" type="Texture" id=22]
 [ext_resource path="res://gfx/cavalry.png" type="Texture" id=23]
-[ext_resource path="res://gfx/elephant_destroy.png" type="Texture" id=24]
+[ext_resource path="res://gfx/elephant.png" type="Texture" id=24]
 [ext_resource path="res://font/UIFontNoOutline.tres" type="DynamicFont" id=25]
 
 [sub_resource type="TileSet" id=1]
@@ -78,6 +78,7 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 64, 40 )
 cell_half_offset = 0
 format = 1
+tile_data = PoolIntArray( 327684, 0, 0 )
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -506,8 +507,8 @@ margin_left = 72.0
 margin_top = 8.0
 margin_right = 126.0
 margin_bottom = 22.0
-custom_fonts/font = ExtResource( 25 )
 custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
+custom_fonts/font = ExtResource( 25 )
 text = "Barracks"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -530,8 +531,8 @@ margin_left = 120.0
 margin_top = 48.0
 margin_right = 264.0
 margin_bottom = 64.0
-custom_fonts/font = ExtResource( 25 )
 custom_colors/font_color = Color( 0.247059, 0.231373, 0.231373, 1 )
+custom_fonts/font = ExtResource( 25 )
 text = "Production In Progress"
 align = 1
 __meta__ = {
@@ -550,7 +551,6 @@ __meta__ = {
 }
 
 [node name="ElephantPenPanel" type="Panel" parent="UI"]
-visible = false
 margin_left = 128.0
 margin_top = 40.0
 margin_right = 512.0
@@ -640,6 +640,12 @@ position = Vector2( 117, 61 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 17 )
 
+[node name="Elephant" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
+position = Vector2( 64, 36 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 24 )
+offset = Vector2( 0, 10.6667 )
+
 [node name="Food" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
 position = Vector2( 11, 61 )
 scale = Vector2( 0.5, 0.5 )
@@ -647,9 +653,9 @@ texture = ExtResource( 18 )
 
 [node name="Label" type="Label" parent="UI/ElephantPenPanel/ElephantButton"]
 margin_left = 16.0
-margin_top = 3.0
+margin_top = 4.0
 margin_right = 112.0
-margin_bottom = 17.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( -8, 5 )
 custom_colors/font_color = Color( 0.184314, 0.180392, 0.180392, 1 )
 text = "War Elephant"
@@ -683,10 +689,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Elephant" type="Sprite" parent="UI/ElephantPenPanel/ElephantButton"]
-position = Vector2( 64, 36 )
-texture = ExtResource( 24 )
-
 [node name="Name" type="Label" parent="UI/ElephantPenPanel"]
 margin_left = 80.0
 margin_top = 8.0
@@ -708,8 +710,10 @@ __meta__ = {
 }
 
 [node name="Elephant2" type="Sprite" parent="UI/ElephantPenPanel/ReservesPanel"]
-position = Vector2( 96, 28 )
+position = Vector2( 98, 21 )
+scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 24 )
+offset = Vector2( 0, 10.6667 )
 
 [node name="Reserves" type="Label" parent="UI/ElephantPenPanel/ReservesPanel"]
 margin_right = 64.0

@@ -156,8 +156,6 @@ func _process(delta):
 		$UI/TurnButton.visible = false
 		$UI/NhiButton.visible = false
 		$UI/TracButton.visible = false
-		$UI/sister1.visible = false
-		$UI/sister2.visible = false
 
 func _on_end_turn(player):
 	print("turn end, player "+String(player))

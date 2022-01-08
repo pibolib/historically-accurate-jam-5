@@ -13,7 +13,7 @@
 [ext_resource path="res://gfx/building_storehouse.png" type="Texture" id=11]
 [ext_resource path="res://gfx/building_monument.png" type="Texture" id=12]
 [ext_resource path="res://gfx/footmen.png" type="Texture" id=13]
-[ext_resource path="res://gfx/elephant_destroy.png" type="Texture" id=14]
+[ext_resource path="res://gfx/elephant.png" type="Texture" id=14]
 [ext_resource path="res://gfx/archer.png" type="Texture" id=15]
 [ext_resource path="res://gfx/cavalry.png" type="Texture" id=16]
 [ext_resource path="res://game/Character/BaseTheme.tres" type="Theme" id=17]
@@ -132,7 +132,6 @@ shape = SubResource( 2 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Panel" type="Panel" parent="UI"]
-visible = false
 margin_top = 280.0
 margin_right = 640.0
 margin_bottom = 360.0
@@ -670,8 +669,8 @@ margin_left = -568.0
 margin_top = -8.0
 margin_right = -440.0
 margin_bottom = 32.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "Name"
 align = 1
 valign = 1
@@ -680,29 +679,29 @@ __meta__ = {
 }
 
 [node name="footmen" type="Sprite" parent="UI/Panel/InfoPanel"]
-position = Vector2( 32, 21 )
+position = Vector2( 32, 16 )
 texture = ExtResource( 13 )
 
 [node name="archer" type="Sprite" parent="UI/Panel/InfoPanel"]
-position = Vector2( 32, 64 )
+position = Vector2( 32, 59 )
 texture = ExtResource( 15 )
 
 [node name="cavalry" type="Sprite" parent="UI/Panel/InfoPanel"]
-position = Vector2( 32, 108 )
+position = Vector2( 32, 103 )
 texture = ExtResource( 16 )
 
-[node name="elephant" type="Sprite" parent="UI/Panel/InfoPanel"]
-position = Vector2( 32, 156 )
+[node name="Elephant" type="Sprite" parent="UI/Panel/InfoPanel"]
+position = Vector2( 32, 160 )
 texture = ExtResource( 14 )
 
 [node name="FootmanCount" type="Label" parent="UI/Panel/InfoPanel"]
 margin_left = 8.0
-margin_top = 29.0
+margin_top = 24.0
 margin_right = 56.0
-margin_bottom = 45.0
+margin_bottom = 40.0
 theme = ExtResource( 17 )
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -711,11 +710,11 @@ __meta__ = {
 
 [node name="ArcherCount" type="Label" parent="UI/Panel/InfoPanel"]
 margin_left = 8.0
-margin_top = 72.0
+margin_top = 67.0
 margin_right = 56.0
-margin_bottom = 88.0
-custom_styles/normal = SubResource( 6 )
+margin_bottom = 83.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -724,11 +723,11 @@ __meta__ = {
 
 [node name="CavalryCount" type="Label" parent="UI/Panel/InfoPanel"]
 margin_left = 8.0
-margin_top = 116.0
+margin_top = 111.0
 margin_right = 56.0
-margin_bottom = 132.0
-custom_styles/normal = SubResource( 6 )
+margin_bottom = 127.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -737,11 +736,11 @@ __meta__ = {
 
 [node name="ElephantCount" type="Label" parent="UI/Panel/InfoPanel"]
 margin_left = 8.0
-margin_top = 172.0
+margin_top = 176.0
 margin_right = 56.0
-margin_bottom = 188.0
-custom_styles/normal = SubResource( 6 )
+margin_bottom = 192.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "0"
 align = 1
 __meta__ = {
@@ -752,8 +751,8 @@ __meta__ = {
 margin_top = 208.0
 margin_right = 64.0
 margin_bottom = 247.0
-custom_styles/normal = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 6 )
 text = "TOTAL
 0/30"
 align = 1
