@@ -232,18 +232,33 @@ func check_valid_build(location, type):
 						match type:
 							Global.B_RICE_PADDY:
 								if floor_tile != Global.T_WATER and floor_tile != Global.T_GRAVEL and floor_tile != Global.T_ROCK:
-									return true
+									if town.food >= 2 and town.population >= 2 and town.influence >= 20:
+										return true
 							Global.B_FISHING_BOAT:
 								if floor_tile == Global.T_WATER:
-									return true
-							Global.B_BARRACKS, Global.B_HOUSING, Global.B_MONUMENT, Global.B_STOREHOUSE:
+									if town.food >= 1 and town.population >= 1 and town.influence >= 20:
+										return true
+							Global.B_BARRACKS:
 								if floor_tile != Global.T_WATER:
-									return true
+									if town.food >= 5 and town.population >= 5 and town.influence >= 50:
+										return true
+							Global.B_HOUSING: 
+								if floor_tile != Global.T_WATER:
+									if town.food >= 1 and town.population >= 1 and town.influence >= 30:
+										return true
+							Global.B_MONUMENT: 
+								if floor_tile != Global.T_WATER:
+									if town.food >= 0 and town.population >= 1 and town.influence >= 10:
+										return true
+							Global.B_STOREHOUSE:
+								if floor_tile != Global.T_WATER:
+									if town.food >= 5 and town.population >= 2 and town.influence >= 20:
+										return true
 							Global.B_ELEPHANT_PEN:
 								if floor_tile == Global.T_GRASS or floor_tile == Global.T_DARK_GRASS:
-									return true
+									if town.food >= 10 and town.population >= 5 and town.influence >= 100:
+										return true
 	return false
-	
 func check_valid_barracks(location):
 	var towns = get_parent().get_node("Towns")
 	for town in towns.get_children():

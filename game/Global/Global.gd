@@ -1,6 +1,6 @@
 extends Node2D
 
-var ingame = true
+var ingame = false
 var turn = 0 #0: player, 1: enemy
 var zoom_value = 1
 var zoom_text_invis_threshold = 2
